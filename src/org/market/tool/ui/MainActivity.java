@@ -6,6 +6,7 @@ import org.market.tool.R;
 import org.market.tool.ui.fragment.ContactFragment;
 import org.market.tool.ui.fragment.RecentFragment;
 import org.market.tool.ui.fragment.SettingsFragment;
+import org.market.tool.ui.fragment.TaskFragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -32,6 +33,7 @@ import cn.bmob.im.inteface.EventListener;
 public class MainActivity extends ActivityBase implements EventListener{
 
 	private Button[] mTabs;
+	private TaskFragment taskFragment;
 	private ContactFragment contactFragment;
 	private RecentFragment recentFragment;
 	private SettingsFragment settingFragment;
@@ -56,10 +58,11 @@ public class MainActivity extends ActivityBase implements EventListener{
 	}
 
 	private void initView(){
-		mTabs = new Button[3];
-		mTabs[0] = (Button) findViewById(R.id.btn_message);
-		mTabs[1] = (Button) findViewById(R.id.btn_contract);
-		mTabs[2] = (Button) findViewById(R.id.btn_set);
+		mTabs = new Button[4];
+		mTabs[0] = (Button) findViewById(R.id.btn_task);
+		mTabs[1] = (Button) findViewById(R.id.btn_message);
+		mTabs[2] = (Button) findViewById(R.id.btn_contract);
+		mTabs[3] = (Button) findViewById(R.id.btn_set);
 		iv_recent_tips = (ImageView)findViewById(R.id.iv_recent_tips);
 		iv_contact_tips = (ImageView)findViewById(R.id.iv_contact_tips);
 		//把第一个tab设为选中状态
@@ -67,13 +70,14 @@ public class MainActivity extends ActivityBase implements EventListener{
 	}
 	
 	private void initTab(){
+		taskFragment=new TaskFragment();
 		contactFragment = new ContactFragment();
 		recentFragment = new RecentFragment();
 		settingFragment = new SettingsFragment();
-		fragments = new Fragment[] {recentFragment, contactFragment, settingFragment };
+		fragments = new Fragment[] {taskFragment,recentFragment, contactFragment, settingFragment };
 		// 添加显示第一个fragment
-		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, recentFragment).
-			add(R.id.fragment_container, contactFragment).hide(contactFragment).show(recentFragment).commit();
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, taskFragment).
+			add(R.id.fragment_container, recentFragment).hide(recentFragment).show(taskFragment).commit();
 	}
 	
 	
@@ -84,14 +88,17 @@ public class MainActivity extends ActivityBase implements EventListener{
 	 */
 	public void onTabSelect(View view) {
 		switch (view.getId()) {
-		case R.id.btn_message:
+		case R.id.btn_task:
 			index = 0;
 			break;
-		case R.id.btn_contract:
+		case R.id.btn_message:
 			index = 1;
 			break;
-		case R.id.btn_set:
+		case R.id.btn_contract:
 			index = 2;
+			break;
+		case R.id.btn_set:
+			index = 3;
 			break;
 		}
 		if (currentTabIndex != index) {
@@ -131,14 +138,12 @@ public class MainActivity extends ActivityBase implements EventListener{
 	
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		MyMessageReceiver.ehList.remove(this);// 取消监听推送的消息
 	}
 	
 	@Override
 	public void onMessage(BmobMsg message) {
-		// TODO Auto-generated method stub
 		refreshNewMsg(message);
 	}
 	
@@ -275,7 +280,6 @@ public class MainActivity extends ActivityBase implements EventListener{
 	 */
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		if (firstTime + 2000 > System.currentTimeMillis()) {
 			super.onBackPressed();
 		} else {
@@ -286,7 +290,6 @@ public class MainActivity extends ActivityBase implements EventListener{
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		try {
 			unregisterReceiver(newReceiver);

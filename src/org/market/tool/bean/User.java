@@ -1,6 +1,9 @@
 package org.market.tool.bean;
 
+import java.util.List;
+
 import cn.bmob.im.bean.BmobChatUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobGeoPoint;
 import cn.bmob.v3.datatype.BmobRelation;
 
@@ -40,7 +43,21 @@ public class User extends BmobChatUser {
 	private BmobGeoPoint location;//
 	
 	private Integer hight;
+    private List<BmobFile> bmobFiles;
 	
+	public List<BmobFile> getBmobFiles() {
+		return bmobFiles;
+	}
+	public void setBmobFiles(List<BmobFile> bmobFiles) {
+		this.bmobFiles = bmobFiles;
+	}
+	public float getFund() {
+		return fund;
+	}
+	public void setFund(float fund) {
+		this.fund = fund;
+	}
+	private float fund;
 	
 	public Blog getBlog() {
 		return blog;

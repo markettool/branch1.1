@@ -123,6 +123,10 @@
         <activity android:name="org.market.tool.ui.SetMyInfoActivity" />
         
         <activity
+            android:name="org.market.tool.ui.PublishTaskActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        
+        <activity
             android:name="org.market.tool.ui.RegisterActivity"
             android:label="@string/app_name" />
 

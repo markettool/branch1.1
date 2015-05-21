@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import cn.bmob.im.BmobChat;
 import cn.bmob.im.BmobUserManager;
 import cn.bmob.im.bean.BmobChatUser;
@@ -45,6 +47,9 @@ public class CustomApplcation extends Application {
 	public MyLocationListener mMyLocationListener;
 
 	public static BmobGeoPoint lastPoint = null;// 上一次定位到的经纬度
+	
+	private int screenWidth;
+	private int screenHeight;
 
 	@Override
 	public void onCreate() {
@@ -54,6 +59,14 @@ public class CustomApplcation extends Application {
 		BmobChat.DEBUG_MODE = true;
 		mInstance = this;
 		init();
+	}
+	
+	private void initScreenSize(){
+		DisplayMetrics dm = new DisplayMetrics();
+		WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		manager.getDefaultDisplay().getMetrics(dm);
+		screenHeight = dm.heightPixels;
+		screenWidth = dm.widthPixels;
 	}
 
 	private void init() {
@@ -67,6 +80,7 @@ public class CustomApplcation extends Application {
 			contactList = CollectionUtils.list2map(BmobDB.create(getApplicationContext()).getContactList());
 		}
 		initBaidu();
+		initScreenSize();
 	}
 
 	/**
@@ -262,6 +276,14 @@ public class CustomApplcation extends Application {
 		setContactList(null);
 		setLatitude(null);
 		setLongtitude(null);
+	}
+	
+	public int getScreenWidth() {
+		return screenWidth;
+	}
+
+	public int getScreenHeight() {
+		return screenHeight;
 	}
 
 }

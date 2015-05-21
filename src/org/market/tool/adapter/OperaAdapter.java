@@ -63,7 +63,7 @@ public class OperaAdapter extends BaseAdapter {
 	public View getView(int arg0, View convertView, ViewGroup arg2) {
 		ViewHolder holder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.opera_item, null);
+			convertView = mInflater.inflate(R.layout.task_item, null);
 			holder = new ViewHolder();
 			holder.ivUserPic = (CircleImageView) convertView.findViewById(R.id.user_pic);
 			holder.tvUsername = (TextView) convertView.findViewById(R.id.user_name);
