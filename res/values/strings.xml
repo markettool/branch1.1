@@ -61,6 +61,7 @@
     <string name="location">位置</string>
     
     <string name="black_tips">已添加至黑名单，你将不再收到对方的消息!</string>
+    <string name="default_username">小小</string>
     
     <string name="username">用户名</string>
     <string name="search">搜索</string>

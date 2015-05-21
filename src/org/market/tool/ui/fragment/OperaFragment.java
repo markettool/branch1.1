@@ -6,21 +6,19 @@ import java.util.List;
 import org.market.tool.R;
 import org.market.tool.adapter.OperaAdapter;
 import org.market.tool.bean.OperaBean;
+import org.market.tool.util.BitmapHelp;
 import org.market.tool.view.xlist.XListView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
@@ -55,7 +53,7 @@ public class OperaFragment extends Fragment {
 		mAdContainer = (RelativeLayout) view.findViewById(R.id.adcontainer);
 		btWrite=(ImageView) view.findViewById(R.id.btn_write);
 		lv=(XListView) view.findViewById(R.id.lv);
-		lv.setOnScrollListener(new PauseOnScrollListener(BitmapHelp.getBitmapUtils(getActivity()), false, true));
+//		lv.setOnScrollListener(new PauseOnScrollListener(BitmapHelp.getBitmapUtils(getActivity()), false, true));
 //		autoScrollTextView=(AutoScrollTextView) view.findViewById(R.id.autoscroll_tv);
 //		 autoScrollTextView.initScrollTextView(getActivity().getWindowManager(), 
 //	                "下一版本加聊天功能，敬请期待！"); 

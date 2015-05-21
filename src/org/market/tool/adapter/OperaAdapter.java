@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.bean.OperaBean;
+import org.market.tool.util.BitmapHelp;
+import org.market.tool.view.CircleImageView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
+
+import com.lidroid.xutils.BitmapUtils;
 
 public class OperaAdapter extends BaseAdapter {
 
@@ -106,40 +110,40 @@ public class OperaAdapter extends BaseAdapter {
 			Log.e("majie", e.getMessage());
 		}
 
-		holder.llLike.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (beans.get(position).getObjectId() != null
-						&& !su.getValueByKey("like_" + beans.get(position).getObjectId(), "").equals("")) {
-					Toast.makeText(context, "不能重复点赞", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				beans.get(position).setLikeNum(beans.get(position).getLikeNum() + 1);
-				su.putValueByKey("like_" + beans.get(position).getObjectId(),"-");
-				notifyDataSetChanged();
-				updateLike(beans.get(position));
-			}
-		});
-		holder.llComment.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(context, CommentActivity.class);
-				intent.putExtra("operaBean", beans.get(position));
-				context.startActivity(intent);
-			}
-		});
+//		holder.llLike.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				if (beans.get(position).getObjectId() != null
+//						&& !su.getValueByKey("like_" + beans.get(position).getObjectId(), "").equals("")) {
+//					Toast.makeText(context, "不能重复点赞", Toast.LENGTH_SHORT).show();
+//					return;
+//				}
+//				beans.get(position).setLikeNum(beans.get(position).getLikeNum() + 1);
+//				su.putValueByKey("like_" + beans.get(position).getObjectId(),"-");
+//				notifyDataSetChanged();
+//				updateLike(beans.get(position));
+//			}
+//		});
+//		holder.llComment.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				Intent intent = new Intent(context, CommentActivity.class);
+//				intent.putExtra("operaBean", beans.get(position));
+//				context.startActivity(intent);
+//			}
+//		});
 		
-		holder.ivUserPic.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(context, OthersDataActivity.class);
-				intent.putExtra("username", beans.get(position).getUsername());
-				context.startActivity(intent);
-			}
-		});
+//		holder.ivUserPic.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View arg0) {
+//				Intent intent = new Intent(context, OthersDataActivity.class);
+//				intent.putExtra("username", beans.get(position).getUsername());
+//				context.startActivity(intent);
+//			}
+//		});
 
 		return convertView;
 	}
