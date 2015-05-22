@@ -37,6 +37,8 @@ public class User extends BmobChatUser {
 	
 	private Blog blog;
 	
+	private String mysign;
+	
 	/**
 	 * µØÀí×ø±ê
 	 */
@@ -94,6 +96,12 @@ public class User extends BmobChatUser {
 	}
 	public void setSortLetters(String sortLetters) {
 		this.sortLetters = sortLetters;
+	}
+	public String getMysign() {
+		return mysign;
+	}
+	public void setMysign(String mysign) {
+		this.mysign = mysign;
 	}
 	
 }

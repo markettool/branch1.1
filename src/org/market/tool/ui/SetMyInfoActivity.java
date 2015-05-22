@@ -67,12 +67,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 @SuppressLint({ "SimpleDateFormat", "ClickableViewAccessibility", "InflateParams" })
 public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 
-	TextView tv_set_name, tv_set_nick, tv_set_gender;
+	TextView tv_set_name, tv_set_nick, tv_set_gender,tv_set_mysign;
 	ImageView iv_set_avator, iv_arraw, iv_nickarraw;
 	LinearLayout layout_all;
 
 	Button btn_chat, btn_back, btn_add_friend;
-	RelativeLayout layout_head, layout_nick, layout_gender, layout_black_tips;
+	RelativeLayout layout_head, layout_nick, layout_gender, layout_black_tips,layout_mysign;
 
 	String from = "";
 	String username = "";
@@ -101,9 +101,11 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 		iv_nickarraw = (ImageView) findViewById(R.id.iv_nickarraw);
 		tv_set_name = (TextView) findViewById(R.id.tv_set_name);
 		tv_set_nick = (TextView) findViewById(R.id.tv_set_nick);
+		tv_set_mysign= (TextView) findViewById(R.id.tv_set_mysign);
 		layout_head = (RelativeLayout) findViewById(R.id.layout_head);
 		layout_nick = (RelativeLayout) findViewById(R.id.layout_nick);
 		layout_gender = (RelativeLayout) findViewById(R.id.layout_gender);
+		layout_mysign = (RelativeLayout) findViewById(R.id.layout_mysign);
 		// 黑名单提示语
 		layout_black_tips = (RelativeLayout) findViewById(R.id.layout_black_tips);
 		tv_set_gender = (TextView) findViewById(R.id.tv_set_gender);
@@ -118,6 +120,7 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 			layout_head.setOnClickListener(this);
 			layout_nick.setOnClickListener(this);
 			layout_gender.setOnClickListener(this);
+			layout_mysign.setOnClickListener(this);
 			iv_nickarraw.setVisibility(View.VISIBLE);
 			iv_arraw.setVisibility(View.VISIBLE);
 			btn_back.setVisibility(View.GONE);
@@ -188,6 +191,7 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 		refreshAvatar(user.getAvatar());
 		tv_set_name.setText(user.getUsername());
 		tv_set_nick.setText(user.getNick());
+		tv_set_mysign.setText(user.getMysign());
 		tv_set_gender.setText(user.getSex() == true ? "男" : "女");
 		// 检测是否为黑名单用户
 		if (from.equals("other")) {
@@ -218,7 +222,6 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		if (from.equals("me")) {
 			initMeData();
@@ -227,7 +230,6 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_chat:// 发起聊天
 			Intent intent = new Intent(this, ChatActivity.class);
@@ -241,6 +243,9 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 		case R.id.layout_nick:
 			startAnimActivity(UpdateInfoActivity.class);
 //			addBlog();
+			break;
+		case R.id.layout_mysign:
+			startAnimActivity(UpdateMySignActivity.class);
 			break;
 		case R.id.layout_gender:// 性别
 			showSexChooseDialog();

@@ -25,7 +25,8 @@
             android:layout_marginRight="10dp"
             android:gravity="center_vertical"
             android:text="@string/add_nick"
-            android:textSize="20sp" />
+            android:textSize="20sp" 
+            android:id="@+id/tv_item"/>
 
         <EditText
             android:id="@+id/edit_nick"

@@ -127,6 +127,10 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         
         <activity
+            android:name="org.market.tool.ui.UpdateMySignActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        
+        <activity
             android:name="org.market.tool.ui.CommentActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         
