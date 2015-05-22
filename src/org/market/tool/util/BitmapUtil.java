@@ -6,12 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.lidroid.xutils.BitmapUtils;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.util.Log;
 
 public class BitmapUtil {
@@ -80,19 +83,18 @@ public class BitmapUtil {
      * @return
      */
     public static Bitmap getCanvasBitmap(Bitmap bm,int width,int height){
-//    	if(bm.getWidth()>width){
-//    		return bm;
-//    	}
-    	Matrix matrix=new Matrix();
-    	float xscale=width*1.0f/bm.getWidth();
-    	float yscale=height*1.0f/bm.getHeight();
-    	float scale=Math.min(xscale, yscale);
-    	matrix.postScale(scale, scale);
-    	Bitmap bitmap=Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
+    	float xscale=width/bm.getWidth();
+    	float yscale=height/bm.getHeight();
+    	if(xscale>yscale){
+    		bm=zoomByWidth(bm, width);
+    	}else{
+    		bm=zoomByHeight(bm, height);
+    	}
+    	Bitmap bitmap=Bitmap.createBitmap(width, height, Config.ARGB_8888);
     	Canvas canvas=new Canvas(bitmap);
-//    	int left=(width-bm.getWidth())/2;
-//    	int top=(height-bm.getHeight())/2;
-    	canvas.drawBitmap(bm, 0, 0, null);
+    	int left=(width-bm.getWidth())/2;
+    	int top=(height-bm.getHeight())/2;
+    	canvas.drawBitmap(bm, left, top, null);
     	canvas.save(Canvas.ALL_SAVE_FLAG);
     	canvas.restore();
     	return bitmap;
@@ -102,5 +104,63 @@ public class BitmapUtil {
     	Bitmap bitmap=BitmapFactory.decodeResource(context.getResources(), resId);
     	return bitmap;
     }
+    
+    /**
+	 * 缩放图片
+	 * @param bitmap	需要进行缩放的图片
+	 * @param wf		在宽度上缩放的比例
+	 * @param hf		在高度上缩放的比例
+	 * @return			返回缩放后的图片对象
+	 */
+	public static Bitmap zoom(Bitmap bitmap, float wf, float hf) {
+		Matrix matrix = new Matrix();
+		matrix.postScale(wf, hf);
+		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+	}
+	
+	/**
+	 * 缩放图片
+	 * @param bitmap	需要进行缩放的图片
+	 * @param newWidth	新图片的宽度，如果只按照高度进行缩放，请传入-1
+	 * @param newHeight	新图片的高度，如果只按照宽度进行缩放，请传入-1
+	 * @return			返回缩放后的图片对象
+	 */
+	public static Bitmap zoom(Bitmap bitmap, int newWidth, int newHeight){
+		float wf = 1.0f;
+		float hf = 1.0f;
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		if(newWidth <= 0){//按照高度进行缩放
+			hf = ((float)newHeight) / height;
+			wf = hf;
+		} else if(newHeight <= 0){//按照宽度进行缩放
+			wf = ((float)newWidth) / width;
+			hf = wf;
+		} else {
+			wf = ((float)newWidth) / width;
+			hf = ((float)newHeight) / height;
+		}
+		return zoom(bitmap, wf, hf);
+	}
+	
+	/**
+	 * 按照宽度等比例缩放图片
+	 * @param bitmap	需要进行缩放的图片
+	 * @param newWidth	新图片的宽度，如果只按照高度进行缩放，请传入-1
+	 * @return			返回缩放后的图片对象
+	 */
+	public static Bitmap zoomByWidth(Bitmap bitmap, int newWidth){
+		return zoom(bitmap, newWidth, -1);
+	}
+	
+	/**
+	 * 按照宽度等比例缩放图片
+	 * @param bitmap	需要进行缩放的图片
+	 * @param newHeight	新图片的宽度，如果只按照高度进行缩放，请传入-1
+	 * @return			返回缩放后的图片对象
+	 */
+	public static Bitmap zoomByHeight(Bitmap bitmap, int newHeight){
+		return zoom(bitmap, -1, newHeight);
+	}
 
 }
