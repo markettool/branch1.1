@@ -70,6 +70,7 @@ public class CommentActivity extends BaseActivity {
 					ShowToast("ÊäÈëÎª¿Õ");
 				}else{
 					writeComment(msg, taskBean.getObjectId());
+					edit_user_comment.setText("");
 				}
 			}
 		});

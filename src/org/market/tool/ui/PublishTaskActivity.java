@@ -1,6 +1,7 @@
 package org.market.tool.ui;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.market.tool.R;
 import org.market.tool.bean.MyBmobFile;
@@ -32,7 +33,7 @@ import cn.bmob.v3.listener.UploadFileListener;
 public class PublishTaskActivity extends BaseActivity {
 	int PICK_REQUEST_CODE = 0;
 	
-	private EditText etOpera;
+	private EditText etTask;
 	private AlbumView albumView;
 	private String dir;
 	private User myUser;
@@ -52,7 +53,7 @@ public class PublishTaskActivity extends BaseActivity {
 	}
 
 	protected void initView() {
-		etOpera=(EditText) findViewById(R.id.et_opera);
+		etTask=(EditText) findViewById(R.id.et_opera);
 //		btPublish=(Button) findViewById(R.id.btn_write);
 //		ivAddImage=(ImageView) findViewById(R.id.iv_addimage);
 //		ivOperaPic=(ImageView) findViewById(R.id.opera_pic);
@@ -69,12 +70,12 @@ public class PublishTaskActivity extends BaseActivity {
 	}
 	
 	private void publish(){
-		if(!TextUtils.isEmpty(etOpera.getText().toString())){
+		if(!TextUtils.isEmpty(etTask.getText().toString())){
 			ProgressUtil.showProgress(PublishTaskActivity.this, "");
 			if(bmobFile!=null){
 				uploadFile();
 			}else{
-				writeOpera(null);
+				publishTask(null);
 			}
 			
 		}else{
@@ -133,13 +134,13 @@ public class PublishTaskActivity extends BaseActivity {
 	/**
 	 * ≤Â»Î∂‘œÛ
 	 */
-	private void writeOpera(BmobFile file) {
+	private void publishTask(BmobFile file) {
 		final TaskBean p = new TaskBean();
-		if(myUser.getBmobFiles().size()!=0){
+		if(myUser.getBmobFiles()!=null&&myUser.getBmobFiles().size()!=0){
 			p.setUserPic(myUser.getBmobFiles().get(0));
 		}
 		p.setUsername(myUser.getUsername());
-		p.setOperaContent(etOpera.getText().toString());
+		p.setOperaContent(etTask.getText().toString());
 		if(file!=null){
 			p.setOperaPic(file);
 		}
@@ -207,7 +208,7 @@ public class PublishTaskActivity extends BaseActivity {
 			@Override
 			public void onSuccess() {
 				Log.e("majie", "success");
-				writeOpera(bmobFile);
+				publishTask(bmobFile);
 			}
 
 			@Override

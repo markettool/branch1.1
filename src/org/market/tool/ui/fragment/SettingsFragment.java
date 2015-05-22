@@ -6,7 +6,10 @@ import org.market.tool.ui.BlackListActivity;
 import org.market.tool.ui.FragmentBase;
 import org.market.tool.ui.LoginActivity;
 import org.market.tool.ui.SetMyInfoActivity;
+import org.market.tool.util.ProgressUtil;
 import org.market.tool.util.SharePreferenceUtil;
+import org.market.tool.view.DialogUtil;
+import org.market.tool.view.LoadingDialog.OnDialogBackListener;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -148,9 +151,21 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 			startActivity(intent);
 			break;
 		case R.id.btn_logout:
-			CustomApplcation.getInstance().logout();
-			getActivity().finish();
-			startActivity(new Intent(getActivity(), LoginActivity.class));
+			DialogUtil.show(getActivity(), "确认退出吗？", "取消", "确定", new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					
+				}
+			}, new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					CustomApplcation.getInstance().logout();
+					getActivity().finish();
+					startActivity(new Intent(getActivity(), LoginActivity.class));
+				}
+			});
 			break;
 		case R.id.rl_switch_notification:
 			if (iv_open_notification.getVisibility() == View.VISIBLE) {

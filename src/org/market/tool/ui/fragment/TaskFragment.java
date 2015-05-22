@@ -133,7 +133,9 @@ public class TaskFragment extends FragmentBase {
 
 						default:
 							xlv.stopRefresh();
-							xlv.setPullLoadEnable(true);
+							if(taskBeans.size()>8){
+								xlv.setPullLoadEnable(true);
+							}
 							break;
 						}
 						adapter.notifyDataSetChanged();

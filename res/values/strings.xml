@@ -33,6 +33,7 @@
     <string name="add_name">账号</string>
     <string name="add_name_hint">请输入昵称&#8230;</string>
     <string name="add_gender">性别</string>
+    <string name="add_mysign">个性签名</string>
     
     <string name="set_notify">接收新消息通知</string>
     <string name="set_myinfo">个人资料</string>
@@ -69,6 +70,7 @@
     <string name="new_friends">新朋友</string>
     
     <string name="near_people">附近的人</string>
+    <string name="ok">确定</string>
     
     <string name="voice_up_tips">手指上滑,取消发送</string>
     <string name="voice_cancel_tips">松开手指，取消发送</string>
