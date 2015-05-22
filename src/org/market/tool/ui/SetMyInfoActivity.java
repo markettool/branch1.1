@@ -241,11 +241,13 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 			showAvatarPop();
 			break;
 		case R.id.layout_nick:
-			startAnimActivity(UpdateInfoActivity.class);
+			Intent i=new Intent(this, UpdateInfoActivity.class);
+			i.putExtra("TYPE", 0);
+			startAnimActivity(i);
 //			addBlog();
 			break;
 		case R.id.layout_mysign:
-			startAnimActivity(UpdateMySignActivity.class);
+			startAnimActivity(UpdateInfoActivity.class);
 			break;
 		case R.id.layout_gender:// ÐÔ±ð
 			showSexChooseDialog();
