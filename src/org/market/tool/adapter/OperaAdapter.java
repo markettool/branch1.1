@@ -3,7 +3,7 @@ package org.market.tool.adapter;
 import java.util.List;
 
 import org.market.tool.R;
-import org.market.tool.bean.OperaBean;
+import org.market.tool.bean.TaskBean;
 import org.market.tool.util.BitmapHelp;
 import org.market.tool.view.CircleImageView;
 
@@ -28,14 +28,14 @@ import com.lidroid.xutils.BitmapUtils;
 public class OperaAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
-	private List<OperaBean> beans;
+	private List<TaskBean> beans;
 	private Context context;
 //	private SharedPrefUtil su;
 	
 	private BitmapUtils bitmapUtils;
 //	private BitmapDisplayConfig config;
 
-	public OperaAdapter(Context context, List<OperaBean> beans) {
+	public OperaAdapter(Context context, List<TaskBean> beans) {
 		this.context = context;
 		this.beans = beans;
 		this.mInflater = LayoutInflater.from(context);
@@ -88,7 +88,7 @@ public class OperaAdapter extends BaseAdapter {
 				holder.tvLikeNum.setText("" + beans.get(position).getLikeNum());
 				holder.tvCommentNum.setText(""+ beans.get(position).getCommentNum());
 
-				OperaBean bean=beans.get(position);
+				TaskBean bean=beans.get(position);
 				BmobFile userPic=bean.getUserPic();
 				if(userPic!=null){
 					userPic.loadImageThumbnail(context, holder.ivUserPic, 60, 60);
@@ -163,8 +163,8 @@ public class OperaAdapter extends BaseAdapter {
 	/**
 	 * 更新对象
 	 */
-	private void updateLike(OperaBean bean) {
-		final OperaBean p = new OperaBean();
+	private void updateLike(TaskBean bean) {
+		final TaskBean p = new TaskBean();
 		p.setLikeNum(bean.getLikeNum());
 		p.update(context, bean.getObjectId(), new UpdateListener() {
 

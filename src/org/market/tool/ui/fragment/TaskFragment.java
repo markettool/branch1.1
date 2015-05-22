@@ -5,14 +5,16 @@ import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.adapter.OperaAdapter;
-import org.market.tool.bean.OperaBean;
+import org.market.tool.bean.TaskBean;
+import org.market.tool.ui.CommentActivity;
 import org.market.tool.ui.FragmentBase;
 import org.market.tool.ui.PublishTaskActivity;
 import org.market.tool.view.HeaderLayout.onRightImageButtonClickListener;
 import org.market.tool.view.xlist.XListView;
+import org.market.tool.view.xlist.XListView.IXListViewListener;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +32,7 @@ public class TaskFragment extends FragmentBase {
 	
 	private RelativeLayout mAdContainer;
 	
-//	private ImageView btWrite;
-	private XListView lv;
+	private XListView xlv;
 //	private AutoScrollTextView autoScrollTextView;
 	
 	private OperaAdapter adapter;
@@ -40,7 +41,7 @@ public class TaskFragment extends FragmentBase {
 	public static final int FINISH_LOADING=1;
 	
 	private int focusSkip,nearSkip;
-	private List<OperaBean> operaBeans=new ArrayList<OperaBean>();
+	private List<TaskBean> taskBeans=new ArrayList<TaskBean>();
 	
 	private int oldSize=0;
 	
@@ -49,8 +50,8 @@ public class TaskFragment extends FragmentBase {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_task, null);
 		mAdContainer = (RelativeLayout) view.findViewById(R.id.adcontainer);
-//		btWrite=(ImageView) view.findViewById(R.id.btn_write);
-		lv=(XListView) view.findViewById(R.id.lv);
+		xlv=(XListView) view.findViewById(R.id.lv);
+		
 //		lv.setOnScrollListener(new PauseOnScrollListener(BitmapHelp.getBitmapUtils(getActivity()), false, true));
 //		autoScrollTextView=(AutoScrollTextView) view.findViewById(R.id.autoscroll_tv);
 //		 autoScrollTextView.initScrollTextView(getActivity().getWindowManager(), 
@@ -76,62 +77,84 @@ public class TaskFragment extends FragmentBase {
 	}
 	
 	private void setListeners(){
-//		btWrite.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				getActivity().startActivityForResult(new Intent(getActivity(), WriteOperaActivity.class),0x01);
-//			}
-//		});
-		
-//        mRefreshableView.setOnRefreshListener(new PullToRefreshListener() {
-//			
-//			@Override
-//			public void onRefresh() {
-//				Log.e("majie", "refresh");
-//				operaBeans.clear();
-//				focusSkip=0;
-//				nearSkip=0;
-//				queryFocusOperas(FINISH_REFRESHING);
-//			}
-//		}, 1, false);
+		xlv.setXListViewListener(new IXListViewListener() {
+			
+			@Override
+			public void onRefresh() {
+				Log.e("majie", "refresh");
+				taskBeans.clear();
+				focusSkip=0;
+				queryFocusOperas(FINISH_REFRESHING);
+			}
+			
+			@Override
+			public void onLoadMore() {
+				focusSkip=taskBeans.size();
+				queryFocusOperas(FINISH_LOADING);
+			}
+		});
 		
 		
-		lv.setOnItemClickListener(new OnItemClickListener() {
+		xlv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-//				Intent intent=new Intent(getActivity(), CommentActivity.class);
-//				intent.putExtra("operaBean", operaBeans.get(arg2));
-//				getActivity().startActivity(intent);
+				Intent intent=new Intent(getActivity(), CommentActivity.class);
+				intent.putExtra("taskBean", taskBeans.get(arg2-1));
+				getActivity().startActivity(intent);
 			}
 		});
 	}
 	
 	private void queryFocusOperas(final int handle){
 		synchronized (TaskFragment.this) {
-			BmobQuery<OperaBean> focusQuery	 = new BmobQuery<OperaBean>();
+			BmobQuery<TaskBean> focusQuery	 = new BmobQuery<TaskBean>();
 			focusQuery.order("-commentNum,-likeNum");
 			focusQuery.setLimit(10);
 			focusQuery.setSkip(focusSkip);
-			focusQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
+			focusQuery.findObjects(getActivity(), new FindListener<TaskBean>() {
 
 				@Override
-				public void onSuccess(List<OperaBean> object) {
+				public void onSuccess(List<TaskBean> object) {
 					Log.e("majie", "查询成功：共"+object.size()+"条数据。");
-					oldSize=operaBeans.size();
+					oldSize=taskBeans.size();
 					focusSkip+=object.size();
-					operaBeans.addAll(object);
-//					queryNearOperas(handle);
+					taskBeans.addAll(object);
 					
-					mHandler.sendEmptyMessage(handle);
+					synchronized (TaskFragment.this) {
+						switch (handle) {
+						case FINISH_LOADING:
+							if(oldSize<taskBeans.size()){
+								xlv.setSelection(oldSize);
+							}
+							xlv.stopLoadMore();
+							break;
+
+						default:
+							xlv.stopRefresh();
+							xlv.setPullLoadEnable(true);
+							break;
+						}
+						adapter.notifyDataSetChanged();
+					}
 				}
 
 				@Override
 				public void onError(int code, String msg) {
 					Log.e("majie","查询失败："+msg);
-					mHandler.sendEmptyMessage(handle);
+					synchronized (TaskFragment.this) {
+						switch (handle) {
+						case FINISH_LOADING:
+							xlv.stopLoadMore();
+							break;
+
+						default:
+							xlv.stopRefresh();
+							break;
+						}
+						adapter.notifyDataSetChanged();
+					}
 				}
 			});
 		}
@@ -164,30 +187,8 @@ public class TaskFragment extends FragmentBase {
 //	}
 	
 	private void setAdapter(){
-		adapter=new OperaAdapter(getActivity(), operaBeans);
-		lv.setAdapter(adapter);
+		adapter=new OperaAdapter(getActivity(), taskBeans);
+		xlv.setAdapter(adapter);
 	}
-	
-	private Handler mHandler=new Handler(){
-		public void handleMessage(android.os.Message msg) {
-			switch (msg.what) {
-			case FINISH_REFRESHING:
-//				mRefreshableView.finishRefreshing();
-				break;
-
-			case FINISH_LOADING:
-//				mRefreshableView.finishLoading();
-				if(oldSize+1<operaBeans.size()){
-					lv.setSelection(oldSize+1);
-				}
-				break;
-				
-			}
-			synchronized (TaskFragment.this) {
-				adapter.notifyDataSetChanged();
-			}
-			
-		};
-	};
 	
 }

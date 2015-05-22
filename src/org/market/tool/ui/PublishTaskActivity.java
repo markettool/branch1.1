@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.market.tool.R;
 import org.market.tool.bean.MyBmobFile;
-import org.market.tool.bean.OperaBean;
+import org.market.tool.bean.TaskBean;
 import org.market.tool.bean.User;
 import org.market.tool.util.BitmapUtil;
 import org.market.tool.util.FileUtils;
@@ -134,7 +134,7 @@ public class PublishTaskActivity extends BaseActivity {
 	 * ≤Â»Î∂‘œÛ
 	 */
 	private void writeOpera(BmobFile file) {
-		final OperaBean p = new OperaBean();
+		final TaskBean p = new TaskBean();
 		if(myUser.getBmobFiles().size()!=0){
 			p.setUserPic(myUser.getBmobFiles().get(0));
 		}

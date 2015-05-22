@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/common_actionbar"
+        layout="@layout/include_action_bar" />
+
+    <RelativeLayout
+        android:id="@+id/adcontainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/common_actionbar"
+        android:layout_marginTop="0dp" >
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_task"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/adcontainer"
+        android:layout_margin="5dp"
+        android:background="@drawable/common_entry_item_bg"
+        android:ellipsize="end"
+        android:maxLines="15"
+        android:minHeight="100dp"
+        android:padding="5dp" />
+
+    <org.market.tool.view.xlist.XListView
+        android:id="@+id/lv"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/inputview"
+        android:layout_below="@+id/tv_task"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/common_entry_item_bg" >
+    </org.market.tool.view.xlist.XListView>
+
+    <include
+        android:id="@+id/inputview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/include_chat_bottom_bar" />
+
+</RelativeLayout>

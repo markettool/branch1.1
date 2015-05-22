@@ -3,7 +3,7 @@ package org.market.tool.bean;
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
 
-public class OperaBean extends BmobObject {
+public class TaskBean extends BmobObject {
 
 	/**
 	 * 
