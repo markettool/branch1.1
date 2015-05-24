@@ -34,6 +34,7 @@
     <string name="add_name_hint">请输入昵称&#8230;</string>
     <string name="add_gender">性别</string>
     <string name="add_mysign">个性签名</string>
+    <string name="add_phonenum">手机号</string>
     
     <string name="set_notify">接收新消息通知</string>
     <string name="set_myinfo">个人资料</string>

@@ -67,12 +67,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 @SuppressLint({ "SimpleDateFormat", "ClickableViewAccessibility", "InflateParams" })
 public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 
-	TextView tv_set_name, tv_set_nick, tv_set_gender,tv_set_mysign;
+	TextView tv_set_name, tv_set_nick, tv_set_gender,tv_set_mysign,tv_set_phonenum;
 	ImageView iv_set_avator, iv_arraw, iv_nickarraw;
 	LinearLayout layout_all;
 
 	Button btn_chat, btn_back, btn_add_friend;
-	RelativeLayout layout_head, layout_nick, layout_gender, layout_black_tips,layout_mysign;
+	RelativeLayout layout_head, layout_nick, layout_gender, layout_black_tips,layout_mysign,layout_phonenum;
 
 	String from = "";
 	String username = "";
@@ -80,7 +80,6 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		// 因为魅族手机下面有三个虚拟的导航按钮，需要将其隐藏掉，不然会遮掉拍照和相册两个按钮，且在setContentView之前调用才能生效
 		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -102,10 +101,13 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 		tv_set_name = (TextView) findViewById(R.id.tv_set_name);
 		tv_set_nick = (TextView) findViewById(R.id.tv_set_nick);
 		tv_set_mysign= (TextView) findViewById(R.id.tv_set_mysign);
+		tv_set_phonenum= (TextView) findViewById(R.id.tv_set_phonenum);
+		
 		layout_head = (RelativeLayout) findViewById(R.id.layout_head);
 		layout_nick = (RelativeLayout) findViewById(R.id.layout_nick);
 		layout_gender = (RelativeLayout) findViewById(R.id.layout_gender);
 		layout_mysign = (RelativeLayout) findViewById(R.id.layout_mysign);
+		layout_phonenum = (RelativeLayout) findViewById(R.id.layout_phonenum);
 		// 黑名单提示语
 		layout_black_tips = (RelativeLayout) findViewById(R.id.layout_black_tips);
 		tv_set_gender = (TextView) findViewById(R.id.tv_set_gender);
@@ -121,6 +123,7 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 			layout_nick.setOnClickListener(this);
 			layout_gender.setOnClickListener(this);
 			layout_mysign.setOnClickListener(this);
+			layout_phonenum.setOnClickListener(this);
 			iv_nickarraw.setVisibility(View.VISIBLE);
 			iv_arraw.setVisibility(View.VISIBLE);
 			btn_back.setVisibility(View.GONE);
@@ -192,6 +195,7 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 		tv_set_name.setText(user.getUsername());
 		tv_set_nick.setText(user.getNick());
 		tv_set_mysign.setText(user.getMysign());
+		tv_set_phonenum.setText(user.getPhonenum());
 		tv_set_gender.setText(user.getSex() == true ? "男" : "女");
 		// 检测是否为黑名单用户
 		if (from.equals("other")) {
@@ -242,12 +246,19 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener {
 			break;
 		case R.id.layout_nick:
 			Intent i=new Intent(this, UpdateInfoActivity.class);
-			i.putExtra("TYPE", 0);
+			i.putExtra("TYPE", UpdateInfoActivity.NICK);
 			startAnimActivity(i);
-//			addBlog();
 			break;
 		case R.id.layout_mysign:
-			startAnimActivity(UpdateInfoActivity.class);
+			Intent i2=new Intent(this, UpdateInfoActivity.class);
+			i2.putExtra("TYPE", UpdateInfoActivity.MYSIGN);
+			startAnimActivity(i2);
+			break;
+			
+		case R.id.layout_phonenum:
+			Intent i3=new Intent(this, UpdateInfoActivity.class);
+			i3.putExtra("TYPE", UpdateInfoActivity.PHONENUM);
+			startAnimActivity(i3);
 			break;
 		case R.id.layout_gender:// 性别
 			showSexChooseDialog();

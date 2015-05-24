@@ -5,7 +5,6 @@ import org.market.tool.bean.User;
 import org.market.tool.view.HeaderLayout.onRightImageButtonClickListener;
 
 import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds.Nickname;
 import android.widget.EditText;
 import android.widget.TextView;
 import cn.bmob.v3.listener.UpdateListener;
@@ -36,6 +35,9 @@ public class UpdateInfoActivity extends ActivityBase {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_set_updateinfo);
+		
+		TYPE=getIntent().getIntExtra("TYPE", 0);
+		
 		initView();
 	}
 
@@ -48,13 +50,14 @@ public class UpdateInfoActivity extends ActivityBase {
 						// TODO Auto-generated method stub
 						String nick = edit_nick.getText().toString();
 						if (nick.equals("")) {
-							ShowToast("«ÎÃÓ–¥Í«≥∆!");
+							ShowToast("«ÎÃÓ–¥"+items[TYPE]);
 							return;
 						}
 						updateInfo(nick);
 					}
 				});
 		edit_nick = (EditText) findViewById(R.id.edit_nick);
+		edit_nick.setHint("«ÎÃÓ–¥"+items[TYPE]);
 		
 		tv_item=(TextView) findViewById(R.id.tv_item);
 		tv_item.setText(items[TYPE]);
@@ -66,23 +69,24 @@ public class UpdateInfoActivity extends ActivityBase {
 	  * @return void
 	  * @throws
 	  */
-	private void updateInfo(String nick) {
+	private void updateInfo(String msg) {
 		final User user = userManager.getCurrentUser(User.class);
 		User u = new User();
 		switch (TYPE) {
 		case NICK:
-			u.setNick(nick);
+			u.setNick(msg);
 			u.setHight(110);
 			break;
 			
 		case MYSIGN:
-			u.setMysign(nick);
+			u.setMysign(msg);
 			break;
 			
 		case REALNAME:
 			break;
 			
 		case PHONENUM:
+			u.setPhonenum(msg);
 			break;
 
 		default:
@@ -94,7 +98,6 @@ public class UpdateInfoActivity extends ActivityBase {
 
 			@Override
 			public void onSuccess() {
-				// TODO Auto-generated method stub
 				final User c = userManager.getCurrentUser(User.class);
 				ShowToast("–ﬁ∏ƒ≥…π¶:"+c.getNick()+",height = "+c.getHight());
 				finish();
@@ -102,7 +105,6 @@ public class UpdateInfoActivity extends ActivityBase {
 
 			@Override
 			public void onFailure(int arg0, String arg1) {
-				// TODO Auto-generated method stub
 				ShowToast("onFailure:" + arg1);
 			}
 		});

@@ -46,6 +46,8 @@ public class User extends BmobChatUser {
 	
 	private Integer hight;
     private List<BmobFile> bmobFiles;
+    
+    private String phonenum;
 	
 	public List<BmobFile> getBmobFiles() {
 		return bmobFiles;
@@ -102,6 +104,12 @@ public class User extends BmobChatUser {
 	}
 	public void setMysign(String mysign) {
 		this.mysign = mysign;
+	}
+	public String getPhonenum() {
+		return phonenum;
+	}
+	public void setPhonenum(String phonenum) {
+		this.phonenum = phonenum;
 	}
 	
 }
