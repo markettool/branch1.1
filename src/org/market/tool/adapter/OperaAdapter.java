@@ -84,7 +84,7 @@ public class OperaAdapter extends BaseAdapter {
 
 			if (position < beans.size()) {
 				holder.tvUsername.setText(beans.get(position).getUsername());
-				holder.tvOperaContent.setText(beans.get(position).getOperaContent());
+				holder.tvOperaContent.setText(beans.get(position).getTaskContent());
 				holder.tvLikeNum.setText("" + beans.get(position).getLikeNum());
 				holder.tvCommentNum.setText(""+ beans.get(position).getCommentNum());
 
@@ -98,7 +98,7 @@ public class OperaAdapter extends BaseAdapter {
 					holder.ivUserPic.setImageResource(R.drawable.wwj_748);
 				}
 				
-				BmobFile operaPic=bean.getOperaPic();
+				BmobFile operaPic=bean.getTaskPic();
 				if(operaPic!=null){
 					bitmapUtils.display(holder.ivOperaPic, operaPic.getFileUrl(context));
 				}else{

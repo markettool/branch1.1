@@ -15,24 +15,41 @@
         android:layout_marginTop="0dp" >
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_task"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical" 
         android:layout_below="@+id/adcontainer"
-        android:layout_margin="5dp"
         android:background="@drawable/common_entry_item_bg"
-        android:ellipsize="end"
-        android:maxLines="15"
-        android:minHeight="100dp"
-        android:padding="5dp" />
+        android:layout_margin="5dp"
+        android:id="@+id/layout_task">
+
+        <TextView
+            android:id="@+id/tv_task"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            
+            android:ellipsize="end"
+            android:maxLines="15"
+            android:minHeight="100dp"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/base_edit_input"
+            android:hint="@string/comment"
+            android:padding="5dp" />
+    </LinearLayout>
 
     <org.market.tool.view.xlist.XListView
         android:id="@+id/lv"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/inputview"
-        android:layout_below="@+id/tv_task"
+        android:layout_below="@+id/layout_task"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:background="@drawable/common_entry_item_bg" >
@@ -43,6 +60,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        layout="@layout/include_chat_bottom_bar" />
+        layout="@layout/include_chat_bottom_bar" 
+        android:visibility="gone"/>
+    
+    <Button
+        android:id="@+id/btn_chat"
+        style="@style/Smile.Button.theme"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_alignParentBottom="true"
+        android:text="@string/task_chat"
+        android:layout_marginBottom="5dp" />
 
 </RelativeLayout>

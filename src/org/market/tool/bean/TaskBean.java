@@ -11,14 +11,16 @@ public class TaskBean extends BmobObject {
 	private static final long serialVersionUID = 1L;
 	private BmobFile userPic;
 	private String username;
-	private String operaContent;
+	private String taskContent;
 	private int likeNum;
 	private int commentNum;
-	private int statedLikeNum;
-	private int statedCommentNum;
-	private BmobFile operaPic;
+//	private int statedLikeNum;
+//	private int statedCommentNum;
+	private BmobFile taskPic;
+	/**任务发起人*/
+//	private User taskUser;
 	
-	public int getStatLikeNum() {
+	/*public int getStatLikeNum() {
 		return statedLikeNum;
 	}
 	public void setStatLikeNum(int statLikeNum) {
@@ -29,18 +31,18 @@ public class TaskBean extends BmobObject {
 	}
 	public void setStatCommentNum(int statCommentNum) {
 		this.statedCommentNum = statCommentNum;
-	}
+	}*/
 	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getOperaContent() {
-		return operaContent;
+	public String getTaskContent() {
+		return taskContent;
 	}
-	public void setOperaContent(String operaContent) {
-		this.operaContent = operaContent;
+	public void setTaskContent(String taskContent) {
+		this.taskContent = taskContent;
 	}
 	public int getLikeNum() {
 		return likeNum;
@@ -54,11 +56,11 @@ public class TaskBean extends BmobObject {
 	public void setCommentNum(int commentNum) {
 		this.commentNum = commentNum;
 	}
-	public BmobFile getOperaPic() {
-		return operaPic;
+	public BmobFile getTaskPic() {
+		return taskPic;
 	}
-	public void setOperaPic(BmobFile operaPic) {
-		this.operaPic = operaPic;
+	public void setTaskPic(BmobFile operaPic) {
+		this.taskPic = operaPic;
 	}
 	public BmobFile getUserPic() {
 		return userPic;
@@ -66,5 +68,11 @@ public class TaskBean extends BmobObject {
 	public void setUserPic(BmobFile userPic) {
 		this.userPic = userPic;
 	}
+//	public User getTaskUser() {
+//		return taskUser;
+//	}
+//	public void setTaskUser(User taskUser) {
+//		this.taskUser = taskUser;
+//	}
 
 }

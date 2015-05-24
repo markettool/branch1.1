@@ -1,7 +1,6 @@
 package org.market.tool.ui;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import org.market.tool.R;
 import org.market.tool.bean.MyBmobFile;
@@ -38,7 +37,6 @@ public class PublishTaskActivity extends BaseActivity {
 	private String dir;
 	private User myUser;
 	private MyBmobFile bmobFile;
-//	private String operaPicPath;
 	
 //	private int screenWidth;
 //	private int screenHeight;
@@ -46,7 +44,7 @@ public class PublishTaskActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_writeopera);
+		setContentView(R.layout.activity_publishtask);
 		initView();
 		setListeners();
 		initData();
@@ -140,10 +138,11 @@ public class PublishTaskActivity extends BaseActivity {
 			p.setUserPic(myUser.getBmobFiles().get(0));
 		}
 		p.setUsername(myUser.getUsername());
-		p.setOperaContent(etTask.getText().toString());
+		p.setTaskContent(etTask.getText().toString());
 		if(file!=null){
-			p.setOperaPic(file);
+			p.setTaskPic(file);
 		}
+//		p.setTaskUser(myUser);
 		p.save(this, new SaveListener() {
 
 			@Override

@@ -16,10 +16,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobUserManager;
@@ -268,4 +271,20 @@ public class BaseActivity extends FragmentActivity {
 			}
 		}
 	}
+	
+	public void showSoftKeyboard(final EditText et){
+		handler.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				et.requestFocus();
+	    		 et.setFocusable(true);
+				InputMethodManager inputManager =
+		                 (InputMethodManager)et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		             inputManager.showSoftInput(et, 0);
+			}
+		}, 500);
+	}
+	
+	private Handler handler=new Handler();
 }
