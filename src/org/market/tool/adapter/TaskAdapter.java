@@ -25,7 +25,7 @@ import cn.bmob.v3.listener.UpdateListener;
 
 import com.lidroid.xutils.BitmapUtils;
 
-public class OperaAdapter extends BaseAdapter {
+public class TaskAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 	private List<TaskBean> beans;
@@ -35,7 +35,7 @@ public class OperaAdapter extends BaseAdapter {
 	private BitmapUtils bitmapUtils;
 //	private BitmapDisplayConfig config;
 
-	public OperaAdapter(Context context, List<TaskBean> beans) {
+	public TaskAdapter(Context context, List<TaskBean> beans) {
 		this.context = context;
 		this.beans = beans;
 		this.mInflater = LayoutInflater.from(context);
@@ -67,14 +67,14 @@ public class OperaAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.ivUserPic = (CircleImageView) convertView.findViewById(R.id.user_pic);
 			holder.tvUsername = (TextView) convertView.findViewById(R.id.user_name);
-			holder.tvOperaContent = (TextView) convertView.findViewById(R.id.opera_content);
-			holder.llLike = (LinearLayout) convertView.findViewById(R.id.ll_feed_like);
+			holder.tvTaskContent = (TextView) convertView.findViewById(R.id.opera_content);
+			holder.llScan = (LinearLayout) convertView.findViewById(R.id.ll_feed_like);
 			holder.llComment = (LinearLayout) convertView.findViewById(R.id.ll_feed_comment);
-			holder.tvLikeNum = (TextView) convertView.findViewById(R.id.tv_feed_like_num);
+			holder.tvScanNum = (TextView) convertView.findViewById(R.id.tv_feed_like_num);
 			holder.tvCommentNum = (TextView) convertView.findViewById(R.id.tv_feed_comment_num);
 
 			holder.rlOperaBg = (RelativeLayout) convertView.findViewById(R.id.opera_item_bg);
-			holder.ivOperaPic = (ImageView) convertView.findViewById(R.id.opera_pic);
+			holder.ivTaskPic = (ImageView) convertView.findViewById(R.id.opera_pic);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -84,8 +84,8 @@ public class OperaAdapter extends BaseAdapter {
 
 			if (position < beans.size()) {
 				holder.tvUsername.setText(beans.get(position).getUsername());
-				holder.tvOperaContent.setText(beans.get(position).getTaskContent());
-				holder.tvLikeNum.setText("" + beans.get(position).getLikeNum());
+				holder.tvTaskContent.setText(beans.get(position).getTaskContent());
+				holder.tvScanNum.setText("" + beans.get(position).getScanNum());
 				holder.tvCommentNum.setText(""+ beans.get(position).getCommentNum());
 
 				TaskBean bean=beans.get(position);
@@ -100,9 +100,9 @@ public class OperaAdapter extends BaseAdapter {
 				
 				BmobFile operaPic=bean.getTaskPic();
 				if(operaPic!=null){
-					bitmapUtils.display(holder.ivOperaPic, operaPic.getFileUrl(context));
+					bitmapUtils.display(holder.ivTaskPic, operaPic.getFileUrl(context));
 				}else{
-					holder.ivOperaPic.setImageBitmap(null);
+					holder.ivTaskPic.setImageBitmap(null);
 				}
 			}
 		} catch (Exception e) {
@@ -151,34 +151,13 @@ public class OperaAdapter extends BaseAdapter {
 	class ViewHolder {
 		CircleImageView ivUserPic;
 		TextView tvUsername;
-		TextView tvOperaContent;
-		LinearLayout llLike;
+		TextView tvTaskContent;
+		LinearLayout llScan;
 		LinearLayout llComment;
-		TextView tvLikeNum;
+		TextView tvScanNum;
 		TextView tvCommentNum;
 		RelativeLayout rlOperaBg;
-		ImageView ivOperaPic;
-	}
-
-	/**
-	 * 更新对象
-	 */
-	private void updateLike(TaskBean bean) {
-		final TaskBean p = new TaskBean();
-		p.setLikeNum(bean.getLikeNum());
-		p.update(context, bean.getObjectId(), new UpdateListener() {
-
-			@Override
-			public void onSuccess() {
-				Log.e("majie", "更新成功：" + p.getUpdatedAt());
-			}
-
-			@Override
-			public void onFailure(int code, String msg) {
-				Log.e("majie", "更新失败：" + msg);
-			}
-		});
-
+		ImageView ivTaskPic;
 	}
 
 }

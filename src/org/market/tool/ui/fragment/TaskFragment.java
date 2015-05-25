@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
-import org.market.tool.adapter.OperaAdapter;
+import org.market.tool.adapter.TaskAdapter;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.ui.CommentActivity;
+import org.market.tool.ui.TaskDetailActivity;
 import org.market.tool.ui.FragmentBase;
 import org.market.tool.ui.PublishTaskActivity;
 import org.market.tool.view.HeaderLayout.onRightImageButtonClickListener;
@@ -35,7 +35,7 @@ public class TaskFragment extends FragmentBase {
 	private XListView xlv;
 //	private AutoScrollTextView autoScrollTextView;
 	
-	private OperaAdapter adapter;
+	private TaskAdapter adapter;
 	
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
@@ -100,7 +100,7 @@ public class TaskFragment extends FragmentBase {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Intent intent=new Intent(getActivity(), CommentActivity.class);
+				Intent intent=new Intent(getActivity(), TaskDetailActivity.class);
 				intent.putExtra("taskBean", taskBeans.get(arg2-1));
 				getActivity().startActivity(intent);
 			}
@@ -189,7 +189,7 @@ public class TaskFragment extends FragmentBase {
 //	}
 	
 	private void setAdapter(){
-		adapter=new OperaAdapter(getActivity(), taskBeans);
+		adapter=new TaskAdapter(getActivity(), taskBeans);
 		xlv.setAdapter(adapter);
 	}
 	

@@ -12,7 +12,7 @@ public class TaskBean extends BmobObject {
 	private BmobFile userPic;
 	private String username;
 	private String taskContent;
-	private int likeNum;
+	private int scanNum;
 	private int commentNum;
 //	private int statedLikeNum;
 //	private int statedCommentNum;
@@ -44,11 +44,11 @@ public class TaskBean extends BmobObject {
 	public void setTaskContent(String taskContent) {
 		this.taskContent = taskContent;
 	}
-	public int getLikeNum() {
-		return likeNum;
+	public int getScanNum() {
+		return scanNum;
 	}
-	public void setLikeNum(int likeNum) {
-		this.likeNum = likeNum;
+	public void setScanNum(int scanNum) {
+		this.scanNum = scanNum;
 	}
 	public int getCommentNum() {
 		return commentNum;

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:id="@+id/opera_item_bg" >
+    android:id="@+id/opera_item_bg"
+     >
 
      <ImageView
         android:id="@+id/opera_pic"
@@ -12,6 +13,19 @@
         android:layout_below="@+id/opera_content"
         android:layout_marginLeft="10dp"
          /> 
+         
+     
+     <TextView
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bail_fund"
+        android:text="担保金额：50金币"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="0dp"
+        android:background="@color/orange"
+        android:textColor="@color/white"
+        android:padding="5dp"
+         ></TextView>
 
     <LinearLayout
         android:id="@+id/top"
@@ -67,6 +81,7 @@
         android:layout_marginBottom="5dp"
          >
 
+        
         <LinearLayout
             android:id="@+id/ll_feed_like"
             android:layout_width="wrap_content"
@@ -74,14 +89,14 @@
             android:orientation="horizontal"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:paddingTop="4dp" >
+            android:paddingTop="5dp" >
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:clickable="true"
-                android:src="@drawable/bt_feed_like" />
+                android:text="@string/scan" />
 
             <TextView
                 android:id="@+id/tv_feed_like_num"
@@ -101,12 +116,12 @@
             android:paddingTop="5dp"
             android:layout_marginBottom="5dp" >
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:clickable="true"
-                android:src="@drawable/bt_feed_comment" />
+                android:text="@string/comment" />
 
             <TextView
                 android:id="@+id/tv_feed_comment_num"

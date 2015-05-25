@@ -15,6 +15,7 @@
     <string name="login_pwd">密码 </string>
     <string name="login_email">确认密码 </string>
     <string name="message_search_hint">搜索&#8230;</string>
+    <string name="scan">浏览 </string>
     
     <string name="main_tab_task">任务</string>
     <string name="main_tab_recent">会话</string>

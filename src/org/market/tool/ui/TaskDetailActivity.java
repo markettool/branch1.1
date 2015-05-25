@@ -32,7 +32,7 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class CommentActivity extends BaseActivity {
+public class TaskDetailActivity extends BaseActivity {
 	
 	private TaskBean taskBean;
 	private XListView xlv;
@@ -73,7 +73,7 @@ public class CommentActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View arg0) {
-				ProgressUtil.showProgress(CommentActivity.this, "");
+				ProgressUtil.showProgress(TaskDetailActivity.this, "");
 				queryUserByName(taskBean.getUsername());
 			}
 		});
@@ -186,14 +186,36 @@ public class CommentActivity extends BaseActivity {
 	protected void initData() {
 
 		taskBean=(TaskBean) getIntent().getSerializableExtra("taskBean");
-		String operaText=taskBean.getTaskContent();
-		tvTask.setText(operaText);
+		String taskText=taskBean.getTaskContent();
+		tvTask.setText(taskText);
 		myuser=BmobUser.getCurrentUser(this, User.class);
 		if(myuser==null){
 			startAnimActivity(LoginActivity.class);
 			finish();
 		}
 		initTopBarForLeft("任务详情");
+		updateScan(taskBean);
+	}
+	
+	/**
+	 * 更新对象
+	 */
+	private void updateScan(TaskBean bean) {
+		final TaskBean p = new TaskBean();
+		p.setScanNum(bean.getScanNum()+1);
+		p.update(this, bean.getObjectId(), new UpdateListener() {
+
+			@Override
+			public void onSuccess() {
+				Log.e("majie", "更新成功：" + p.getUpdatedAt());
+			}
+
+			@Override
+			public void onFailure(int code, String msg) {
+				Log.e("majie", "更新失败：" + msg);
+			}
+		});
+
 	}
 	
 	@Override
@@ -306,7 +328,7 @@ public class CommentActivity extends BaseActivity {
 	        public void onSuccess(List<BmobChatUser> arg0) {
 	        	ProgressUtil.closeProgress();
 	            if(arg0!=null && arg0.size()>0){
-	            	Intent i=new Intent(CommentActivity.this,ChatActivity.class);
+	            	Intent i=new Intent(TaskDetailActivity.this,ChatActivity.class);
 					i.putExtra("user", arg0.get(0));
 					startAnimActivity(i);
 	            }else{
