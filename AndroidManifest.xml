@@ -131,7 +131,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         
         <activity
-            android:name="org.market.tool.ui.CommentActivity"
+            android:name="org.market.tool.ui.TaskDetailActivity"
              />
         
         <activity
