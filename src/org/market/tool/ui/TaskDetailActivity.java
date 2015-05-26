@@ -74,7 +74,7 @@ public class TaskDetailActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				ProgressUtil.showProgress(TaskDetailActivity.this, "");
-				queryUserByName(taskBean.getUsername());
+				queryUserByName(taskBean.getOwnerName());
 			}
 		});
 		

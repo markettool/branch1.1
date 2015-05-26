@@ -30,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:gravity="top"
-            android:background="@drawable/base_edit_input" />
+            android:background="@drawable/base_edit_input" 
+            android:padding="5dp"/>
 
         <org.market.tool.view.AlbumView
             android:id="@+id/albumview"

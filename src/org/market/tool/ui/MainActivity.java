@@ -7,6 +7,7 @@ import org.market.tool.ui.fragment.ContactFragment;
 import org.market.tool.ui.fragment.RecentFragment;
 import org.market.tool.ui.fragment.SettingsFragment;
 import org.market.tool.ui.fragment.TaskFragment;
+import org.market.tool.ui.fragment.TaskPagerFragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,7 +34,7 @@ import cn.bmob.im.inteface.EventListener;
 public class MainActivity extends ActivityBase implements EventListener{
 
 	private Button[] mTabs;
-	private TaskFragment taskFragment;
+	private TaskPagerFragment taskPagerFragment;
 	private ContactFragment contactFragment;
 	private RecentFragment recentFragment;
 	private SettingsFragment settingFragment;
@@ -70,14 +71,14 @@ public class MainActivity extends ActivityBase implements EventListener{
 	}
 	
 	private void initTab(){
-		taskFragment=new TaskFragment();
+		taskPagerFragment=new TaskPagerFragment();
 		contactFragment = new ContactFragment();
 		recentFragment = new RecentFragment();
 		settingFragment = new SettingsFragment();
-		fragments = new Fragment[] {taskFragment,recentFragment, contactFragment, settingFragment };
+		fragments = new Fragment[] {taskPagerFragment,recentFragment, contactFragment, settingFragment };
 		// 添加显示第一个fragment
-		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, taskFragment).
-			add(R.id.fragment_container, recentFragment).hide(recentFragment).show(taskFragment).commit();
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, taskPagerFragment).
+			add(R.id.fragment_container, recentFragment).hide(recentFragment).show(taskPagerFragment).commit();
 	}
 	
 	

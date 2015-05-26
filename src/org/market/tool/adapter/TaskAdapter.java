@@ -83,17 +83,15 @@ public class TaskAdapter extends BaseAdapter {
 		try {
 
 			if (position < beans.size()) {
-				holder.tvUsername.setText(beans.get(position).getUsername());
+				holder.tvUsername.setText(beans.get(position).getOwnerName());
 				holder.tvTaskContent.setText(beans.get(position).getTaskContent());
 				holder.tvScanNum.setText("" + beans.get(position).getScanNum());
 				holder.tvCommentNum.setText(""+ beans.get(position).getCommentNum());
 
 				TaskBean bean=beans.get(position);
-				BmobFile userPic=bean.getUserPic();
-				if(userPic!=null){
-					userPic.loadImageThumbnail(context, holder.ivUserPic, 60, 60);
-//					Log.e("majie", userPic.getFileUrl(context));
-//					bitmapUtils.display(holder.ivUserPic, "http://f10.topitme.com/l/201009/03/12835051651175.jpg");
+				BmobFile ownerPic=bean.getOwnerPic();
+				if(ownerPic!=null){
+					ownerPic.loadImageThumbnail(context, holder.ivUserPic, 60, 60);
 				}else{
 					holder.ivUserPic.setImageResource(R.drawable.wwj_748);
 				}

@@ -6,10 +6,9 @@ import java.util.List;
 import org.market.tool.R;
 import org.market.tool.adapter.TaskAdapter;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.ui.TaskDetailActivity;
+import org.market.tool.bean.User;
 import org.market.tool.ui.FragmentBase;
-import org.market.tool.ui.PublishTaskActivity;
-import org.market.tool.view.HeaderLayout.onRightImageButtonClickListener;
+import org.market.tool.ui.TaskDetailActivity;
 import org.market.tool.view.xlist.XListView;
 import org.market.tool.view.xlist.XListView.IXListViewListener;
 
@@ -22,14 +21,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
-public class TaskFragment extends FragmentBase {
+public class MyTaskFragment extends FragmentBase {
 	
 	private RelativeLayout mAdContainer;
 	
 	private XListView xlv;
-//	private AutoScrollTextView autoScrollTextView;
 	
 	private TaskAdapter adapter;
 	
@@ -41,6 +41,8 @@ public class TaskFragment extends FragmentBase {
 	
 	private int oldSize=0;
 	
+	private User user;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -48,12 +50,7 @@ public class TaskFragment extends FragmentBase {
 		mAdContainer = (RelativeLayout) view.findViewById(R.id.adcontainer);
 		xlv=(XListView) view.findViewById(R.id.lv);
 		
-//		lv.setOnScrollListener(new PauseOnScrollListener(BitmapHelp.getBitmapUtils(getActivity()), false, true));
-//		autoScrollTextView=(AutoScrollTextView) view.findViewById(R.id.autoscroll_tv);
-//		 autoScrollTextView.initScrollTextView(getActivity().getWindowManager(), 
-//	                "下一版本加聊天功能，敬请期待！"); 
-//	        autoScrollTextView.starScroll();  
-	        
+		user=BmobUser.getCurrentUser(getActivity(), User.class);
 		setAdapter();
 		setListeners();
 		queryFocusOperas(FINISH_REFRESHING);
@@ -92,9 +89,10 @@ public class TaskFragment extends FragmentBase {
 	}
 	
 	private void queryFocusOperas(final int handle){
-		synchronized (TaskFragment.this) {
+		synchronized (MyTaskFragment.this) {
 			BmobQuery<TaskBean> focusQuery	 = new BmobQuery<TaskBean>();
 			focusQuery.order("-commentNum,-likeNum");
+			focusQuery.addWhereEqualTo("ownerName", user.getUsername());
 			focusQuery.setLimit(10);
 			focusQuery.setSkip(focusSkip);
 			focusQuery.findObjects(getActivity(), new FindListener<TaskBean>() {
@@ -106,7 +104,7 @@ public class TaskFragment extends FragmentBase {
 					focusSkip+=object.size();
 					taskBeans.addAll(object);
 					
-					synchronized (TaskFragment.this) {
+					synchronized (MyTaskFragment.this) {
 						switch (handle) {
 						case FINISH_LOADING:
 							if(oldSize<taskBeans.size()){
@@ -129,7 +127,7 @@ public class TaskFragment extends FragmentBase {
 				@Override
 				public void onError(int code, String msg) {
 					Log.e("majie","查询失败："+msg);
-					synchronized (TaskFragment.this) {
+					synchronized (MyTaskFragment.this) {
 						switch (handle) {
 						case FINISH_LOADING:
 							xlv.stopLoadMore();
@@ -147,30 +145,6 @@ public class TaskFragment extends FragmentBase {
 		
 	}
 	
-//	private void queryNearOperas(final int handle){
-//		BmobQuery<OperaBean> nearQuery	 = new BmobQuery<OperaBean>();
-//		nearQuery.setLimit(5);
-//		nearQuery.order("-updatedAt");
-//		nearQuery.setSkip(nearSkip);
-//		nearQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
-//
-//			@Override
-//			public void onSuccess(List<OperaBean> object) {
-//				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
-//				oldSize=operaBeans.size();
-//				nearSkip+=object.size();
-//				operaBeans.addAll(object);
-//				
-//				mHandler.sendEmptyMessage(handle);
-//			}
-//
-//			@Override
-//			public void onError(int code, String msg) {
-//				Log.e("majie","查询失败："+msg);
-//				mHandler.sendEmptyMessage(handle);
-//			}
-//		});
-//	}
 	
 	private void setAdapter(){
 		adapter=new TaskAdapter(getActivity(), taskBeans);

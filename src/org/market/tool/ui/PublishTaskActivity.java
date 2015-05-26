@@ -82,21 +82,6 @@ public class PublishTaskActivity extends BaseActivity {
 	}
 	
 	private void setListeners(){
-//        mBtnTitleRight.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View arg0) {
-//				publish();
-//			}
-//		});
-        
-//        mImgLeft.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View arg0) {
-//				finish();
-//			}
-//		});
 		
         albumView.setOnHandleListener(new onHandleListener() {
 			
@@ -135,9 +120,9 @@ public class PublishTaskActivity extends BaseActivity {
 	private void publishTask(BmobFile file) {
 		final TaskBean p = new TaskBean();
 		if(myUser.getBmobFiles()!=null&&myUser.getBmobFiles().size()!=0){
-			p.setUserPic(myUser.getBmobFiles().get(0));
+			p.setOwnerPic(myUser.getBmobFiles().get(0));
 		}
-		p.setUsername(myUser.getUsername());
+		p.setOwnerName(myUser.getUsername());
 		p.setTaskContent(etTask.getText().toString());
 		if(file!=null){
 			p.setTaskPic(file);
