@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/opera_item_bg"
+    android:paddingBottom="10dp"
+     >
+
+     <ImageView
+        android:id="@+id/opera_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/opera_content"
+        android:layout_marginLeft="10dp"
+         /> 
+         
+     
+     <TextView
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/category"
+        android:text="我发起的"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="0dp"
+        android:background="@color/orange"
+        android:textColor="@color/white"
+        android:padding="5dp"
+         ></TextView>
+
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp" >
+
+        <org.market.tool.view.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/user_pic"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/wwj_748"
+            app:border_color="#FFffffff"
+            app:border_width="1dp" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxWidth="72dp"
+            android:text="@string/default_username"
+            android:layout_marginLeft="10dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/opera_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/top"
+        android:ellipsize="end"
+        android:maxLines="5"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp" />
+    
+    <Button android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/opera_pic"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/close_task"
+        android:background="@drawable/btn_login_selector"
+        android:textColor="@color/white"
+        android:text="@string/close"
+        android:padding="5dp"
+        />
+    
+
+</RelativeLayout>
