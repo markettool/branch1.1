@@ -58,7 +58,7 @@ public class TaskDetailActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_comment);
+		setContentView(R.layout.activity_task_detail);
 		
 		initView();
 		setAdapter();
@@ -304,17 +304,6 @@ public class TaskDetailActivity extends BaseActivity {
 		});
 
 	}
-	
-//	@Override
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if(keyCode==KeyEvent.KEYCODE_BACK){
-//			if(btn_chat.getVisibility()==View.GONE){
-//				btn_chat.setVisibility(View.VISIBLE);
-//				inputView.setVisibility(View.GONE);
-//			}
-//		}
-//		return super.onKeyDown(keyCode, event);
-//	}
 	
 	private void queryUserByName(String searchName){
 		userManager.queryUserByName(searchName, new FindListener<BmobChatUser>() {

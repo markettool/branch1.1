@@ -3,15 +3,9 @@ package org.market.tool.adapter;
 import java.util.List;
 
 import org.market.tool.R;
-import org.market.tool.adapter.TaskAdapter.ViewHolder;
 import org.market.tool.bean.TaskBean;
 import org.market.tool.util.BitmapHelp;
 import org.market.tool.view.CircleImageView;
-
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.listener.UpdateListener;
-
-import com.lidroid.xutils.BitmapUtils;
 
 import android.content.Context;
 import android.util.Log;
@@ -22,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.UpdateListener;
+
+import com.lidroid.xutils.BitmapUtils;
 
 public class MyTaskAdapter extends BaseAdapter{
 	private LayoutInflater mInflater;
@@ -99,11 +95,27 @@ public class MyTaskAdapter extends BaseAdapter{
 			Log.e("majie", e.getMessage());
 		}
 		
+		switch (beans.get(position).getStatus()) {
+		case 0:
+			holder.btCloseTask.setEnabled(true);
+			holder.btCloseTask.setText("关闭任务");
+			break;
+
+		case 1:
+//			holder.btCloseTask.setEnabled(false);
+//			holder.btCloseTask.setText("任务已关闭");
+//			holder.btCloseTask.setBackgroundResource(R.drawable.btn_login_p);
+			holder.btCloseTask.setVisibility(View.GONE);
+			break;
+		}
+		
 		holder.btCloseTask.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				updateTaskBean(beans.get(position));
+				beans.get(position).setStatus(1);
+				notifyDataSetChanged();
 			}
 		});
 

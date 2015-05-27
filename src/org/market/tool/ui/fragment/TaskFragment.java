@@ -6,10 +6,8 @@ import java.util.List;
 import org.market.tool.R;
 import org.market.tool.adapter.TaskAdapter;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.ui.TaskDetailActivity;
 import org.market.tool.ui.FragmentBase;
-import org.market.tool.ui.PublishTaskActivity;
-import org.market.tool.view.HeaderLayout.onRightImageButtonClickListener;
+import org.market.tool.ui.TaskDetailActivity;
 import org.market.tool.view.xlist.XListView;
 import org.market.tool.view.xlist.XListView.IXListViewListener;
 
@@ -94,9 +92,10 @@ public class TaskFragment extends FragmentBase {
 	private void queryFocusOperas(final int handle){
 		synchronized (TaskFragment.this) {
 			BmobQuery<TaskBean> focusQuery	 = new BmobQuery<TaskBean>();
-			focusQuery.order("-commentNum,-likeNum");
+			focusQuery.order("-scanNum");
 			focusQuery.setLimit(10);
 			focusQuery.setSkip(focusSkip);
+			focusQuery.addWhereEqualTo("status", 0);
 			focusQuery.findObjects(getActivity(), new FindListener<TaskBean>() {
 
 				@Override

@@ -8,20 +8,15 @@ import org.market.tool.util.BitmapHelp;
 import org.market.tool.view.CircleImageView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.listener.UpdateListener;
 
 import com.lidroid.xutils.BitmapUtils;
 
@@ -65,15 +60,15 @@ public class TaskAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.task_item, null);
 			holder = new ViewHolder();
-			holder.ivUserPic = (CircleImageView) convertView.findViewById(R.id.user_pic);
-			holder.tvUsername = (TextView) convertView.findViewById(R.id.user_name);
+			holder.ivOwnerPic = (CircleImageView) convertView.findViewById(R.id.user_pic);
+			holder.tvOwnername = (TextView) convertView.findViewById(R.id.user_name);
 			holder.tvTaskContent = (TextView) convertView.findViewById(R.id.opera_content);
 			holder.llScan = (LinearLayout) convertView.findViewById(R.id.ll_feed_like);
 			holder.llComment = (LinearLayout) convertView.findViewById(R.id.ll_feed_comment);
 			holder.tvScanNum = (TextView) convertView.findViewById(R.id.tv_feed_like_num);
 			holder.tvCommentNum = (TextView) convertView.findViewById(R.id.tv_feed_comment_num);
 
-			holder.rlOperaBg = (RelativeLayout) convertView.findViewById(R.id.opera_item_bg);
+//			holder.rlOperaBg = (RelativeLayout) convertView.findViewById(R.id.opera_item_bg);
 			holder.ivTaskPic = (ImageView) convertView.findViewById(R.id.opera_pic);
 			convertView.setTag(holder);
 		} else {
@@ -83,7 +78,7 @@ public class TaskAdapter extends BaseAdapter {
 		try {
 
 			if (position < beans.size()) {
-				holder.tvUsername.setText(beans.get(position).getOwnerName());
+				holder.tvOwnername.setText(beans.get(position).getOwnerName());
 				holder.tvTaskContent.setText(beans.get(position).getTaskContent());
 				holder.tvScanNum.setText("" + beans.get(position).getScanNum());
 				holder.tvCommentNum.setText(""+ beans.get(position).getCommentNum());
@@ -91,9 +86,9 @@ public class TaskAdapter extends BaseAdapter {
 				TaskBean bean=beans.get(position);
 				BmobFile ownerPic=bean.getOwnerPic();
 				if(ownerPic!=null){
-					ownerPic.loadImageThumbnail(context, holder.ivUserPic, 60, 60);
+					ownerPic.loadImageThumbnail(context, holder.ivOwnerPic, 60, 60);
 				}else{
-					holder.ivUserPic.setImageResource(R.drawable.wwj_748);
+					holder.ivOwnerPic.setImageResource(R.drawable.wwj_748);
 				}
 				
 				BmobFile operaPic=bean.getTaskPic();
@@ -147,14 +142,14 @@ public class TaskAdapter extends BaseAdapter {
 	}
 	
 	class ViewHolder {
-		CircleImageView ivUserPic;
-		TextView tvUsername;
+		CircleImageView ivOwnerPic;
+		TextView tvOwnername;
 		TextView tvTaskContent;
 		LinearLayout llScan;
 		LinearLayout llComment;
 		TextView tvScanNum;
 		TextView tvCommentNum;
-		RelativeLayout rlOperaBg;
+//		RelativeLayout rlOperaBg;
 		ImageView ivTaskPic;
 	}
 

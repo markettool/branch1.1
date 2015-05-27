@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
+import org.market.tool.adapter.MyTaskAdapter;
 import org.market.tool.adapter.TaskAdapter;
 import org.market.tool.bean.TaskBean;
 import org.market.tool.bean.User;
@@ -31,7 +32,7 @@ public class MyTaskFragment extends FragmentBase {
 	
 	private XListView xlv;
 	
-	private TaskAdapter adapter;
+	private MyTaskAdapter adapter;
 	
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
@@ -91,7 +92,7 @@ public class MyTaskFragment extends FragmentBase {
 	private void queryFocusOperas(final int handle){
 		synchronized (MyTaskFragment.this) {
 			BmobQuery<TaskBean> focusQuery	 = new BmobQuery<TaskBean>();
-			focusQuery.order("-commentNum,-likeNum");
+			focusQuery.order("status");
 			focusQuery.addWhereEqualTo("ownerName", user.getUsername());
 			focusQuery.setLimit(10);
 			focusQuery.setSkip(focusSkip);
@@ -147,7 +148,7 @@ public class MyTaskFragment extends FragmentBase {
 	
 	
 	private void setAdapter(){
-		adapter=new TaskAdapter(getActivity(), taskBeans);
+		adapter=new MyTaskAdapter(getActivity(), taskBeans);
 		xlv.setAdapter(adapter);
 	}
 	
