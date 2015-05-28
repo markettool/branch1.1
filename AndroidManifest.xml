@@ -115,6 +115,7 @@
         <activity android:name="org.market.tool.ui.NearPeopleActivity" />
         
         <activity android:name="org.market.tool.ui.UpdateInfoActivity" />
+        <activity android:name="org.market.tool.ui.AssignTaskActiviity" />
         
         <activity
             android:name="org.market.tool.ui.ChatActivity"

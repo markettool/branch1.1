@@ -7,6 +7,7 @@ import org.market.tool.R;
 import org.market.tool.adapter.MyTaskAdapter;
 import org.market.tool.bean.TaskBean;
 import org.market.tool.bean.User;
+import org.market.tool.ui.AssignTaskActiviity;
 import org.market.tool.ui.FragmentBase;
 import org.market.tool.ui.TaskDetailActivity;
 import org.market.tool.view.xlist.XListView;
@@ -80,8 +81,8 @@ public class MyTaskFragment extends FragmentBase {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Intent intent=new Intent(getActivity(), TaskDetailActivity.class);
-				intent.putExtra("taskBean", taskBeans.get(arg2-1));
+				Intent intent=new Intent(getActivity(), AssignTaskActiviity.class);
+				intent.putExtra("bean", taskBeans.get(arg2-1));
 				getActivity().startActivity(intent);
 			}
 		});
