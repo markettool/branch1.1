@@ -1,9 +1,12 @@
 package org.market.tool.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
+import org.market.tool.bean.ApplicantBean;
 import org.market.tool.bean.TaskBean;
+import org.market.tool.bean.User;
 import org.market.tool.util.BitmapHelp;
 import org.market.tool.view.CircleImageView;
 
@@ -11,32 +14,40 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.UpdateListener;
 
 import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
+import com.lidroid.xutils.exception.DbException;
 
 public class TaskAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 	private List<TaskBean> beans;
 	private Context context;
-//	private SharedPrefUtil su;
 	
 	private BitmapUtils bitmapUtils;
-//	private BitmapDisplayConfig config;
+	private DbUtils dbUtils;
+	private User user;
 
 	public TaskAdapter(Context context, List<TaskBean> beans) {
 		this.context = context;
 		this.beans = beans;
 		this.mInflater = LayoutInflater.from(context);
-//		su = new SharedPrefUtil(context, "opera");
 		
 		bitmapUtils=BitmapHelp.getBitmapUtils(context);
+		dbUtils=DbUtils.create(context);
+		user=BmobUser.getCurrentUser(context, User.class);
 	}
 
 	@Override
@@ -68,7 +79,7 @@ public class TaskAdapter extends BaseAdapter {
 			holder.tvScanNum = (TextView) convertView.findViewById(R.id.tv_feed_like_num);
 			holder.tvCommentNum = (TextView) convertView.findViewById(R.id.tv_feed_comment_num);
 
-//			holder.rlOperaBg = (RelativeLayout) convertView.findViewById(R.id.opera_item_bg);
+			holder.btApplicant = (Button) convertView.findViewById(R.id.bt_applicant);
 			holder.ivTaskPic = (ImageView) convertView.findViewById(R.id.opera_pic);
 			convertView.setTag(holder);
 		} else {
@@ -83,7 +94,7 @@ public class TaskAdapter extends BaseAdapter {
 				holder.tvScanNum.setText("" + beans.get(position).getScanNum());
 				holder.tvCommentNum.setText(""+ beans.get(position).getCommentNum());
 
-				TaskBean bean=beans.get(position);
+				final TaskBean bean=beans.get(position);
 				BmobFile ownerPic=bean.getOwnerPic();
 				if(ownerPic!=null){
 					ownerPic.loadImageThumbnail(context, holder.ivOwnerPic, 60, 60);
@@ -97,46 +108,38 @@ public class TaskAdapter extends BaseAdapter {
 				}else{
 					holder.ivTaskPic.setImageBitmap(null);
 				}
+				try {
+					ApplicantBean b=dbUtils.findFirst(Selector.from(ApplicantBean.class).where("id", "==", bean.getObjectId()));
+				    if(b!=null){
+				    	holder.btApplicant.setText("已申请");
+				    	holder.btApplicant.setEnabled(false);
+				    }else{
+				    	holder.btApplicant.setText("申请接任务");
+				    	holder.btApplicant.setEnabled(true);
+				    }
+				} catch (DbException e) {
+					e.printStackTrace();
+				}
+				holder.btApplicant.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						ApplicantBean entity=new ApplicantBean();
+						entity.setId(bean.getObjectId());
+						try {
+							dbUtils.save(entity);
+						} catch (DbException e) {
+							e.printStackTrace();
+						}
+						updateApplicant(bean);
+						notifyDataSetChanged();
+					}
+				});
 			}
 		} catch (Exception e) {
 
 			Log.e("majie", e.getMessage());
 		}
-
-//		holder.llLike.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				if (beans.get(position).getObjectId() != null
-//						&& !su.getValueByKey("like_" + beans.get(position).getObjectId(), "").equals("")) {
-//					Toast.makeText(context, "不能重复点赞", Toast.LENGTH_SHORT).show();
-//					return;
-//				}
-//				beans.get(position).setLikeNum(beans.get(position).getLikeNum() + 1);
-//				su.putValueByKey("like_" + beans.get(position).getObjectId(),"-");
-//				notifyDataSetChanged();
-//				updateLike(beans.get(position));
-//			}
-//		});
-//		holder.llComment.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View arg0) {
-//				Intent intent = new Intent(context, CommentActivity.class);
-//				intent.putExtra("operaBean", beans.get(position));
-//				context.startActivity(intent);
-//			}
-//		});
-		
-//		holder.ivUserPic.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View arg0) {
-//				Intent intent = new Intent(context, OthersDataActivity.class);
-//				intent.putExtra("username", beans.get(position).getUsername());
-//				context.startActivity(intent);
-//			}
-//		});
 
 		return convertView;
 	}
@@ -149,8 +152,32 @@ public class TaskAdapter extends BaseAdapter {
 		LinearLayout llComment;
 		TextView tvScanNum;
 		TextView tvCommentNum;
-//		RelativeLayout rlOperaBg;
 		ImageView ivTaskPic;
+		Button btApplicant;
+	}
+	
+	/**
+	 * 更新对象
+	 */
+	private void updateApplicant(TaskBean bean) {
+		final TaskBean p = new TaskBean();
+		if(p.getApplicants()==null){
+			p.setApplicants(new ArrayList<String>());
+		}
+		p.getApplicants().add(user.getUsername());
+		p.update(context, bean.getObjectId(), new UpdateListener() {
+
+			@Override
+			public void onSuccess() {
+				Log.e("majie", "更新成功：" + p.getUpdatedAt());
+			}
+
+			@Override
+			public void onFailure(int code, String msg) {
+				Log.e("majie", "更新失败：" + msg);
+			}
+		});
+
 	}
 
 }

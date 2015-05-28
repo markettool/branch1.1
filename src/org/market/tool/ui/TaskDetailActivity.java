@@ -107,7 +107,7 @@ public class TaskDetailActivity extends BaseActivity {
 			
 			@Override
 			public void onRefresh() {
-				Log.e("majie", "refresh");
+//				Log.e("majie", "refresh");
 				commentBeans.clear();
 				skip=0;
 				queryComments(FINISH_REFRESHING);
@@ -145,12 +145,6 @@ public class TaskDetailActivity extends BaseActivity {
 //		btn_chat_send.setPressed(true);;
 		btn_chat_send.setVisibility(View.VISIBLE);
 		btn_chat = (Button) findViewById(R.id.btn_chat);
-		// 最下面
-//		layout_more = (LinearLayout) findViewById(R.id.layout_more);
-//		layout_emo = (LinearLayout) findViewById(R.id.layout_emo);
-//		layout_add = (LinearLayout) findViewById(R.id.layout_add);
-//		initAddView();
-//		initEmoView();
 
 		// 最中间
 		// 语音框

@@ -4,6 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:id="@+id/opera_item_bg"
+    android:paddingBottom="10dp"
+    android:descendantFocusability="blocksDescendants"
      >
 
      <ImageView
@@ -69,6 +71,19 @@
         android:maxLines="5"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp" />
+    
+     <Button android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/opera_pic"
+        android:layout_marginTop="5dp"
+        android:id="@+id/bt_applicant"
+        android:background="@drawable/btn_login_selector"
+        android:textColor="@color/white"
+        android:text="@string/require_receive"
+        android:padding="5dp"
+        android:layout_marginLeft="10dp"
+        />
     
     <LinearLayout
         android:layout_width="wrap_content"

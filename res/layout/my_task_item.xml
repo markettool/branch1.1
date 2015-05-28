@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/opera_item_bg"
     android:paddingBottom="10dp"
+    android:descendantFocusability="blocksDescendants"
      >
 
      <ImageView
@@ -81,6 +82,18 @@
         android:background="@drawable/btn_login_selector"
         android:textColor="@color/white"
         android:text="@string/close"
+        android:padding="5dp"
+        />
+    
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/opera_pic"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/tv_executers"
+        android:textColor="@color/dialog_color_title"
+        android:textSize="12sp"
         android:padding="5dp"
         />
     

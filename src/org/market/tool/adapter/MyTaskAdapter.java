@@ -64,6 +64,7 @@ public class MyTaskAdapter extends BaseAdapter{
 
 			holder.ivTaskPic = (ImageView) convertView.findViewById(R.id.opera_pic);
 			holder.btCloseTask=(Button) convertView.findViewById(R.id.close_task);
+			holder.tvExecuters=(TextView) convertView.findViewById(R.id.tv_executers);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -89,6 +90,10 @@ public class MyTaskAdapter extends BaseAdapter{
 				}else{
 					holder.ivTaskPic.setImageBitmap(null);
 				}
+				if(bean.getApplicants()!=null&&bean.getApplicants().size()!=0){
+					holder.tvExecuters.setText(bean.getApplicants().get(0)+" 等"+bean.getApplicants().size()+"人 报名执行任务");
+				}
+				
 			}
 		} catch (Exception e) {
 
@@ -102,10 +107,10 @@ public class MyTaskAdapter extends BaseAdapter{
 			break;
 
 		case 1:
-//			holder.btCloseTask.setEnabled(false);
-//			holder.btCloseTask.setText("任务已关闭");
+			holder.btCloseTask.setEnabled(false);
+			holder.btCloseTask.setText("任务已关闭");
 //			holder.btCloseTask.setBackgroundResource(R.drawable.btn_login_p);
-			holder.btCloseTask.setVisibility(View.GONE);
+//			holder.btCloseTask.setVisibility(View.GONE);
 			break;
 		}
 		
@@ -128,6 +133,7 @@ public class MyTaskAdapter extends BaseAdapter{
 		TextView tvTaskContent;
 		ImageView ivTaskPic;
 		Button btCloseTask;
+		TextView tvExecuters;
 	}
 	
 	/**

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.adapter.MyTaskAdapter;
-import org.market.tool.adapter.TaskAdapter;
 import org.market.tool.bean.TaskBean;
 import org.market.tool.bean.User;
 import org.market.tool.ui.FragmentBase;
@@ -22,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;

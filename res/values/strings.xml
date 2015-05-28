@@ -45,6 +45,7 @@
     <string name="tips">提示</string>
     
     <string name="close">关闭任务</string>
+    <string name="require_receive">申请接任务</string>
     
     <string name="logout">退出登陆</string>
     <string name="pop_photo">拍照</string>

@@ -1,9 +1,14 @@
 package org.market.tool.bean;
 
+import java.util.List;
+
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
 
 public class TaskBean extends BmobObject {
+	public static final int STATUS_NOT_BEGIN=0;
+	public static final int STATUS_EXECUTE=1;
+	public static final int STATUS_CLOSED=2;
 
 	private static final long serialVersionUID = 1L;
 	private BmobFile ownerPic;
@@ -13,7 +18,8 @@ public class TaskBean extends BmobObject {
 	private int commentNum;
 	private BmobFile taskPic;
 	private int status;
-	private String receiverName;
+	private String executor;
+	private List<String> applicants;
 	public BmobFile getOwnerPic() {
 		return ownerPic;
 	}
@@ -56,12 +62,17 @@ public class TaskBean extends BmobObject {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public String getReceiverName() {
-		return receiverName;
+	public String getExecutor() {
+		return executor;
 	}
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
+	public void setExecutor(String executor) {
+		this.executor = executor;
 	}
-	
+	public List<String> getApplicants() {
+		return applicants;
+	}
+	public void setApplicants(List<String> applicants) {
+		this.applicants = applicants;
+	}
 
 }
