@@ -3,6 +3,9 @@ package org.market.tool.ui;
 import org.market.tool.R;
 import org.market.tool.bean.User;
 
+import com.bmob.pay.tool.BmobPay;
+import com.bmob.pay.tool.PayListener;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,7 +43,28 @@ public class AccountActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View arg0) {
-				
+				new BmobPay(AccountActivity.this).pay(0.1d, "test", new PayListener() {
+					
+					@Override
+					public void unknow() {
+						
+					}
+					
+					@Override
+					public void succeed() {
+						
+					}
+					
+					@Override
+					public void orderId(String arg0) {
+						
+					}
+					
+					@Override
+					public void fail(int arg0, String arg1) {
+						
+					}
+				});
 			}
 		});
 		
