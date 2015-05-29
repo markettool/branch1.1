@@ -102,20 +102,4 @@ public class AssignTaskAdapter extends MyBaseAdapter {
 
 	}
 	
-	private void queryUserByName(String searchName,final String msg){
-		userManager.queryUserByName(searchName, new FindListener<BmobChatUser>() {
-	        @Override
-	        public void onError(int arg0, String arg1) {
-	            ShowToast("发起人存在异常");
-	            ProgressUtil.closeProgress();
-	        }
-
-	        @Override
-	        public void onSuccess(List<BmobChatUser> arg0) {
-	        	ProgressUtil.closeProgress();
-	            push(arg0.get(0), msg);
-	        }
-	    });
-	}
-	
 }

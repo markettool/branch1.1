@@ -38,9 +38,6 @@ public class PublishTaskActivity extends BaseActivity {
 	private User myUser;
 	private MyBmobFile bmobFile;
 	
-//	private int screenWidth;
-//	private int screenHeight;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,9 +49,6 @@ public class PublishTaskActivity extends BaseActivity {
 
 	protected void initView() {
 		etTask=(EditText) findViewById(R.id.et_opera);
-//		btPublish=(Button) findViewById(R.id.btn_write);
-//		ivAddImage=(ImageView) findViewById(R.id.iv_addimage);
-//		ivOperaPic=(ImageView) findViewById(R.id.opera_pic);
 		albumView=(AlbumView) findViewById(R.id.albumview);
 		albumView.setLimit(1);
 		
@@ -103,9 +97,6 @@ public class PublishTaskActivity extends BaseActivity {
 		dir = FileUtils.PHOTO_PATH;
 		FileUtils.mkdirs(dir);
 		
-//		MyApplication app=(MyApplication)getApplication();
-//		screenWidth=app.getScreenWidth();
-//		screenHeight=app.getScreenHeight();
 	}
 	
 	@Override

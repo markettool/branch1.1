@@ -16,6 +16,8 @@
     <string name="login_email">确认密码 </string>
     <string name="message_search_hint">搜索&#8230;</string>
     <string name="scan">浏览 </string>
+    <string name="use_fund">使用担保 </string>
+    <string name="use_fund_hint">使用担保,赢取信任 </string>
     
     <string name="main_tab_task">任务</string>
     <string name="main_tab_recent">会话</string>

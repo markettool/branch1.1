@@ -1,6 +1,13 @@
 package org.market.tool.adapter.base;
 
+import java.util.List;
+
 import org.market.tool.bean.User;
+import org.market.tool.util.BitmapHelp;
+import org.market.tool.util.ProgressUtil;
+
+import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.DbUtils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,12 +21,15 @@ import cn.bmob.im.bean.BmobChatUser;
 import cn.bmob.im.bean.BmobMsg;
 import cn.bmob.im.util.BmobLog;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.FindListener;
 
 public abstract class MyBaseAdapter extends BaseAdapter {
 	protected Context mContext;
 	protected BmobChatManager manager;
 	protected LayoutInflater mInflater;
 	protected BmobUserManager userManager;
+	protected BitmapUtils bitmapUtils;
+	protected DbUtils dbUtils;
 	protected User user;
 	
 	protected MyBaseAdapter(Context context) {
@@ -28,6 +38,8 @@ public abstract class MyBaseAdapter extends BaseAdapter {
 		userManager=BmobUserManager.getInstance(context);
 		mInflater=LayoutInflater.from(context);
 		user=BmobUser.getCurrentUser(context, User.class);
+		bitmapUtils=BitmapHelp.getBitmapUtils(context);
+		dbUtils=DbUtils.create(context);
 	}
 	
 	Toast mToast;
@@ -65,6 +77,22 @@ public abstract class MyBaseAdapter extends BaseAdapter {
 		message.setExtra("Bmob");
 		// 默认发送完成，将数据保存到本地消息表和最近会话表中
 		manager.sendTextMessage(targetUser, message);			
+	}
+	
+	protected void queryUserByName(String searchName,final String msg){
+		userManager.queryUserByName(searchName, new FindListener<BmobChatUser>() {
+	        @Override
+	        public void onError(int arg0, String arg1) {
+	            ShowToast("发起人存在异常");
+	            ProgressUtil.closeProgress();
+	        }
+
+	        @Override
+	        public void onSuccess(List<BmobChatUser> arg0) {
+	        	ProgressUtil.closeProgress();
+	            push(arg0.get(0), msg);
+	        }
+	    });
 	}
 	
 

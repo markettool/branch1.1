@@ -4,50 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
+import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.bean.ApplicantBean;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.bean.User;
-import org.market.tool.util.BitmapHelp;
 import org.market.tool.view.CircleImageView;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
 
-import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 
-public class TaskAdapter extends BaseAdapter {
+public class TaskAdapter extends MyBaseAdapter {
 
-	private LayoutInflater mInflater;
 	private List<TaskBean> beans;
-	private Context context;
 	
-	private BitmapUtils bitmapUtils;
-	private DbUtils dbUtils;
-	private User user;
-
 	public TaskAdapter(Context context, List<TaskBean> beans) {
-		this.context = context;
+		super(context);
 		this.beans = beans;
-		this.mInflater = LayoutInflater.from(context);
-		
-		bitmapUtils=BitmapHelp.getBitmapUtils(context);
-		dbUtils=DbUtils.create(context);
-		user=BmobUser.getCurrentUser(context, User.class);
 	}
 
 	@Override
@@ -97,18 +80,24 @@ public class TaskAdapter extends BaseAdapter {
 				final TaskBean bean=beans.get(position);
 				BmobFile ownerPic=bean.getOwnerPic();
 				if(ownerPic!=null){
-					ownerPic.loadImageThumbnail(context, holder.ivOwnerPic, 60, 60);
+					ownerPic.loadImageThumbnail(mContext, holder.ivOwnerPic, 60, 60);
 				}else{
 					holder.ivOwnerPic.setImageResource(R.drawable.wwj_748);
 				}
 				
 				BmobFile operaPic=bean.getTaskPic();
 				if(operaPic!=null){
-					bitmapUtils.display(holder.ivTaskPic, operaPic.getFileUrl(context));
+					bitmapUtils.display(holder.ivTaskPic, operaPic.getFileUrl(mContext));
 				}else{
 					holder.ivTaskPic.setImageBitmap(null);
 				}
 				try {
+					if(user.getUsername().equals(bean.getOwnerName())){
+						holder.btApplicant.setVisibility(View.GONE);
+					}
+					else{
+						holder.btApplicant.setVisibility(View.VISIBLE);
+					}
 					ApplicantBean b=dbUtils.findFirst(Selector.from(ApplicantBean.class).where("id", "==", bean.getObjectId()));
 				    if(b!=null){
 				    	holder.btApplicant.setText("已申请");
@@ -132,6 +121,7 @@ public class TaskAdapter extends BaseAdapter {
 							e.printStackTrace();
 						}
 						updateApplicant(bean);
+						queryUserByName(bean.getOwnerName(), user.getUsername()+" 申请执行任务\n"+bean.getTaskContent());
 						notifyDataSetChanged();
 					}
 				});
@@ -165,7 +155,7 @@ public class TaskAdapter extends BaseAdapter {
 			p.setApplicants(new ArrayList<String>());
 		}
 		p.getApplicants().add(user.getUsername());
-		p.update(context, bean.getObjectId(), new UpdateListener() {
+		p.update(mContext, bean.getObjectId(), new UpdateListener() {
 
 			@Override
 			public void onSuccess() {

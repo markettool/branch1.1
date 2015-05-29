@@ -13,6 +13,7 @@ public class TaskBean extends BmobObject {
 	private static final long serialVersionUID = 1L;
 	private BmobFile ownerPic;
 	private String ownerName;
+	private String ownerNick;
 	private String taskContent;
 	private int scanNum;
 	private int commentNum;
@@ -73,6 +74,12 @@ public class TaskBean extends BmobObject {
 	}
 	public void setApplicants(List<String> applicants) {
 		this.applicants = applicants;
+	}
+	public String getOwnerNick() {
+		return ownerNick;
+	}
+	public void setOwnerNick(String ownerNick) {
+		this.ownerNick = ownerNick;
 	}
 
 }

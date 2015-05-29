@@ -3,36 +3,28 @@ package org.market.tool.adapter;
 import java.util.List;
 
 import org.market.tool.R;
+import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.bean.TaskBean;
 import org.market.tool.util.BitmapHelp;
 import org.market.tool.view.CircleImageView;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
 
-import com.lidroid.xutils.BitmapUtils;
-
-public class MyTaskAdapter extends BaseAdapter{
-	private LayoutInflater mInflater;
+public class MyTaskAdapter extends MyBaseAdapter{
 	private List<TaskBean> beans;
-	private Context context;
-	
-	private BitmapUtils bitmapUtils;
 	
 	public MyTaskAdapter(Context context, List<TaskBean> beans) {
-		this.context = context;
+		super(context);
 		this.beans = beans;
-		this.mInflater = LayoutInflater.from(context);
 		
 		bitmapUtils=BitmapHelp.getBitmapUtils(context);
 	}
@@ -79,14 +71,14 @@ public class MyTaskAdapter extends BaseAdapter{
 				TaskBean bean=beans.get(position);
 				BmobFile ownerPic=bean.getOwnerPic();
 				if(ownerPic!=null){
-					ownerPic.loadImageThumbnail(context, holder.ivOwnerPic, 60, 60);
+					ownerPic.loadImageThumbnail(mContext, holder.ivOwnerPic, 60, 60);
 				}else{
 					holder.ivOwnerPic.setImageResource(R.drawable.wwj_748);
 				}
 				
 				BmobFile operaPic=bean.getTaskPic();
 				if(operaPic!=null){
-					bitmapUtils.display(holder.ivTaskPic, operaPic.getFileUrl(context));
+					bitmapUtils.display(holder.ivTaskPic, operaPic.getFileUrl(mContext));
 				}else{
 					holder.ivTaskPic.setImageBitmap(null);
 				}
@@ -142,7 +134,7 @@ public class MyTaskAdapter extends BaseAdapter{
 	private void updateTaskBean(TaskBean bean) {
 		final TaskBean p2 = new TaskBean();
 		p2.setStatus(1);
-		p2.update(context, bean.getObjectId(), new UpdateListener() {
+		p2.update(mContext, bean.getObjectId(), new UpdateListener() {
 
 			@Override
 			public void onSuccess() {
