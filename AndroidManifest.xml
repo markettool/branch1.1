@@ -136,6 +136,10 @@
              />
         
         <activity
+            android:name="org.market.tool.ui.AccountActivity"
+             />
+        
+        <activity
             android:name="org.market.tool.ui.RegisterActivity"
             android:label="@string/app_name" />
 

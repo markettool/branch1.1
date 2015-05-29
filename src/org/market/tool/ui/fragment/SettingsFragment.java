@@ -2,6 +2,7 @@ package org.market.tool.ui.fragment;
 
 import org.market.tool.CustomApplcation;
 import org.market.tool.R;
+import org.market.tool.ui.AccountActivity;
 import org.market.tool.ui.BlackListActivity;
 import org.market.tool.ui.FragmentBase;
 import org.market.tool.ui.LoginActivity;
@@ -39,7 +40,7 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 	Button btn_logout;
 	TextView tv_set_name;
 	RelativeLayout layout_info, rl_switch_notification, rl_switch_voice,
-			rl_switch_vibrate,layout_blacklist;
+			rl_switch_vibrate,layout_blacklist,layout_account;
 
 	ImageView iv_open_notification, iv_close_notification, iv_open_voice,
 			iv_close_voice, iv_open_vibrate, iv_close_vibrate;
@@ -50,7 +51,6 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		mSharedUtil = mApplication.getSpUtil();
 	}
@@ -58,7 +58,6 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		return inflater.inflate(R.layout.fragment_set, container, false);
 	}
 
@@ -76,12 +75,14 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 		layout_blacklist = (RelativeLayout) findViewById(R.id.layout_blacklist);
 		
 		layout_info = (RelativeLayout) findViewById(R.id.layout_info);
+		layout_account = (RelativeLayout) findViewById(R.id.layout_account);
 		rl_switch_notification = (RelativeLayout) findViewById(R.id.rl_switch_notification);
 		rl_switch_voice = (RelativeLayout) findViewById(R.id.rl_switch_voice);
 		rl_switch_vibrate = (RelativeLayout) findViewById(R.id.rl_switch_vibrate);
 		rl_switch_notification.setOnClickListener(this);
 		rl_switch_voice.setOnClickListener(this);
 		rl_switch_vibrate.setOnClickListener(this);
+		layout_account.setOnClickListener(this);
 
 		iv_open_notification = (ImageView) findViewById(R.id.iv_open_notification);
 		iv_close_notification = (ImageView) findViewById(R.id.iv_close_notification);
@@ -149,6 +150,10 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 			Intent intent =new Intent(getActivity(),SetMyInfoActivity.class);
 			intent.putExtra("from", "me");
 			startActivity(intent);
+			break;
+		case R.id.layout_account:
+			Intent i =new Intent(getActivity(),AccountActivity.class);
+			startActivity(i);
 			break;
 		case R.id.btn_logout:
 			DialogUtil.show(getActivity(), "确认退出吗？", "取消", "确定", new OnClickListener() {
