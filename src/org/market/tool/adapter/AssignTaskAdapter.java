@@ -1,41 +1,35 @@
 package org.market.tool.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
+import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.bean.User;
-
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.listener.UpdateListener;
+import org.market.tool.util.ProgressUtil;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import cn.bmob.im.bean.BmobChatUser;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
-public class AssignTaskAdapter extends BaseAdapter {
+public class AssignTaskAdapter extends MyBaseAdapter {
 	
-	private LayoutInflater mInflater;
 	private TaskBean bean;
 	private List<String> applictions;
-	private Context context;
-	private User user;
 	
 	public AssignTaskAdapter(Context context,TaskBean bean){
-		this.context=context;
+		super(context);
 		this.bean=bean;
 		this.applictions=bean.getApplicants();
 		this.mInflater=LayoutInflater.from(context);
 		
-		user=BmobUser.getCurrentUser(context, User.class);
 	}
 
 	@Override
@@ -65,6 +59,7 @@ public class AssignTaskAdapter extends BaseAdapter {
 		}else{
 			holder=(ViewHolder) convertView.getTag();
 		}
+		final int position=arg0;
 		holder.tvApplication.setText(applictions.get(arg0)+" 申请执行任务");
 		if(!TextUtils.isEmpty(bean.getExecutor())){
 			holder.btAssign.setVisibility(View.GONE);
@@ -73,7 +68,7 @@ public class AssignTaskAdapter extends BaseAdapter {
 			
 			@Override
 			public void onClick(View arg0) {
-				updateExecutor(bean);
+				updateExecutor(bean,applictions.get(position));
 			}
 		});
 		return convertView;
@@ -87,22 +82,40 @@ public class AssignTaskAdapter extends BaseAdapter {
 	/**
 	 * 更新对象
 	 */
-	private void updateExecutor(TaskBean bean) {
+	private void updateExecutor(TaskBean bean,final String username) {
+		ProgressUtil.showProgress(mContext, "");
 		final TaskBean p = new TaskBean();
-		p.setExecutor(user.getUsername());
-		p.update(context, bean.getObjectId(), new UpdateListener() {
+		p.setExecutor(username);
+		p.update(mContext, bean.getObjectId(), new UpdateListener() {
 
 			@Override
 			public void onSuccess() {
-				Log.e("majie", "更新成功：" + p.getUpdatedAt());
+				ShowLog("更新成功");
+				queryUserByName(username, user.getUsername()+" 指定你执行任务");
 			}
 
 			@Override
 			public void onFailure(int code, String msg) {
-				Log.e("majie", "更新失败：" + msg);
+				ShowLog("更新失败：" + msg);
 			}
 		});
 
 	}
+	
+	private void queryUserByName(String searchName,final String msg){
+		userManager.queryUserByName(searchName, new FindListener<BmobChatUser>() {
+	        @Override
+	        public void onError(int arg0, String arg1) {
+	            ShowToast("发起人存在异常");
+	            ProgressUtil.closeProgress();
+	        }
 
+	        @Override
+	        public void onSuccess(List<BmobChatUser> arg0) {
+	        	ProgressUtil.closeProgress();
+	            push(arg0.get(0), msg);
+	        }
+	    });
+	}
+	
 }
