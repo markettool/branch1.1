@@ -7,10 +7,8 @@ import org.market.tool.ui.BlackListActivity;
 import org.market.tool.ui.FragmentBase;
 import org.market.tool.ui.LoginActivity;
 import org.market.tool.ui.SetMyInfoActivity;
-import org.market.tool.util.ProgressUtil;
 import org.market.tool.util.SharePreferenceUtil;
 import org.market.tool.view.DialogUtil;
-import org.market.tool.view.LoadingDialog.OnDialogBackListener;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -45,7 +43,6 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 	ImageView iv_open_notification, iv_close_notification, iv_open_voice,
 			iv_close_voice, iv_open_vibrate, iv_close_vibrate;
 	
-	View view1,view2;
 	SharePreferenceUtil mSharedUtil;
 	
 
@@ -90,8 +87,6 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 		iv_close_voice = (ImageView) findViewById(R.id.iv_close_voice);
 		iv_open_vibrate = (ImageView) findViewById(R.id.iv_open_vibrate);
 		iv_close_vibrate = (ImageView) findViewById(R.id.iv_close_vibrate);
-		view1 = (View) findViewById(R.id.view1);
-		view2 = (View) findViewById(R.id.view2);
 
 		tv_set_name = (TextView) findViewById(R.id.tv_set_name);
 		btn_logout = (Button) findViewById(R.id.btn_logout);
@@ -129,8 +124,15 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 	}
 
 	private void initData() {
-		tv_set_name.setText(BmobUserManager.getInstance(getActivity())
-				.getCurrentUser().getUsername());
+		if(BmobUserManager.getInstance(getActivity())
+				.getCurrentUser().getNick()!=null){
+			tv_set_name.setText(BmobUserManager.getInstance(getActivity())
+					.getCurrentUser().getNick());
+		}else{
+			tv_set_name.setText(BmobUserManager.getInstance(getActivity())
+					.getCurrentUser().getUsername());
+		}
+		
 	}
 
 	@Override
@@ -179,16 +181,12 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 				mSharedUtil.setPushNotifyEnable(false);
 				rl_switch_vibrate.setVisibility(View.GONE);
 				rl_switch_voice.setVisibility(View.GONE);
-				view1.setVisibility(View.GONE);
-				view2.setVisibility(View.GONE);
 			} else {
 				iv_open_notification.setVisibility(View.VISIBLE);
 				iv_close_notification.setVisibility(View.INVISIBLE);
 				mSharedUtil.setPushNotifyEnable(true);
 				rl_switch_vibrate.setVisibility(View.VISIBLE);
 				rl_switch_voice.setVisibility(View.VISIBLE);
-				view1.setVisibility(View.VISIBLE);
-				view2.setVisibility(View.VISIBLE);
 			}
 
 			break;

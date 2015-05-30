@@ -28,6 +28,7 @@ import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobUserManager;
 import cn.bmob.im.bean.BmobChatUser;
 import cn.bmob.im.config.BmobConfig;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -42,6 +43,7 @@ public class BaseActivity extends FragmentActivity {
 
 	BmobUserManager userManager;
 	BmobChatManager manager;
+	protected User user;
 	
 	CustomApplcation mApplication;
 	protected HeaderLayout mHeaderLayout;
@@ -51,8 +53,8 @@ public class BaseActivity extends FragmentActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		user=BmobUser.getCurrentUser(this, User.class);
 		userManager = BmobUserManager.getInstance(this);
 		manager = BmobChatManager.getInstance(this);
 		mApplication = CustomApplcation.getInstance();
@@ -287,4 +289,10 @@ public class BaseActivity extends FragmentActivity {
 	}
 	
 	private Handler handler=new Handler();
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		user=BmobUser.getCurrentUser(this, User.class);
+	}
 }
