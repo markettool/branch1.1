@@ -38,9 +38,6 @@ public class PublishTaskActivity extends BaseActivity {
 	private User myUser;
 	private MyBmobFile bmobFile;
 	
-//	private int screenWidth;
-//	private int screenHeight;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,9 +49,6 @@ public class PublishTaskActivity extends BaseActivity {
 
 	protected void initView() {
 		etTask=(EditText) findViewById(R.id.et_opera);
-//		btPublish=(Button) findViewById(R.id.btn_write);
-//		ivAddImage=(ImageView) findViewById(R.id.iv_addimage);
-//		ivOperaPic=(ImageView) findViewById(R.id.opera_pic);
 		albumView=(AlbumView) findViewById(R.id.albumview);
 		albumView.setLimit(1);
 		
@@ -82,21 +76,6 @@ public class PublishTaskActivity extends BaseActivity {
 	}
 	
 	private void setListeners(){
-//        mBtnTitleRight.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View arg0) {
-//				publish();
-//			}
-//		});
-        
-//        mImgLeft.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View arg0) {
-//				finish();
-//			}
-//		});
 		
         albumView.setOnHandleListener(new onHandleListener() {
 			
@@ -118,9 +97,6 @@ public class PublishTaskActivity extends BaseActivity {
 		dir = FileUtils.PHOTO_PATH;
 		FileUtils.mkdirs(dir);
 		
-//		MyApplication app=(MyApplication)getApplication();
-//		screenWidth=app.getScreenWidth();
-//		screenHeight=app.getScreenHeight();
 	}
 	
 	@Override
@@ -135,9 +111,9 @@ public class PublishTaskActivity extends BaseActivity {
 	private void publishTask(BmobFile file) {
 		final TaskBean p = new TaskBean();
 		if(myUser.getBmobFiles()!=null&&myUser.getBmobFiles().size()!=0){
-			p.setUserPic(myUser.getBmobFiles().get(0));
+			p.setOwnerPic(myUser.getBmobFiles().get(0));
 		}
-		p.setUsername(myUser.getUsername());
+		p.setOwnerName(myUser.getUsername());
 		p.setTaskContent(etTask.getText().toString());
 		if(file!=null){
 			p.setTaskPic(file);

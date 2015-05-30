@@ -20,14 +20,13 @@
      <TextView
          android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/bail_fund"
-        android:text="担保金额：50金币"
+        android:id="@+id/category"
+        android:text="我发起的"
         android:layout_alignParentRight="true"
         android:layout_marginRight="0dp"
         android:background="@color/orange"
         android:textColor="@color/white"
         android:padding="5dp"
-        android:visibility="gone"
          ></TextView>
 
     <LinearLayout
@@ -72,80 +71,31 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp" />
     
-     <Button android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/opera_pic"
-        android:layout_marginTop="5dp"
-        android:id="@+id/bt_applicant"
-        android:background="@drawable/btn_login_selector"
-        android:textColor="@color/white"
-        android:text="@string/require_receive"
-        android:padding="5dp"
-        android:layout_marginLeft="10dp"
-        />
-    
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <Button android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/opera_pic"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp"
-         >
-
-        
-        <LinearLayout
-            android:id="@+id/ll_feed_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:clickable="true"
-                android:text="@string/scan" />
-
-            <TextView
-                android:id="@+id/tv_feed_like_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="0" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_feed_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:layout_marginBottom="5dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:clickable="true"
-                android:text="@string/comment" />
-
-            <TextView
-                android:id="@+id/tv_feed_comment_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="0" />
-        </LinearLayout>
-    </LinearLayout>
+        android:id="@+id/close_task"
+        android:background="@drawable/btn_login_selector"
+        android:textColor="@color/white"
+        android:text="@string/close"
+        android:padding="5dp"
+        />
+    
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/opera_pic"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/tv_executers"
+        android:textColor="@color/dialog_color_title"
+        android:textSize="12sp"
+        android:padding="5dp"
+        />
+    
 
 </RelativeLayout>

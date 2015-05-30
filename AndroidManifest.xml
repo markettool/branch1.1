@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="14" />
+        android:targetSdkVersion="19" />
     
      <supports-screens
         android:anyDensity="true"
@@ -115,6 +115,7 @@
         <activity android:name="org.market.tool.ui.NearPeopleActivity" />
         
         <activity android:name="org.market.tool.ui.UpdateInfoActivity" />
+        <activity android:name="org.market.tool.ui.AssignTaskActiviity" />
         
         <activity
             android:name="org.market.tool.ui.ChatActivity"
@@ -131,12 +132,27 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         
         <activity
-            android:name="org.market.tool.ui.CommentActivity"
+            android:name="org.market.tool.ui.TaskDetailActivity"
+             />
+        
+        <activity
+            android:name="org.market.tool.ui.AccountActivity"
              />
         
         <activity
             android:name="org.market.tool.ui.RegisterActivity"
             android:label="@string/app_name" />
+        
+         <activity
+      android:name="com.alipay.sdk.app.H5PayActivity"
+      android:configChanges="orientation|keyboardHidden|navigation"
+      android:exported="false"
+      android:screenOrientation="behind"
+      android:windowSoftInputMode="adjustResize|stateHidden" >
+  </activity>
+  <activity
+      android:name="com.bmob.pay.tool.PayActivity"
+      android:theme="@android:style/Theme.Translucent" />
 
         <!-- baidu map-->
         <meta-data

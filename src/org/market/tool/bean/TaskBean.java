@@ -1,42 +1,37 @@
 package org.market.tool.bean;
 
+import java.util.List;
+
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
 
 public class TaskBean extends BmobObject {
+	public static final int STATUS_NOT_BEGIN=0;
+	public static final int STATUS_EXECUTE=1;
+	public static final int STATUS_CLOSED=2;
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private BmobFile userPic;
-	private String username;
+	private BmobFile ownerPic;
+	private String ownerName;
+	private String ownerNick;
 	private String taskContent;
-	private int likeNum;
+	private int scanNum;
 	private int commentNum;
-//	private int statedLikeNum;
-//	private int statedCommentNum;
 	private BmobFile taskPic;
-	/**任务发起人*/
-//	private User taskUser;
-	
-	/*public int getStatLikeNum() {
-		return statedLikeNum;
+	private int status;
+	private String executor;
+	private List<String> applicants;
+	public BmobFile getOwnerPic() {
+		return ownerPic;
 	}
-	public void setStatLikeNum(int statLikeNum) {
-		this.statedLikeNum = statLikeNum;
+	public void setOwnerPic(BmobFile ownerPic) {
+		this.ownerPic = ownerPic;
 	}
-	public int getStatCommentNum() {
-		return statedCommentNum;
+	public String getOwnerName() {
+		return ownerName;
 	}
-	public void setStatCommentNum(int statCommentNum) {
-		this.statedCommentNum = statCommentNum;
-	}*/
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 	public String getTaskContent() {
 		return taskContent;
@@ -44,11 +39,11 @@ public class TaskBean extends BmobObject {
 	public void setTaskContent(String taskContent) {
 		this.taskContent = taskContent;
 	}
-	public int getLikeNum() {
-		return likeNum;
+	public int getScanNum() {
+		return scanNum;
 	}
-	public void setLikeNum(int likeNum) {
-		this.likeNum = likeNum;
+	public void setScanNum(int scanNum) {
+		this.scanNum = scanNum;
 	}
 	public int getCommentNum() {
 		return commentNum;
@@ -59,20 +54,32 @@ public class TaskBean extends BmobObject {
 	public BmobFile getTaskPic() {
 		return taskPic;
 	}
-	public void setTaskPic(BmobFile operaPic) {
-		this.taskPic = operaPic;
+	public void setTaskPic(BmobFile taskPic) {
+		this.taskPic = taskPic;
 	}
-	public BmobFile getUserPic() {
-		return userPic;
+	public int getStatus() {
+		return status;
 	}
-	public void setUserPic(BmobFile userPic) {
-		this.userPic = userPic;
+	public void setStatus(int status) {
+		this.status = status;
 	}
-//	public User getTaskUser() {
-//		return taskUser;
-//	}
-//	public void setTaskUser(User taskUser) {
-//		this.taskUser = taskUser;
-//	}
+	public String getExecutor() {
+		return executor;
+	}
+	public void setExecutor(String executor) {
+		this.executor = executor;
+	}
+	public List<String> getApplicants() {
+		return applicants;
+	}
+	public void setApplicants(List<String> applicants) {
+		this.applicants = applicants;
+	}
+	public String getOwnerNick() {
+		return ownerNick;
+	}
+	public void setOwnerNick(String ownerNick) {
+		this.ownerNick = ownerNick;
+	}
 
 }

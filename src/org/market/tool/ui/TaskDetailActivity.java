@@ -32,7 +32,7 @@ import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class CommentActivity extends BaseActivity {
+public class TaskDetailActivity extends BaseActivity {
 	
 	private TaskBean taskBean;
 	private XListView xlv;
@@ -58,7 +58,7 @@ public class CommentActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_comment);
+		setContentView(R.layout.activity_task_detail);
 		
 		initView();
 		setAdapter();
@@ -73,8 +73,8 @@ public class CommentActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View arg0) {
-				ProgressUtil.showProgress(CommentActivity.this, "");
-				queryUserByName(taskBean.getUsername());
+				ProgressUtil.showProgress(TaskDetailActivity.this, "");
+				queryUserByName(taskBean.getOwnerName());
 			}
 		});
 		
@@ -107,7 +107,7 @@ public class CommentActivity extends BaseActivity {
 			
 			@Override
 			public void onRefresh() {
-				Log.e("majie", "refresh");
+//				Log.e("majie", "refresh");
 				commentBeans.clear();
 				skip=0;
 				queryComments(FINISH_REFRESHING);
@@ -145,12 +145,6 @@ public class CommentActivity extends BaseActivity {
 //		btn_chat_send.setPressed(true);;
 		btn_chat_send.setVisibility(View.VISIBLE);
 		btn_chat = (Button) findViewById(R.id.btn_chat);
-		// 最下面
-//		layout_more = (LinearLayout) findViewById(R.id.layout_more);
-//		layout_emo = (LinearLayout) findViewById(R.id.layout_emo);
-//		layout_add = (LinearLayout) findViewById(R.id.layout_add);
-//		initAddView();
-//		initEmoView();
 
 		// 最中间
 		// 语音框
@@ -186,14 +180,36 @@ public class CommentActivity extends BaseActivity {
 	protected void initData() {
 
 		taskBean=(TaskBean) getIntent().getSerializableExtra("taskBean");
-		String operaText=taskBean.getTaskContent();
-		tvTask.setText(operaText);
+		String taskText=taskBean.getTaskContent();
+		tvTask.setText(taskText);
 		myuser=BmobUser.getCurrentUser(this, User.class);
 		if(myuser==null){
 			startAnimActivity(LoginActivity.class);
 			finish();
 		}
 		initTopBarForLeft("任务详情");
+		updateScan(taskBean);
+	}
+	
+	/**
+	 * 更新对象
+	 */
+	private void updateScan(TaskBean bean) {
+		final TaskBean p = new TaskBean();
+		p.setScanNum(bean.getScanNum()+1);
+		p.update(this, bean.getObjectId(), new UpdateListener() {
+
+			@Override
+			public void onSuccess() {
+				Log.e("majie", "更新成功：" + p.getUpdatedAt());
+			}
+
+			@Override
+			public void onFailure(int code, String msg) {
+				Log.e("majie", "更新失败：" + msg);
+			}
+		});
+
 	}
 	
 	@Override
@@ -283,17 +299,6 @@ public class CommentActivity extends BaseActivity {
 
 	}
 	
-//	@Override
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if(keyCode==KeyEvent.KEYCODE_BACK){
-//			if(btn_chat.getVisibility()==View.GONE){
-//				btn_chat.setVisibility(View.VISIBLE);
-//				inputView.setVisibility(View.GONE);
-//			}
-//		}
-//		return super.onKeyDown(keyCode, event);
-//	}
-	
 	private void queryUserByName(String searchName){
 		userManager.queryUserByName(searchName, new FindListener<BmobChatUser>() {
 	        @Override
@@ -306,7 +311,7 @@ public class CommentActivity extends BaseActivity {
 	        public void onSuccess(List<BmobChatUser> arg0) {
 	        	ProgressUtil.closeProgress();
 	            if(arg0!=null && arg0.size()>0){
-	            	Intent i=new Intent(CommentActivity.this,ChatActivity.class);
+	            	Intent i=new Intent(TaskDetailActivity.this,ChatActivity.class);
 					i.putExtra("user", arg0.get(0));
 					startAnimActivity(i);
 	            }else{
