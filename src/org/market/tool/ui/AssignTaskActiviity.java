@@ -3,6 +3,7 @@ package org.market.tool.ui;
 import org.market.tool.R;
 import org.market.tool.adapter.AssignTaskAdapter;
 import org.market.tool.bean.TaskBean;
+import org.market.tool.inter.Observer;
 import org.market.tool.view.xlist.XListView;
 
 import android.os.Bundle;
@@ -12,11 +13,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
-public class AssignTaskActiviity extends ActivityBase {
+public class AssignTaskActiviity extends ActivityBase implements Observer{
 	
 	private TextView tvTask;
 	private TextView tvAll;
 	private XListView xlv;
+	private TaskBean bean;
+	private AssignTaskAdapter adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class AssignTaskActiviity extends ActivityBase {
 	private void initView(){
 		tvTask=(TextView) findViewById(R.id.tv_task);
 		xlv=(XListView) findViewById(R.id.lv);
+		xlv.setPullRefreshEnable(false);
 		tvAll=(TextView) findViewById(R.id.tv_all_appliction);
 	}
 	
@@ -46,22 +50,47 @@ public class AssignTaskActiviity extends ActivityBase {
 	}
 	
 	private void initData(){
-		TaskBean bean=(TaskBean) getIntent().getSerializableExtra("bean");
+		AssignTaskAdapter.attach(this);
+		
+		bean=(TaskBean) getIntent().getSerializableExtra("bean");
 		if(bean==null){
 			finish();
 			return;
 		}
-		initTopBarForLeft("派发任务");
 		tvTask.setText(bean.getTaskContent());
-		if(!TextUtils.isEmpty(bean.getExecutor())){
-			tvAll.setText("您已经派发任务于 "+bean.getExecutor());
-			return;
+		initTopBarForLeft("派发任务");
+		setExecutorText();
+		
+		if(bean.getApplicants()!=null){
+			adapter=new AssignTaskAdapter(this, bean);
+			xlv.setAdapter(adapter);
 		}
 		
-		AssignTaskAdapter adapter=new AssignTaskAdapter(this, bean);
-		xlv.setAdapter(adapter);
+	}
+	
+	private void setExecutorText(){
+		
+		if(!TextUtils.isEmpty(bean.getExecutor())){
+			tvAll.setText("您已经派发任务于 "+bean.getExecutor());
+			if(adapter!=null){
+				adapter.notifyDataSetInvalidated();
+			}
+			return;
+		}
+	}
+
+	@Override
+	public void update(String executor) {
+		ShowLog("update");
+		bean.setExecutor(executor);
+		setExecutorText();
 	}
 	
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		AssignTaskAdapter.remove(this);;
+	}
 
 }

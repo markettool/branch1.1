@@ -1,10 +1,13 @@
 package org.market.tool.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.bean.TaskBean;
+import org.market.tool.inter.Observer;
+import org.market.tool.inter.Subject;
 import org.market.tool.util.ProgressUtil;
 
 import android.content.Context;
@@ -15,14 +18,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import cn.bmob.im.bean.BmobChatUser;
-import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class AssignTaskAdapter extends MyBaseAdapter {
+public class AssignTaskAdapter extends MyBaseAdapter implements Subject{
 	
 	private TaskBean bean;
 	private List<String> applictions;
+	private static List<Observer> observers=new ArrayList<Observer>();
+	private String executor;
 	
 	public AssignTaskAdapter(Context context,TaskBean bean){
 		super(context);
@@ -60,7 +63,7 @@ public class AssignTaskAdapter extends MyBaseAdapter {
 			holder=(ViewHolder) convertView.getTag();
 		}
 		final int position=arg0;
-		holder.tvApplication.setText(applictions.get(arg0)+" 申请执行任务");
+		holder.tvApplication.setText(applictions.get(arg0)+" 报名执行任务");
 		if(!TextUtils.isEmpty(bean.getExecutor())){
 			holder.btAssign.setVisibility(View.GONE);
 		}
@@ -68,6 +71,8 @@ public class AssignTaskAdapter extends MyBaseAdapter {
 			
 			@Override
 			public void onClick(View arg0) {
+				executor=applictions.get(position);
+				
 				updateExecutor(bean,applictions.get(position));
 			}
 		});
@@ -91,15 +96,34 @@ public class AssignTaskAdapter extends MyBaseAdapter {
 			@Override
 			public void onSuccess() {
 				ShowLog("更新成功");
-				queryUserByName(username, user.getUsername()+" 指定你执行任务");
+				notifyObservers();
+				ProgressUtil.closeProgress();
+//				queryUserByName(username, user.getUsername()+" 指定你执行任务");
 			}
 
 			@Override
 			public void onFailure(int code, String msg) {
 				ShowLog("更新失败：" + msg);
+				ProgressUtil.closeProgress();
 			}
 		});
 
+	}
+
+	public static void attach(Observer observer) {
+		observers.add(observer);
+	}
+
+	public static void remove(Observer observer) {
+		observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		for(Observer observer:observers){
+//			ShowToast("Observer");
+			observer.update(executor);
+		}
 	}
 	
 }

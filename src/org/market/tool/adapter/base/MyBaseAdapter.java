@@ -4,10 +4,6 @@ import java.util.List;
 
 import org.market.tool.bean.User;
 import org.market.tool.util.BitmapHelp;
-import org.market.tool.util.ProgressUtil;
-
-import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.DbUtils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,8 +16,12 @@ import cn.bmob.im.BmobUserManager;
 import cn.bmob.im.bean.BmobChatUser;
 import cn.bmob.im.bean.BmobMsg;
 import cn.bmob.im.util.BmobLog;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
+
+import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.DbUtils;
 
 public abstract class MyBaseAdapter extends BaseAdapter {
 	protected Context mContext;
@@ -80,19 +80,28 @@ public abstract class MyBaseAdapter extends BaseAdapter {
 	}
 	
 	protected void queryUserByName(String searchName,final String msg){
-		userManager.queryUserByName(searchName, new FindListener<BmobChatUser>() {
-	        @Override
-	        public void onError(int arg0, String arg1) {
-	            ShowToast("发起人存在异常");
-	            ProgressUtil.closeProgress();
-	        }
+		BmobQuery<User> query = new BmobQuery<User>();
+		
+		query.addWhereEqualTo("username", searchName);
+		query.findObjects(mContext, new FindListener<User>() {
 
-	        @Override
-	        public void onSuccess(List<BmobChatUser> arg0) {
-	        	ProgressUtil.closeProgress();
-	            push(arg0.get(0), msg);
-	        }
-	    });
+			@Override
+			public void onSuccess(List<User> object) {
+
+				if(object.size()!=0){
+					action(object.get(0), msg);
+				}
+			}
+
+			@Override
+			public void onError(int code, String msg) {
+			}
+		});
+	}
+	
+	/**查询完用户的后续操作，写在这里*/
+	public void action(User user,String msg){
+		
 	}
 	
 

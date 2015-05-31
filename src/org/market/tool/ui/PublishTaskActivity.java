@@ -1,11 +1,14 @@
 package org.market.tool.ui;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.bean.MyBmobFile;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.bean.User;
+import org.market.tool.inter.Observer;
+import org.market.tool.inter.Subject;
 import org.market.tool.util.BitmapUtil;
 import org.market.tool.util.FileUtils;
 import org.market.tool.util.ProgressUtil;
@@ -24,19 +27,20 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
-public class PublishTaskActivity extends BaseActivity {
+public class PublishTaskActivity extends BaseActivity implements Subject{
 	int PICK_REQUEST_CODE = 0;
 	
 	private EditText etTask;
+	private EditText etUseFund;
 	private AlbumView albumView;
 	private String dir;
-	private User myUser;
 	private MyBmobFile bmobFile;
+	private double fund;
+	private static List<Observer> observers=new ArrayList<Observer>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class PublishTaskActivity extends BaseActivity {
 
 	protected void initView() {
 		etTask=(EditText) findViewById(R.id.et_opera);
+		etUseFund=(EditText) findViewById(R.id.et_use_fund);
 		albumView=(AlbumView) findViewById(R.id.albumview);
 		albumView.setLimit(1);
 		
@@ -62,7 +67,16 @@ public class PublishTaskActivity extends BaseActivity {
 	}
 	
 	private void publish(){
+		if(TextUtils.isEmpty(etUseFund.getText().toString())){
+			etUseFund.setText("0.0");
+		}
 		if(!TextUtils.isEmpty(etTask.getText().toString())){
+			fund=new Double(etUseFund.getText().toString());
+			if(fund>user.getFund()){
+				ShowToast("账户余额不足，请充值");
+				startAnimActivity(RechargeActivity.class);
+				return;
+			}
 			ProgressUtil.showProgress(PublishTaskActivity.this, "");
 			if(bmobFile!=null){
 				uploadFile();
@@ -88,8 +102,7 @@ public class PublishTaskActivity extends BaseActivity {
 
 	protected void initData() {
 
-		myUser=BmobUser.getCurrentUser(this, User.class);
-		if(myUser==null){
+		if(user==null){
 			startAnimActivity(LoginActivity.class);
 			finish();
 		}
@@ -99,32 +112,27 @@ public class PublishTaskActivity extends BaseActivity {
 		
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		myUser=BmobUser.getCurrentUser(this, User.class);
-	}
-	
 	/**
 	 * 插入对象
 	 */
 	private void publishTask(BmobFile file) {
 		final TaskBean p = new TaskBean();
-		if(myUser.getBmobFiles()!=null&&myUser.getBmobFiles().size()!=0){
-			p.setOwnerPic(myUser.getBmobFiles().get(0));
+		if(user.getBmobFiles()!=null&&user.getBmobFiles().size()!=0){
+			p.setOwnerPic(user.getBmobFiles().get(0));
 		}
-		p.setOwnerName(myUser.getUsername());
+		p.setFund(fund);
+		p.setOwnerName(user.getUsername());
 		p.setTaskContent(etTask.getText().toString());
 		if(file!=null){
 			p.setTaskPic(file);
 		}
-//		p.setTaskUser(myUser);
 		p.save(this, new SaveListener() {
 
 			@Override
 			public void onSuccess() {
 //				Log.d("bmob", "success  " );
 				ShowToast("发表成功");
+				notifyObservers();
 				finish();
 				ProgressUtil.closeProgress();
 			}
@@ -204,7 +212,7 @@ public class PublishTaskActivity extends BaseActivity {
 			public void run() {
 				super.run();
 				Bitmap bitmap=BitmapUtil.getThumbilBitmap(path, 200);
-				String thubPath=dir+myUser.getUsername()+"_opera_tmp"+".png";
+				String thubPath=dir+user.getUsername()+"_opera_tmp"+".png";
 				BitmapUtil.saveBitmapToSdcard(bitmap, thubPath);
 				Message message=new Message();
 				message.obj=thubPath;
@@ -223,5 +231,20 @@ public class PublishTaskActivity extends BaseActivity {
 			albumView.addData(bmobFile);
 		};
 	};
+
+	public static void attach(Observer observer) {
+		observers.add(observer);
+	}
+
+	public static void remove(Observer observer) {
+		observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		for(Observer observer:observers){
+			observer.update(null);
+		}
+	}
 
 }

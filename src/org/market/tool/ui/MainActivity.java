@@ -6,7 +6,6 @@ import org.market.tool.R;
 import org.market.tool.ui.fragment.ContactFragment;
 import org.market.tool.ui.fragment.RecentFragment;
 import org.market.tool.ui.fragment.SettingsFragment;
-import org.market.tool.ui.fragment.TaskFragment;
 import org.market.tool.ui.fragment.TaskPagerFragment;
 
 import android.content.BroadcastReceiver;
@@ -35,7 +34,7 @@ public class MainActivity extends ActivityBase implements EventListener{
 
 	private Button[] mTabs;
 	private TaskPagerFragment taskPagerFragment;
-	private ContactFragment contactFragment;
+//	private ContactFragment contactFragment;
 	private RecentFragment recentFragment;
 	private SettingsFragment settingFragment;
 	private Fragment[] fragments;
@@ -59,11 +58,11 @@ public class MainActivity extends ActivityBase implements EventListener{
 	}
 
 	private void initView(){
-		mTabs = new Button[4];
+		mTabs = new Button[3];
 		mTabs[0] = (Button) findViewById(R.id.btn_task);
 		mTabs[1] = (Button) findViewById(R.id.btn_message);
-		mTabs[2] = (Button) findViewById(R.id.btn_contract);
-		mTabs[3] = (Button) findViewById(R.id.btn_set);
+//		mTabs[2] = (Button) findViewById(R.id.btn_contract);
+		mTabs[2] = (Button) findViewById(R.id.btn_set);
 		iv_recent_tips = (ImageView)findViewById(R.id.iv_recent_tips);
 		iv_contact_tips = (ImageView)findViewById(R.id.iv_contact_tips);
 		//把第一个tab设为选中状态
@@ -72,10 +71,10 @@ public class MainActivity extends ActivityBase implements EventListener{
 	
 	private void initTab(){
 		taskPagerFragment=new TaskPagerFragment();
-		contactFragment = new ContactFragment();
+//		contactFragment = new ContactFragment();
 		recentFragment = new RecentFragment();
 		settingFragment = new SettingsFragment();
-		fragments = new Fragment[] {taskPagerFragment,recentFragment, contactFragment, settingFragment };
+		fragments = new Fragment[] {taskPagerFragment,recentFragment,  settingFragment };
 		// 添加显示第一个fragment
 		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, taskPagerFragment).
 			add(R.id.fragment_container, recentFragment).hide(recentFragment).show(taskPagerFragment).commit();
@@ -95,11 +94,11 @@ public class MainActivity extends ActivityBase implements EventListener{
 		case R.id.btn_message:
 			index = 1;
 			break;
-		case R.id.btn_contract:
-			index = 2;
-			break;
+//		case R.id.btn_contract:
+//			index = 2;
+//			break;
 		case R.id.btn_set:
-			index = 3;
+			index = 2;
 			break;
 		}
 		if (currentTabIndex != index) {
@@ -251,11 +250,12 @@ public class MainActivity extends ActivityBase implements EventListener{
 			CustomApplcation.getInstance().getMediaPlayer().start();
 		}
 		iv_contact_tips.setVisibility(View.VISIBLE);
-		if(currentTabIndex==1){
-			if(contactFragment != null){
-				contactFragment.refresh();
-			}
-		}else{
+//		if(currentTabIndex==1){
+////			if(contactFragment != null){
+////				contactFragment.refresh();
+////			}
+//		}else
+		{
 			//同时提醒通知
 			String tickerText = message.getFromname()+"请求添加好友";
 			boolean isAllowVibrate = CustomApplcation.getInstance().getSpUtil().isAllowVibrate();

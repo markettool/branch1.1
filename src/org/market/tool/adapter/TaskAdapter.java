@@ -7,7 +7,6 @@ import org.market.tool.R;
 import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.bean.ApplicantBean;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.view.CircleImageView;
 
 import android.content.Context;
 import android.util.Log;
@@ -54,13 +53,14 @@ public class TaskAdapter extends MyBaseAdapter {
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.task_item, null);
 			holder = new ViewHolder();
-			holder.ivOwnerPic = (CircleImageView) convertView.findViewById(R.id.user_pic);
+			holder.ivOwnerPic = (ImageView) convertView.findViewById(R.id.user_pic);
 			holder.tvOwnername = (TextView) convertView.findViewById(R.id.user_name);
 			holder.tvTaskContent = (TextView) convertView.findViewById(R.id.opera_content);
 			holder.llScan = (LinearLayout) convertView.findViewById(R.id.ll_feed_like);
 			holder.llComment = (LinearLayout) convertView.findViewById(R.id.ll_feed_comment);
 			holder.tvScanNum = (TextView) convertView.findViewById(R.id.tv_feed_like_num);
 			holder.tvCommentNum = (TextView) convertView.findViewById(R.id.tv_feed_comment_num);
+			holder.tvBailFund = (TextView) convertView.findViewById(R.id.bail_fund);
 
 			holder.btApplicant = (Button) convertView.findViewById(R.id.bt_applicant);
 			holder.ivTaskPic = (ImageView) convertView.findViewById(R.id.opera_pic);
@@ -76,6 +76,8 @@ public class TaskAdapter extends MyBaseAdapter {
 				holder.tvTaskContent.setText(beans.get(position).getTaskContent());
 				holder.tvScanNum.setText("" + beans.get(position).getScanNum());
 				holder.tvCommentNum.setText(""+ beans.get(position).getCommentNum());
+				holder.tvBailFund.setText("µ£±£½ð¶î£º"+ beans.get(position).getFund()+" Ôª");
+
 
 				final TaskBean bean=beans.get(position);
 				BmobFile ownerPic=bean.getOwnerPic();
@@ -135,9 +137,10 @@ public class TaskAdapter extends MyBaseAdapter {
 	}
 	
 	class ViewHolder {
-		CircleImageView ivOwnerPic;
+		ImageView ivOwnerPic;
 		TextView tvOwnername;
 		TextView tvTaskContent;
+		TextView tvBailFund;
 		LinearLayout llScan;
 		LinearLayout llComment;
 		TextView tvScanNum;

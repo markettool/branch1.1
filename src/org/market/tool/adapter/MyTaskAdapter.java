@@ -5,11 +5,13 @@ import java.util.List;
 import org.market.tool.R;
 import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.bean.TaskBean;
+import org.market.tool.bean.User;
 import org.market.tool.util.BitmapHelp;
+import org.market.tool.util.ProgressUtil;
 import org.market.tool.view.CircleImageView;
+import org.market.tool.view.DialogUtil;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class MyTaskAdapter extends MyBaseAdapter{
 	private List<TaskBean> beans;
+	private TaskBean selectedBean;
 	
 	public MyTaskAdapter(Context context, List<TaskBean> beans) {
 		super(context);
@@ -57,6 +60,8 @@ public class MyTaskAdapter extends MyBaseAdapter{
 			holder.ivTaskPic = (ImageView) convertView.findViewById(R.id.opera_pic);
 			holder.btCloseTask=(Button) convertView.findViewById(R.id.close_task);
 			holder.tvExecuters=(TextView) convertView.findViewById(R.id.tv_executers);
+			holder.tvCategory=(TextView) convertView.findViewById(R.id.category);
+
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -89,39 +94,75 @@ public class MyTaskAdapter extends MyBaseAdapter{
 			}
 		} catch (Exception e) {
 
-			Log.e("majie", e.getMessage());
+//			Log.e("majie", e.getMessage());
 		}
 		
 		switch (beans.get(position).getStatus()) {
-		case 0:
-			holder.btCloseTask.setEnabled(true);
-			holder.btCloseTask.setText("关闭任务");
+		case TaskBean.STATUS_NOT_BEGIN:
+			holder.btCloseTask.setVisibility(View.VISIBLE);
+//			holder.btCloseTask.setEnabled(true);
+//			holder.btCloseTask.setText("关闭任务");
 			break;
 
-		case 1:
-			holder.btCloseTask.setEnabled(false);
-			holder.btCloseTask.setText("任务已关闭");
-//			holder.btCloseTask.setBackgroundResource(R.drawable.btn_login_p);
-//			holder.btCloseTask.setVisibility(View.GONE);
+		case TaskBean.STATUS_CLOSED:
+			holder.btCloseTask.setVisibility(View.GONE);
 			break;
 		}
+		
+		if(beans.get(position).getOwnerName().equals(user.getUsername())){
+			holder.tvCategory.setText("我发起的");
+			holder.tvCategory.setTextColor(mContext.getResources().getColor(R.color.blue_press));
+		}else{
+			holder.tvCategory.setText("我执行的");
+			holder.tvCategory.setTextColor(mContext.getResources().getColor(R.color.orange));
+		    holder.btCloseTask.setVisibility(View.GONE);
+		}
+		
 		
 		holder.btCloseTask.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
-				updateTaskBean(beans.get(position));
-				beans.get(position).setStatus(1);
-				notifyDataSetChanged();
+				if(beans.get(position).getExecutor()==null){
+					updateClosedStatus(beans.get(position));
+					return;
+				}
+				DialogUtil.show(mContext, "任务执行者是否已经完成任务？", "如果已经执行完成，将把担保金额支付给对方；如果未执行完成，担保金额会退还给您？", "对方已经完成", "对方未完成", new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						ProgressUtil.showProgress(mContext, "");
+						selectedBean=beans.get(position);
+						updateClosedStatus(beans.get(position));
+						queryUserByName(beans.get(position).getExecutor(), null);
+					}
+				}, new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						ProgressUtil.showProgress(mContext, "");
+						selectedBean=beans.get(position);
+						updateClosedStatus(beans.get(position));
+						giveBack();
+					}
+				}, true);
+				
 			}
 		});
 
 		return convertView;
 	}
 	
+	private void updateClosedStatus(TaskBean bean){
+		updateTaskBean(bean);
+		bean.setStatus(TaskBean.STATUS_CLOSED);
+		notifyDataSetChanged();
+	}
+	
 	class ViewHolder {
 		CircleImageView ivOwnerPic;
 		TextView tvOwnername;
+		TextView tvCategory;
 		TextView tvTaskContent;
 		ImageView ivTaskPic;
 		Button btCloseTask;
@@ -133,20 +174,56 @@ public class MyTaskAdapter extends MyBaseAdapter{
 	 */
 	private void updateTaskBean(TaskBean bean) {
 		final TaskBean p2 = new TaskBean();
-		p2.setStatus(1);
+		p2.setStatus(TaskBean.STATUS_CLOSED);
 		p2.update(mContext, bean.getObjectId(), new UpdateListener() {
 
 			@Override
 			public void onSuccess() {
-				Log.e("majie", "更新成功：" + p2.getUpdatedAt());
+//				Log.e("majie", "更新成功：" + p2.getUpdatedAt());
 			}
 
 			@Override
 			public void onFailure(int code, String msg) {
-				Log.e("majie", "更新失败：" + msg);
+//				Log.e("majie", "更新失败：" + msg);
 			}
 		});
 
+	}
+	
+	@Override
+	public void action(User user,String msg) {
+		super.action(user,msg);
+		User u=new User();
+		u.setFund(user.getFund()+selectedBean.getFund());
+		u.update(mContext, user.getObjectId(), new UpdateListener() {
+			
+			@Override
+			public void onSuccess() {
+				ProgressUtil.closeProgress();				
+			}
+			
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				ProgressUtil.closeProgress();
+			}
+		});
+	}
+	
+	private void giveBack(){
+		User u=new User();
+		u.setFund(user.getFund()+selectedBean.getFund());
+		u.update(mContext, user.getObjectId(), new UpdateListener() {
+			
+			@Override
+			public void onSuccess() {
+				ProgressUtil.closeProgress();				
+			}
+			
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				ProgressUtil.closeProgress();
+			}
+		});
 	}
 
 }

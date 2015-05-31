@@ -2,6 +2,7 @@ package org.market.tool.ui;
 
 import org.market.tool.CustomApplcation;
 import org.market.tool.R;
+import org.market.tool.bean.User;
 import org.market.tool.view.HeaderLayout;
 import org.market.tool.view.HeaderLayout.HeaderStyle;
 import org.market.tool.view.HeaderLayout.onLeftImageButtonClickListener;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobUserManager;
 import cn.bmob.im.util.BmobLog;
+import cn.bmob.v3.BmobUser;
 
 
 /** Fragmenet 基类
@@ -29,6 +31,8 @@ public abstract class FragmentBase extends Fragment {
 	
 	public BmobUserManager userManager;
 	public BmobChatManager manager;
+	
+	protected User user;
 	
 	/**
 	 * 公用的Header布局
@@ -51,12 +55,12 @@ public abstract class FragmentBase extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
 		mApplication = CustomApplcation.getInstance();
 		userManager = BmobUserManager.getInstance(getActivity());
 		manager = BmobChatManager.getInstance(getActivity());
+		user=BmobUser.getCurrentUser(getActivity(), User.class);
 		mInflater = LayoutInflater.from(getActivity());
 	}
 

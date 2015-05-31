@@ -8,7 +8,7 @@
         android:id="@+id/adcontainer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/common_actionbar" >
+        >
     </RelativeLayout>
 
     <!--
@@ -23,28 +23,14 @@
        />
     -->
 
-   <!--  <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dip"
-        android:background="@drawable/biz_pc_account_line" /> -->
-
     <org.market.tool.view.xlist.XListView
         android:id="@+id/lv"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
-        android:layout_below="@+id/adcontainer">
+        android:layout_below="@+id/adcontainer"
+        android:listSelector="#00000000"
+        android:divider="#00000000"
+        android:dividerHeight="8dp">
     </org.market.tool.view.xlist.XListView>
-
-   <!--  <ImageView
-        android:id="@+id/btn_write"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="25dp"
-        android:layout_marginRight="25dp"
-        android:clickable="true"
-        android:src="@drawable/bt_write" /> -->
 
 </RelativeLayout>

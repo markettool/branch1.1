@@ -21,6 +21,7 @@ public class TaskBean extends BmobObject {
 	private int status;
 	private String executor;
 	private List<String> applicants;
+	private double fund;
 	public BmobFile getOwnerPic() {
 		return ownerPic;
 	}
@@ -80,6 +81,12 @@ public class TaskBean extends BmobObject {
 	}
 	public void setOwnerNick(String ownerNick) {
 		this.ownerNick = ownerNick;
+	}
+	public double getFund() {
+		return fund;
+	}
+	public void setFund(double fund) {
+		this.fund = fund;
 	}
 
 }

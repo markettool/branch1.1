@@ -137,13 +137,11 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.layout_blacklist:// 启动到黑名单页面
 			startAnimActivity(new Intent(getActivity(),BlackListActivity.class));
