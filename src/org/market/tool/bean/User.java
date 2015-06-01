@@ -55,13 +55,13 @@ public class User extends BmobChatUser {
 	public void setBmobFiles(List<BmobFile> bmobFiles) {
 		this.bmobFiles = bmobFiles;
 	}
-	public float getFund() {
+	public double getFund() {
 		return fund;
 	}
-	public void setFund(float fund) {
+	public void setFund(double fund) {
 		this.fund = fund;
 	}
-	private float fund;
+	private double fund;
 	
 	public Blog getBlog() {
 		return blog;

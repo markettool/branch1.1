@@ -4,8 +4,9 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:id="@+id/opera_item_bg"
-    android:paddingBottom="10dp"
+    android:paddingBottom="8dp"
     android:descendantFocusability="blocksDescendants"
+    android:background="@drawable/common_entry_item_bg"
      >
 
      <ImageView
@@ -21,13 +22,13 @@
          android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/bail_fund"
-        android:text="担保金额：50金币"
+        android:text="担保金额：0元"
         android:layout_alignParentRight="true"
         android:layout_marginRight="0dp"
-        android:background="@color/orange"
-        android:textColor="@color/white"
+        android:layout_marginTop="0dp"
+        android:textColor="@color/blue_press"
         android:padding="5dp"
-        android:visibility="gone"
+        android:visibility="visible"
          ></TextView>
 
     <LinearLayout
@@ -38,15 +39,13 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp" >
 
-        <org.market.tool.view.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <ImageView
             android:id="@+id/user_pic"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/wwj_748"
-            app:border_color="#FFffffff"
-            app:border_width="1dp" />
+            android:src="@drawable/head"
+             />
 
         <TextView
             android:id="@+id/user_name"
@@ -64,8 +63,8 @@
         android:id="@+id/opera_content"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:layout_below="@+id/top"
         android:ellipsize="end"
         android:maxLines="5"
@@ -82,19 +81,18 @@
         android:textColor="@color/white"
         android:text="@string/require_receive"
         android:padding="5dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentRight="true"
         />
     
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/opera_pic"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        android:layout_marginBottom="5dp"
          >
 
         
@@ -103,23 +101,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp" >
+             >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:clickable="true"
-                android:text="@string/scan" />
+                android:text="@string/scan" 
+                android:textColor="@color/blue_press"/>
 
             <TextView
                 android:id="@+id/tv_feed_like_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="0" />
+                android:text="0"
+                android:textColor="@color/blue_press" />
         </LinearLayout>
 
         <LinearLayout
@@ -127,24 +125,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:layout_marginBottom="5dp" >
+             >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="8dp"
                 android:clickable="true"
-                android:text="@string/comment" />
+                android:text="@string/comment" 
+                android:textColor="@color/blue_press"/>
 
             <TextView
                 android:id="@+id/tv_feed_comment_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="0" />
+                android:text="0"
+                android:textColor="@color/blue_press" />
         </LinearLayout>
     </LinearLayout>
 

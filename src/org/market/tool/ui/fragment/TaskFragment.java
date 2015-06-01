@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
+import org.market.tool.adapter.AssignTaskAdapter;
 import org.market.tool.adapter.TaskAdapter;
 import org.market.tool.bean.TaskBean;
+import org.market.tool.inter.Observer;
 import org.market.tool.ui.FragmentBase;
+import org.market.tool.ui.PublishTaskActivity;
 import org.market.tool.ui.TaskDetailActivity;
 import org.market.tool.view.xlist.XListView;
 import org.market.tool.view.xlist.XListView.IXListViewListener;
@@ -22,7 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
-public class TaskFragment extends FragmentBase {
+public class TaskFragment extends FragmentBase implements Observer{
 	
 	private RelativeLayout mAdContainer;
 	
@@ -45,6 +48,8 @@ public class TaskFragment extends FragmentBase {
 		View view = inflater.inflate(R.layout.fragment_task, null);
 		mAdContainer = (RelativeLayout) view.findViewById(R.id.adcontainer);
 		xlv=(XListView) view.findViewById(R.id.lv);
+		
+		PublishTaskActivity.attach(this);
 		
 //		lv.setOnScrollListener(new PauseOnScrollListener(BitmapHelp.getBitmapUtils(getActivity()), false, true));
 //		autoScrollTextView=(AutoScrollTextView) view.findViewById(R.id.autoscroll_tv);
@@ -174,6 +179,20 @@ public class TaskFragment extends FragmentBase {
 	private void setAdapter(){
 		adapter=new TaskAdapter(getActivity(), taskBeans);
 		xlv.setAdapter(adapter);
+	}
+
+	@Override
+	public void update(String msg) {
+		taskBeans.clear();
+		focusSkip=0;
+		queryFocusOperas(FINISH_REFRESHING);
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+//		AssignTaskAdapter.remove(this);
+		PublishTaskActivity.remove(this);
 	}
 	
 }

@@ -17,8 +17,14 @@
     <string name="message_search_hint">搜索&#8230;</string>
     <string name="scan">浏览 </string>
     <string name="use_fund">使用担保 </string>
-    <string name="use_fund_hint">使用担保,赢取信任 </string>
+    <string name="use_fund_hint">您愿意提供多少担保？</string>
     <string name="total_fund">余额： 0元</string>
+    <string name="recharge_method">充值方式:    支付宝支付</string>
+    <string name="withdrawcash_method">提现方式:    支付宝提现</string>
+    <string name="submit">确认</string>
+    <string name="recharge_fund">充值金额:</string>
+    <string name="withdrawcash_fund">提现金额:</string>
+    <string name="withdrawcash_account">支付宝帐号:</string>
     
     <string name="main_tab_task">任务</string>
     <string name="main_tab_recent">会话</string>

@@ -131,6 +131,14 @@
             android:name="org.market.tool.ui.UpdateMySignActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         
+         <activity
+            android:name="org.market.tool.ui.RechargeActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+         
+         <activity
+            android:name="org.market.tool.ui.WithdrawCashActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        
         <activity
             android:name="org.market.tool.ui.TaskDetailActivity"
              />

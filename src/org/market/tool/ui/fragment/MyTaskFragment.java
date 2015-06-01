@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
+import org.market.tool.adapter.AssignTaskAdapter;
 import org.market.tool.adapter.MyTaskAdapter;
 import org.market.tool.bean.TaskBean;
 import org.market.tool.bean.User;
+import org.market.tool.inter.Observer;
 import org.market.tool.ui.AssignTaskActiviity;
 import org.market.tool.ui.FragmentBase;
+import org.market.tool.ui.PublishTaskActivity;
 import org.market.tool.ui.TaskDetailActivity;
 import org.market.tool.view.xlist.XListView;
 import org.market.tool.view.xlist.XListView.IXListViewListener;
@@ -25,7 +28,7 @@ import android.widget.RelativeLayout;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
-public class MyTaskFragment extends FragmentBase {
+public class MyTaskFragment extends FragmentBase implements Observer{
 	
 	private RelativeLayout mAdContainer;
 	
@@ -41,8 +44,6 @@ public class MyTaskFragment extends FragmentBase {
 	
 	private int oldSize=0;
 	
-	private User user;
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -50,10 +51,12 @@ public class MyTaskFragment extends FragmentBase {
 		mAdContainer = (RelativeLayout) view.findViewById(R.id.adcontainer);
 		xlv=(XListView) view.findViewById(R.id.lv);
 		
-		user=BmobUser.getCurrentUser(getActivity(), User.class);
+		AssignTaskAdapter.attach(this);
+		PublishTaskActivity.attach(this);
+		
 		setAdapter();
 		setListeners();
-		queryFocusOperas(FINISH_REFRESHING);
+		queryFocusTasks(FINISH_REFRESHING);
 		return view;
 	}
 	
@@ -65,13 +68,13 @@ public class MyTaskFragment extends FragmentBase {
 				Log.e("majie", "refresh");
 				taskBeans.clear();
 				focusSkip=0;
-				queryFocusOperas(FINISH_REFRESHING);
+				queryFocusTasks(FINISH_REFRESHING);
 			}
 			
 			@Override
 			public void onLoadMore() {
 				focusSkip=taskBeans.size();
-				queryFocusOperas(FINISH_LOADING);
+				queryFocusTasks(FINISH_LOADING);
 			}
 		});
 		
@@ -88,18 +91,27 @@ public class MyTaskFragment extends FragmentBase {
 		});
 	}
 	
-	private void queryFocusOperas(final int handle){
+	private void queryFocusTasks(final int handle){
 		synchronized (MyTaskFragment.this) {
-			BmobQuery<TaskBean> focusQuery	 = new BmobQuery<TaskBean>();
-			focusQuery.order("status");
-			focusQuery.addWhereEqualTo("ownerName", user.getUsername());
-			focusQuery.setLimit(10);
-			focusQuery.setSkip(focusSkip);
-			focusQuery.findObjects(getActivity(), new FindListener<TaskBean>() {
+			BmobQuery<TaskBean> lauchQuery	 = new BmobQuery<TaskBean>();
+			lauchQuery.addWhereEqualTo("ownerName", user.getUsername());
+			BmobQuery<TaskBean> executeQuery=new BmobQuery<TaskBean>();
+			executeQuery.addWhereEqualTo("executor", user.getUsername());
+			List<BmobQuery<TaskBean>> queries=new ArrayList<BmobQuery<TaskBean>>();
+			queries.add(executeQuery);
+			queries.add(lauchQuery);
+			
+			BmobQuery< TaskBean> query=new BmobQuery<TaskBean>();
+			query.addWhereNotEqualTo("status", TaskBean.STATUS_CLOSED);
+			query.or(queries);
+			
+//			lauchQuery.setLimit(10);
+//			lauchQuery.setSkip(focusSkip);
+			query.findObjects(getActivity(), new FindListener<TaskBean>() {
 
 				@Override
 				public void onSuccess(List<TaskBean> object) {
-					Log.e("majie", "查询成功：共"+object.size()+"条数据。");
+//					Log.e("majie", "查询成功：共"+object.size()+"条数据。");
 					oldSize=taskBeans.size();
 					focusSkip+=object.size();
 					taskBeans.addAll(object);
@@ -149,6 +161,21 @@ public class MyTaskFragment extends FragmentBase {
 	private void setAdapter(){
 		adapter=new MyTaskAdapter(getActivity(), taskBeans);
 		xlv.setAdapter(adapter);
+	}
+
+	@Override
+	public void update(String executor) {
+//		ShowToast("execute");
+		taskBeans.clear();
+		focusSkip=0;
+		queryFocusTasks(FINISH_REFRESHING);
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		AssignTaskAdapter.remove(this);
+		PublishTaskActivity.remove(this);
 	}
 	
 }
