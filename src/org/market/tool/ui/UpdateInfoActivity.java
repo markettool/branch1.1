@@ -42,7 +42,7 @@ public class UpdateInfoActivity extends ActivityBase {
 	}
 
 	private void initView() {
-		initTopBarForBoth(titles[TYPE], R.drawable.base_action_bar_true_bg_selector,
+		initTopBarForBoth(titles[TYPE], "±£´æ",
 				new onRightImageButtonClickListener() {
 
 					@Override

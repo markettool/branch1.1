@@ -122,14 +122,14 @@ public abstract class FragmentBase extends Fragment {
 	 * @return void
 	 * @throws
 	 */
-	public void initTopBarForBoth(String titleName, int rightDrawableId,
+	public void initTopBarForBoth(String titleName, String rightBtnText,
 			onRightImageButtonClickListener listener) {
 		mHeaderLayout = (HeaderLayout)findViewById(R.id.common_actionbar);
 		mHeaderLayout.init(HeaderStyle.TITLE_DOUBLE_IMAGEBUTTON);
 		mHeaderLayout.setTitleAndLeftImageButton(titleName,
 				R.drawable.base_action_bar_back_bg_selector,
 				new OnLeftButtonClickListener());
-		mHeaderLayout.setTitleAndRightImageButton(titleName, rightDrawableId,
+		mHeaderLayout.setTitleAndRightImageButton(titleName, rightBtnText,
 				listener);
 	}
 
@@ -151,11 +151,11 @@ public abstract class FragmentBase extends Fragment {
 	  * @return void
 	  * @throws
 	  */
-	public void initTopBarForRight(String titleName,int rightDrawableId,
+	public void initTopBarForRight(String titleName,String rightText,
 			onRightImageButtonClickListener listener) {
 		mHeaderLayout = (HeaderLayout)findViewById(R.id.common_actionbar);
 		mHeaderLayout.init(HeaderStyle.TITLE_RIGHT_IMAGEBUTTON);
-		mHeaderLayout.setTitleAndRightImageButton(titleName, rightDrawableId,
+		mHeaderLayout.setTitleAndRightImageButton(titleName, rightText,
 				listener);
 	}
 	

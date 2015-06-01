@@ -33,7 +33,7 @@ public class TaskPagerFragment extends FragmentBase {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		initTopBarForRight("任务", R.drawable.btn_chat_send_selector, new onRightImageButtonClickListener() {
+		initTopBarForRight("任务", "发起任务", new onRightImageButtonClickListener() {
 
 			@Override
 			public void onClick() {

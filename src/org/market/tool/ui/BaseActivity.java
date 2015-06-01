@@ -109,7 +109,7 @@ public class BaseActivity extends FragmentActivity {
 	  * @throws
 	  */
 	public void ShowLog(String msg){
-		Log.i("life",msg);
+		Log.i("majie",msg);
 	}
 	
 	/**
@@ -139,14 +139,14 @@ public class BaseActivity extends FragmentActivity {
 				listener);
 	}
 	
-	public void initTopBarForBoth(String titleName, int rightDrawableId,
+	public void initTopBarForBoth(String titleName, String rightBtnText,
 			onRightImageButtonClickListener listener) {
 		mHeaderLayout = (HeaderLayout)findViewById(R.id.common_actionbar);
 		mHeaderLayout.init(HeaderStyle.TITLE_DOUBLE_IMAGEBUTTON);
 		mHeaderLayout.setTitleAndLeftImageButton(titleName,
 				R.drawable.base_action_bar_back_bg_selector,
 				new OnLeftButtonClickListener());
-		mHeaderLayout.setTitleAndRightImageButton(titleName, rightDrawableId,
+		mHeaderLayout.setTitleAndRightImageButton(titleName, rightBtnText,
 				listener);
 	}
 

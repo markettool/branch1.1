@@ -67,13 +67,13 @@ public class MyTaskAdapter extends MyBaseAdapter{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final int position = arg0;
+		final TaskBean bean=beans.get(position);
 		try {
-
 			if (position < beans.size()) {
-				holder.tvOwnername.setText(beans.get(position).getOwnerName());
-				holder.tvTaskContent.setText(beans.get(position).getTaskContent());
+				
+				holder.tvOwnername.setText(bean.getOwnerName());
+				holder.tvTaskContent.setText(bean.getTaskContent());
 
-				TaskBean bean=beans.get(position);
 				BmobFile ownerPic=bean.getOwnerPic();
 				if(ownerPic!=null){
 					ownerPic.loadImageThumbnail(mContext, holder.ivOwnerPic, 60, 60);
@@ -100,8 +100,6 @@ public class MyTaskAdapter extends MyBaseAdapter{
 		switch (beans.get(position).getStatus()) {
 		case TaskBean.STATUS_NOT_BEGIN:
 			holder.btCloseTask.setVisibility(View.VISIBLE);
-//			holder.btCloseTask.setEnabled(true);
-//			holder.btCloseTask.setText("¹Ø±ÕÈÎÎñ");
 			break;
 
 		case TaskBean.STATUS_CLOSED:
@@ -132,17 +130,17 @@ public class MyTaskAdapter extends MyBaseAdapter{
 					@Override
 					public void onClick(View arg0) {
 						ProgressUtil.showProgress(mContext, "");
-						selectedBean=beans.get(position);
-						updateClosedStatus(beans.get(position));
-						queryUserByName(beans.get(position).getExecutor(), null);
+						selectedBean=bean;
+						updateClosedStatus(bean);
+						queryUserByName(bean.getExecutor(), null);
 					}
 				}, new OnClickListener() {
 					
 					@Override
 					public void onClick(View arg0) {
 						ProgressUtil.showProgress(mContext, "");
-						selectedBean=beans.get(position);
-						updateClosedStatus(beans.get(position));
+						selectedBean=bean;
+						updateClosedStatus(bean);
 						giveBack();
 					}
 				}, true);

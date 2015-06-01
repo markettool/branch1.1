@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
+import org.market.tool.bean.Alert;
+import org.market.tool.bean.Message;
 import org.market.tool.ui.MainActivity;
 import org.market.tool.ui.NewFriendActivity;
 import org.market.tool.util.CollectionUtils;
 import org.market.tool.util.CommonUtils;
+import org.market.tool.util.MessageUtil;
+
+import com.google.gson.Gson;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -171,7 +176,8 @@ public class MyMessageReceiver extends BroadcastReceiver {
 							}
 						}
 					}
-				}else{//在黑名单期间所有的消息都应该置为已读，不然等取消黑名单之后又可以查询的到
+				}
+				else{//在黑名单期间所有的消息都应该置为已读，不然等取消黑名单之后又可以查询的到
 					BmobChatManager.getInstance(context).updateMsgReaded(true, fromId, msgTime);
 					BmobLog.i("该消息发送方为黑名单用户");
 				}
@@ -181,6 +187,12 @@ public class MyMessageReceiver extends BroadcastReceiver {
 			e.printStackTrace();
 			//这里截取到的有可能是web后台推送给客户端的消息，也有可能是开发者自定义发送的消息，需要开发者自行解析和处理
 			BmobLog.i("parseMessage错误："+e.getMessage());
+			Gson gson=new Gson();
+			Alert alert=gson.fromJson(json, Alert.class);
+		    String str=alert.getAlert();
+			Message msg=MessageUtil.getMessageFromJson(str);
+			showOtherNotify(context, msg.getUsernick(), currentUser.getObjectId(),  msg.getMsg(), NewFriendActivity.class);
+			
 		}
 	}
 	

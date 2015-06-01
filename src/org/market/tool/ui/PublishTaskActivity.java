@@ -57,7 +57,7 @@ public class PublishTaskActivity extends BaseActivity implements Subject{
 		albumView=(AlbumView) findViewById(R.id.albumview);
 		albumView.setLimit(1);
 		
-		initTopBarForBoth("发起任务", R.drawable.btn_chat_send_selector, new onRightImageButtonClickListener() {
+		initTopBarForBoth("发起任务", "确定", new onRightImageButtonClickListener() {
 			
 			@Override
 			public void onClick() {

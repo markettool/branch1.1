@@ -13,9 +13,9 @@ import android.widget.BaseAdapter;
 import android.widget.Toast;
 import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobUserManager;
-import cn.bmob.im.bean.BmobChatUser;
-import cn.bmob.im.bean.BmobMsg;
 import cn.bmob.im.util.BmobLog;
+import cn.bmob.v3.BmobInstallation;
+import cn.bmob.v3.BmobPushManager;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
@@ -71,12 +71,13 @@ public abstract class MyBaseAdapter extends BaseAdapter {
 		BmobLog.i(msg);
 	}
 	
-	protected void push(BmobChatUser targetUser ,String msg){
-		// 组装BmobMessage对象
-		BmobMsg message = BmobMsg.createTextSendMsg(mContext, targetUser.getObjectId(), msg);
-		message.setExtra("Bmob");
-		// 默认发送完成，将数据保存到本地消息表和最近会话表中
-		manager.sendTextMessage(targetUser, message);			
+	protected void push(User targetUser ,String msg){
+		String installationId = targetUser.getInstallId();
+		BmobPushManager bmobPush = new BmobPushManager(mContext);
+		BmobQuery<BmobInstallation> query = BmobInstallation.getQuery();
+		query.addWhereEqualTo("installationId", installationId);
+		bmobPush.setQuery(query);
+		bmobPush.pushMessage(msg);		
 	}
 	
 	protected void queryUserByName(String searchName,final String msg){

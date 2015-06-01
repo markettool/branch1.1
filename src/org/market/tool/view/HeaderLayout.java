@@ -26,7 +26,7 @@ public class HeaderLayout extends LinearLayout {
 	private LinearLayout mLayoutRightContainer;
 	private TextView mHtvSubTitle;
 	private LinearLayout mLayoutRightImageButtonLayout;
-	private Button mRightImageButton;
+	private TextView mRightTextView;
 	private onRightImageButtonClickListener mRightImageButtonClickListener;
 
 	private LinearLayout mLayoutLeftImageButtonLayout;
@@ -124,7 +124,7 @@ public class HeaderLayout extends LinearLayout {
 		mLayoutRightContainer.addView(mRightImageButtonView);
 		mLayoutRightImageButtonLayout = (LinearLayout) mRightImageButtonView
 				.findViewById(R.id.header_layout_imagebuttonlayout);
-		mRightImageButton = (Button) mRightImageButtonView
+		mRightTextView = (TextView) mRightImageButtonView
 				.findViewById(R.id.header_ib_imagebutton);
 		mLayoutRightImageButtonLayout.setOnClickListener(new OnClickListener() {
 
@@ -144,9 +144,9 @@ public class HeaderLayout extends LinearLayout {
 	  * @return Button
 	  * @throws
 	  */
-	public Button getRightImageButton(){
-		if(mRightImageButton!=null){
-			return mRightImageButton;
+	public TextView getRightImageButton(){
+		if(mRightTextView!=null){
+			return mRightTextView;
 		}
 		return null;
 	}
@@ -162,24 +162,27 @@ public class HeaderLayout extends LinearLayout {
 			onRightImageButtonClickListener onRightImageButtonClickListener) {
 		setDefaultTitle(title);
 		mLayoutRightContainer.setVisibility(View.VISIBLE);
-		if (mRightImageButton != null && backid > 0) {
-			mRightImageButton.setWidth(PixelUtil.dp2px(45));
-			mRightImageButton.setHeight(PixelUtil.dp2px(40));
-			mRightImageButton.setBackgroundResource(backid);
-			mRightImageButton.setText(text);
+		if (mRightTextView != null && backid > 0) {
+			mRightTextView.setWidth(PixelUtil.dp2px(45));
+			mRightTextView.setHeight(PixelUtil.dp2px(40));
+			mRightTextView.setBackgroundResource(backid);
+			mRightTextView.setText(text);
 			setOnRightImageButtonClickListener(onRightImageButtonClickListener);
 		}
 	}
 	
-	public void setTitleAndRightImageButton(CharSequence title, int backid,
+	public void setTitleAndRightImageButton(CharSequence title, String rightBtnText,
 			onRightImageButtonClickListener onRightImageButtonClickListener) {
 		setDefaultTitle(title);
 		mLayoutRightContainer.setVisibility(View.VISIBLE);
-		if (mRightImageButton != null && backid > 0) {
-			mRightImageButton.setWidth(PixelUtil.dp2px(30));
-			mRightImageButton.setHeight(PixelUtil.dp2px(30));
-			mRightImageButton.setTextColor(getResources().getColor(R.color.transparent));
-			mRightImageButton.setBackgroundResource(backid);
+		if (mRightTextView != null ) {
+////			mRightImageButton.setWidth(PixelUtil.dp2px(30));
+////			mRightImageButton.setHeight(PixelUtil.dp2px(30));
+//			mRightImageButton.setBackgroundColor(getResources().getColor(R.color.transparent));
+//			mRightImageButton.setTextColor(getResources().getColor(R.color.white));
+			mRightTextView.setTextSize(16);
+			mRightTextView.setText(rightBtnText);
+//			mRightImageButton.setBackgroundResource(backid);
 			setOnRightImageButtonClickListener(onRightImageButtonClickListener);
 		}
 	}

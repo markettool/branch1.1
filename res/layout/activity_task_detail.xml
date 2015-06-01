@@ -72,6 +72,6 @@
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_alignParentBottom="true"
         android:text="@string/task_chat"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="10dp" />
 
 </RelativeLayout>

@@ -6,7 +6,10 @@ import java.util.List;
 import org.market.tool.R;
 import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.bean.ApplicantBean;
+import org.market.tool.bean.Message;
 import org.market.tool.bean.TaskBean;
+import org.market.tool.bean.User;
+import org.market.tool.util.MessageUtil;
 
 import android.content.Context;
 import android.util.Log;
@@ -17,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import cn.bmob.im.util.BmobJsonUtil;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
 
@@ -72,14 +76,13 @@ public class TaskAdapter extends MyBaseAdapter {
 		try {
 
 			if (position < beans.size()) {
-				holder.tvOwnername.setText(beans.get(position).getOwnerName());
-				holder.tvTaskContent.setText(beans.get(position).getTaskContent());
-				holder.tvScanNum.setText("" + beans.get(position).getScanNum());
-				holder.tvCommentNum.setText(""+ beans.get(position).getCommentNum());
-				holder.tvBailFund.setText("担保金额："+ beans.get(position).getFund()+" 元");
-
-
 				final TaskBean bean=beans.get(position);
+				holder.tvOwnername.setText(bean.getOwnerName());
+				holder.tvTaskContent.setText(bean.getTaskContent());
+				holder.tvScanNum.setText("" + bean.getScanNum());
+				holder.tvCommentNum.setText(""+ bean.getCommentNum());
+				holder.tvBailFund.setText("担保金额："+ bean.getFund()+" 元");
+
 				BmobFile ownerPic=bean.getOwnerPic();
 				if(ownerPic!=null){
 					ownerPic.loadImageThumbnail(mContext, holder.ivOwnerPic, 60, 60);
@@ -130,7 +133,7 @@ public class TaskAdapter extends MyBaseAdapter {
 			}
 		} catch (Exception e) {
 
-			Log.e("majie", e.getMessage());
+//			Log.e("majie", e.getMessage());
 		}
 
 		return convertView;
@@ -162,15 +165,22 @@ public class TaskAdapter extends MyBaseAdapter {
 
 			@Override
 			public void onSuccess() {
-				Log.e("majie", "更新成功：" + p.getUpdatedAt());
+//				Log.e("majie", "更新成功：" + p.getUpdatedAt());
 			}
 
 			@Override
 			public void onFailure(int code, String msg) {
-				Log.e("majie", "更新失败：" + msg);
+//				Log.e("majie", "更新失败：" + msg);
 			}
 		});
 
+	}
+	
+	@Override
+	public void action(User user, String msg) {
+		super.action(user, msg);
+		String json=MessageUtil.toMessageJson(Message.ENROLL, msg,user.getUsername(),user.getNick());
+		push(user, json);
 	}
 
 }
