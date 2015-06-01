@@ -7,6 +7,7 @@ import java.util.List;
 import org.market.tool.R;
 import org.market.tool.bean.MyBmobFile;
 import org.market.tool.bean.TaskBean;
+import org.market.tool.config.Config;
 import org.market.tool.inter.Observer;
 import org.market.tool.inter.Subject;
 import org.market.tool.util.BitmapUtil;
@@ -31,7 +32,7 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
-public class PublishTaskActivity extends BaseActivity implements Subject{
+public class PublishTaskActivity extends BaseActivity {
 	int PICK_REQUEST_CODE = 0;
 	
 	private EditText etTask;
@@ -40,7 +41,7 @@ public class PublishTaskActivity extends BaseActivity implements Subject{
 	private String dir;
 	private MyBmobFile bmobFile;
 	private double fund;
-	private static List<Observer> observers=new ArrayList<Observer>();
+//	private static List<Observer> observers=new ArrayList<Observer>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,9 +131,10 @@ public class PublishTaskActivity extends BaseActivity implements Subject{
 
 			@Override
 			public void onSuccess() {
-//				Log.d("bmob", "success  " );
 				ShowToast("发表成功");
-				notifyObservers();
+				Intent intent=new Intent(Config.INTENT_PUBLISH_TASK_SUCCESS);
+				sendBroadcast(intent);
+				
 				finish();
 				ProgressUtil.closeProgress();
 			}
@@ -232,19 +234,19 @@ public class PublishTaskActivity extends BaseActivity implements Subject{
 		};
 	};
 
-	public static void attach(Observer observer) {
-		observers.add(observer);
-	}
-
-	public static void remove(Observer observer) {
-		observers.remove(observer);
-	}
-
-	@Override
-	public void notifyObservers() {
-		for(Observer observer:observers){
-			observer.update(null);
-		}
-	}
+//	public static void attach(Observer observer) {
+//		observers.add(observer);
+//	}
+//
+//	public static void remove(Observer observer) {
+//		observers.remove(observer);
+//	}
+//
+//	@Override
+//	public void notifyObservers() {
+//		for(Observer observer:observers){
+//			observer.update(null);
+//		}
+//	}
 
 }

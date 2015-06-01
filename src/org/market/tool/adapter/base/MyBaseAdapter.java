@@ -71,13 +71,13 @@ public abstract class MyBaseAdapter extends BaseAdapter {
 		BmobLog.i(msg);
 	}
 	
-	protected void push(User targetUser ,String msg){
+	protected void push(User targetUser ,String json){
 		String installationId = targetUser.getInstallId();
 		BmobPushManager bmobPush = new BmobPushManager(mContext);
 		BmobQuery<BmobInstallation> query = BmobInstallation.getQuery();
 		query.addWhereEqualTo("installationId", installationId);
 		bmobPush.setQuery(query);
-		bmobPush.pushMessage(msg);		
+		bmobPush.pushMessage(json);		
 	}
 	
 	protected void queryUserByName(String searchName,final String msg){

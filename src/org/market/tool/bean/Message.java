@@ -2,6 +2,7 @@ package org.market.tool.bean;
 
 public class Message {
 	public static final String ENROLL="enroll";
+	public static final String ASSIGN="assign";
 	
 	private String tag;
 	private String username;

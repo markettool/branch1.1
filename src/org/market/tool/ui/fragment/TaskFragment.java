@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
-import org.market.tool.adapter.AssignTaskAdapter;
 import org.market.tool.adapter.TaskAdapter;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.inter.Observer;
+import org.market.tool.config.Config;
 import org.market.tool.ui.FragmentBase;
-import org.market.tool.ui.PublishTaskActivity;
 import org.market.tool.ui.TaskDetailActivity;
 import org.market.tool.view.xlist.XListView;
 import org.market.tool.view.xlist.XListView.IXListViewListener;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
-public class TaskFragment extends FragmentBase implements Observer{
+public class TaskFragment extends FragmentBase {
 	
 	private RelativeLayout mAdContainer;
 	
@@ -42,14 +43,14 @@ public class TaskFragment extends FragmentBase implements Observer{
 	
 	private int oldSize=0;
 	
+	private BroadcastReceiver receiver;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_task, null);
 		mAdContainer = (RelativeLayout) view.findViewById(R.id.adcontainer);
 		xlv=(XListView) view.findViewById(R.id.lv);
-		
-		PublishTaskActivity.attach(this);
 		
 //		lv.setOnScrollListener(new PauseOnScrollListener(BitmapHelp.getBitmapUtils(getActivity()), false, true));
 //		autoScrollTextView=(AutoScrollTextView) view.findViewById(R.id.autoscroll_tv);
@@ -68,10 +69,8 @@ public class TaskFragment extends FragmentBase implements Observer{
 			
 			@Override
 			public void onRefresh() {
-				Log.e("majie", "refresh");
-				taskBeans.clear();
-				focusSkip=0;
-				queryFocusOperas(FINISH_REFRESHING);
+//				Log.e("majie", "refresh");
+				update();
 			}
 			
 			@Override
@@ -181,18 +180,44 @@ public class TaskFragment extends FragmentBase implements Observer{
 		xlv.setAdapter(adapter);
 	}
 
-	@Override
-	public void update(String msg) {
+	public void update() {
 		taskBeans.clear();
 		focusSkip=0;
 		queryFocusOperas(FINISH_REFRESHING);
 	}
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		registerMyReceiver();
+	}
+	
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
-//		AssignTaskAdapter.remove(this);
-		PublishTaskActivity.remove(this);
+		unregisterMyReceiver();
+	}
+	
+	private void registerMyReceiver(){
+		IntentFilter filter=new IntentFilter();
+		filter.addAction(Config.INTENT_PUBLISH_TASK_SUCCESS);
+		receiver=new MyBroadCastReceiver();
+		getActivity().registerReceiver(receiver, filter);
+	}
+	
+	private void unregisterMyReceiver(){
+		if(receiver!=null){
+			getActivity().unregisterReceiver(receiver);
+		}
+	}
+	
+	class MyBroadCastReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			update();
+		}
+		
 	}
 	
 }

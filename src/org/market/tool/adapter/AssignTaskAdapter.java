@@ -1,16 +1,18 @@
 package org.market.tool.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.adapter.base.MyBaseAdapter;
+import org.market.tool.bean.Message;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.inter.Observer;
-import org.market.tool.inter.Subject;
+import org.market.tool.bean.User;
+import org.market.tool.config.Config;
+import org.market.tool.util.MessageUtil;
 import org.market.tool.util.ProgressUtil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +22,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import cn.bmob.v3.listener.UpdateListener;
 
-public class AssignTaskAdapter extends MyBaseAdapter implements Subject{
+public class AssignTaskAdapter extends MyBaseAdapter{
 	
 	private TaskBean bean;
 	private List<String> applictions;
-	private static List<Observer> observers=new ArrayList<Observer>();
 	private String executor;
 	
 	public AssignTaskAdapter(Context context,TaskBean bean){
@@ -96,9 +97,12 @@ public class AssignTaskAdapter extends MyBaseAdapter implements Subject{
 			@Override
 			public void onSuccess() {
 				ShowLog("更新成功");
-				notifyObservers();
+				Intent intent=new Intent(Config.INTENT_ASSIGN_TASK_SUCCESS);
+				intent.putExtra("executor", executor);
+				mContext.sendBroadcast(intent);
+				
 				ProgressUtil.closeProgress();
-//				queryUserByName(username, user.getUsername()+" 指定你执行任务");
+				queryUserByName(username, user.getUsername()+" 指定你执行任务");
 			}
 
 			@Override
@@ -109,21 +113,12 @@ public class AssignTaskAdapter extends MyBaseAdapter implements Subject{
 		});
 
 	}
-
-	public static void attach(Observer observer) {
-		observers.add(observer);
-	}
-
-	public static void remove(Observer observer) {
-		observers.remove(observer);
-	}
-
+	
 	@Override
-	public void notifyObservers() {
-		for(Observer observer:observers){
-//			ShowToast("Observer");
-			observer.update(executor);
-		}
+	public void action(User user, String msg) {
+		super.action(user, msg);
+		String json=MessageUtil.toMessageJson(Message.ASSIGN, msg, user.getUsername(), user.getNick());
+		push(user, json);
 	}
 	
 }

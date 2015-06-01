@@ -6,6 +6,8 @@ import java.util.List;
 import org.json.JSONObject;
 import org.market.tool.bean.Alert;
 import org.market.tool.bean.Message;
+import org.market.tool.config.Config;
+import org.market.tool.ui.AssignTaskActiviity;
 import org.market.tool.ui.MainActivity;
 import org.market.tool.ui.NewFriendActivity;
 import org.market.tool.util.CollectionUtils;
@@ -191,8 +193,10 @@ public class MyMessageReceiver extends BroadcastReceiver {
 			Alert alert=gson.fromJson(json, Alert.class);
 		    String str=alert.getAlert();
 			Message msg=MessageUtil.getMessageFromJson(str);
-			showOtherNotify(context, msg.getUsernick(), currentUser.getObjectId(),  msg.getMsg(), NewFriendActivity.class);
-			
+			showOtherNotify(context, msg.getUsernick(), currentUser.getObjectId(),  msg.getMsg(), AssignTaskActiviity.class);
+			Intent intent=new Intent(Config.INTENT_ENROLL);
+			intent.putExtra("application", msg.getUsername());
+			context.sendBroadcast(intent);
 		}
 	}
 	
