@@ -97,15 +97,15 @@ public class MyTaskAdapter extends MyBaseAdapter{
 //			Log.e("majie", e.getMessage());
 		}
 		
-		switch (beans.get(position).getStatus()) {
-		case TaskBean.STATUS_NOT_BEGIN:
-			holder.btCloseTask.setVisibility(View.VISIBLE);
-			break;
-
-		case TaskBean.STATUS_CLOSED:
-			holder.btCloseTask.setVisibility(View.GONE);
-			break;
-		}
+//		switch (beans.get(position).getStatus()) {
+//		case TaskBean.STATUS_NOT_BEGIN:
+//			holder.btCloseTask.setVisibility(View.VISIBLE);
+//			break;
+//
+//		case TaskBean.STATUS_CLOSED:
+//			holder.btCloseTask.setVisibility(View.GONE);
+//			break;
+//		}
 		
 		if(beans.get(position).getOwnerName().equals(user.getUsername())){
 			holder.tvCategory.setText("我发起的");
@@ -116,46 +116,14 @@ public class MyTaskAdapter extends MyBaseAdapter{
 		    holder.btCloseTask.setVisibility(View.GONE);
 		}
 		
-		
-		holder.btCloseTask.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				if(beans.get(position).getExecutor()==null){
-					updateClosedStatus(beans.get(position));
-					return;
-				}
-				DialogUtil.show(mContext, "任务执行者是否已经完成任务？", "如果已经执行完成，将把担保金额支付给对方；如果未执行完成，担保金额会退还给您？", "对方已经完成", "对方未完成", new OnClickListener() {
-					
-					@Override
-					public void onClick(View arg0) {
-						ProgressUtil.showProgress(mContext, "");
-						selectedBean=bean;
-						updateClosedStatus(bean);
-						queryUserByName(bean.getExecutor(), null);
-					}
-				}, new OnClickListener() {
-					
-					@Override
-					public void onClick(View arg0) {
-						ProgressUtil.showProgress(mContext, "");
-						selectedBean=bean;
-						updateClosedStatus(bean);
-						giveBack();
-					}
-				}, true);
-				
-			}
-		});
-
 		return convertView;
 	}
 	
-	private void updateClosedStatus(TaskBean bean){
-		updateTaskBean(bean);
-		bean.setStatus(TaskBean.STATUS_CLOSED);
-		notifyDataSetChanged();
-	}
+//	private void updateClosedStatus(TaskBean bean){
+//		updateTaskBean(bean);
+//		bean.setStatus(TaskBean.STATUS_CLOSED);
+//		notifyDataSetChanged();
+//	}
 	
 	class ViewHolder {
 		CircleImageView ivOwnerPic;
@@ -167,61 +135,61 @@ public class MyTaskAdapter extends MyBaseAdapter{
 		TextView tvExecuters;
 	}
 	
-	/**
-	 * 更新对象
-	 */
-	private void updateTaskBean(TaskBean bean) {
-		final TaskBean p2 = new TaskBean();
-		p2.setStatus(TaskBean.STATUS_CLOSED);
-		p2.update(mContext, bean.getObjectId(), new UpdateListener() {
-
-			@Override
-			public void onSuccess() {
-//				Log.e("majie", "更新成功：" + p2.getUpdatedAt());
-			}
-
-			@Override
-			public void onFailure(int code, String msg) {
-//				Log.e("majie", "更新失败：" + msg);
-			}
-		});
-
-	}
+//	/**
+//	 * 更新对象
+//	 */
+//	private void updateTaskBean(TaskBean bean) {
+//		final TaskBean p2 = new TaskBean();
+//		p2.setStatus(TaskBean.STATUS_CLOSED);
+//		p2.update(mContext, bean.getObjectId(), new UpdateListener() {
+//
+//			@Override
+//			public void onSuccess() {
+////				Log.e("majie", "更新成功：" + p2.getUpdatedAt());
+//			}
+//
+//			@Override
+//			public void onFailure(int code, String msg) {
+////				Log.e("majie", "更新失败：" + msg);
+//			}
+//		});
+//
+//	}
 	
-	@Override
-	public void action(User user,String msg) {
-		super.action(user,msg);
-		User u=new User();
-		u.setFund(user.getFund()+selectedBean.getFund());
-		u.update(mContext, user.getObjectId(), new UpdateListener() {
-			
-			@Override
-			public void onSuccess() {
-				ProgressUtil.closeProgress();				
-			}
-			
-			@Override
-			public void onFailure(int arg0, String arg1) {
-				ProgressUtil.closeProgress();
-			}
-		});
-	}
+//	@Override
+//	public void action(User user,String msg) {
+//		super.action(user,msg);
+//		User u=new User();
+//		u.setFund(user.getFund()+selectedBean.getFund());
+//		u.update(mContext, user.getObjectId(), new UpdateListener() {
+//			
+//			@Override
+//			public void onSuccess() {
+//				ProgressUtil.closeProgress();				
+//			}
+//			
+//			@Override
+//			public void onFailure(int arg0, String arg1) {
+//				ProgressUtil.closeProgress();
+//			}
+//		});
+//	}
 	
-	private void giveBack(){
-		User u=new User();
-		u.setFund(user.getFund()+selectedBean.getFund());
-		u.update(mContext, user.getObjectId(), new UpdateListener() {
-			
-			@Override
-			public void onSuccess() {
-				ProgressUtil.closeProgress();				
-			}
-			
-			@Override
-			public void onFailure(int arg0, String arg1) {
-				ProgressUtil.closeProgress();
-			}
-		});
-	}
+//	private void giveBack(){
+//		User u=new User();
+//		u.setFund(user.getFund()+selectedBean.getFund());
+//		u.update(mContext, user.getObjectId(), new UpdateListener() {
+//			
+//			@Override
+//			public void onSuccess() {
+//				ProgressUtil.closeProgress();				
+//			}
+//			
+//			@Override
+//			public void onFailure(int arg0, String arg1) {
+//				ProgressUtil.closeProgress();
+//			}
+//		});
+//	}
 
 }

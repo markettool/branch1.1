@@ -81,6 +81,7 @@
         android:background="@drawable/btn_login_selector"
         android:textColor="@color/white"
         android:text="@string/close"
+        android:visibility="gone"
         android:padding="5dp"
         />
     

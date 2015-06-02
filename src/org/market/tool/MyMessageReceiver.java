@@ -193,10 +193,18 @@ public class MyMessageReceiver extends BroadcastReceiver {
 			Alert alert=gson.fromJson(json, Alert.class);
 		    String str=alert.getAlert();
 			Message msg=MessageUtil.getMessageFromJson(str);
-			showOtherNotify(context, msg.getUsernick(), currentUser.getObjectId(),  msg.getMsg(), AssignTaskActiviity.class);
-			Intent intent=new Intent(Config.INTENT_ENROLL);
-			intent.putExtra("application", msg.getUsername());
-			context.sendBroadcast(intent);
+			if(msg.getTag().equals(Message.ENROLL)){
+				showOtherNotify(context, msg.getUsernick(), currentUser.getObjectId(),  msg.getMsg(), AssignTaskActiviity.class);
+				Intent intent=new Intent(Config.INTENT_ENROLL);
+				intent.putExtra("application", msg.getUsername());
+				context.sendBroadcast(intent);
+			}else if(msg.getTag().equals(Message.ASSIGN)){
+				showOtherNotify(context, msg.getUsernick(), currentUser.getObjectId(),  msg.getMsg(), AssignTaskActiviity.class);
+				Intent intent=new Intent(Config.INTENT_ASSIGN_TASK_SUCCESS);
+				intent.putExtra("application", msg.getUsername());
+				context.sendBroadcast(intent);
+			}
+			
 		}
 	}
 	
@@ -243,7 +251,7 @@ public class MyMessageReceiver extends BroadcastReceiver {
 		boolean isAllowVibrate = CustomApplcation.getInstance().getSpUtil().isAllowVibrate();
 		if(isAllow && currentUser!=null && currentUser.getObjectId().equals(toId)){
 			//同时提醒通知
-			BmobNotifyManager.getInstance(context).showNotify(isAllowVoice,isAllowVibrate,R.drawable.ic_launcher, ticker,username, ticker.toString(),NewFriendActivity.class);
+			BmobNotifyManager.getInstance(context).showNotify(isAllowVoice,isAllowVibrate,R.drawable.ic_launcher, ticker,username, ticker.toString(),cls);
 		}
 	}
 	

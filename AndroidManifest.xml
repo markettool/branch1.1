@@ -127,6 +127,10 @@
             android:name="org.market.tool.ui.PublishTaskActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         
+          <activity
+            android:name="org.market.tool.ui.ExecuteActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        
         <activity
             android:name="org.market.tool.ui.UpdateMySignActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

@@ -54,6 +54,7 @@
     <string name="set_vibrate">震动</string>
     <string name="tips">提示</string>
     
+    <string name="complete">完成</string>
     <string name="close">关闭任务</string>
     <string name="require_receive">申请接任务</string>
     <string name="assign">派发</string>
