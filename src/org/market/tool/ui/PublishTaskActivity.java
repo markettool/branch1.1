@@ -1,15 +1,11 @@
 package org.market.tool.ui;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.bean.MyBmobFile;
 import org.market.tool.bean.TaskBean;
 import org.market.tool.config.Config;
-import org.market.tool.inter.Observer;
-import org.market.tool.inter.Subject;
 import org.market.tool.util.BitmapUtil;
 import org.market.tool.util.FileUtils;
 import org.market.tool.util.ProgressUtil;
@@ -213,7 +209,7 @@ public class PublishTaskActivity extends BaseActivity {
 		new Thread(){
 			public void run() {
 				super.run();
-				Bitmap bitmap=BitmapUtil.getThumbilBitmap(path, 200);
+				Bitmap bitmap=BitmapUtil.getThumbilBitmap(path, 150);
 				String thubPath=dir+user.getUsername()+"_opera_tmp"+".png";
 				BitmapUtil.saveBitmapToSdcard(bitmap, thubPath);
 				Message message=new Message();
