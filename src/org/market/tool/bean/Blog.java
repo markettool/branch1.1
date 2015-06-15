@@ -5,7 +5,7 @@ import cn.bmob.v3.BmobObject;
 public class Blog extends BmobObject {
 
 	/**
-	 * 
+	 * fdsfasdfasdf
 	 */
 	private static final long serialVersionUID = 1L;
 
