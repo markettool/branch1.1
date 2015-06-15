@@ -44,7 +44,7 @@ public class User extends BmobChatUser {
 	 */
 	private BmobGeoPoint location;//
 	
-	private Integer hight;
+//	private Integer hight;
     private List<BmobFile> bmobFiles;
     
     private String phonenum;
@@ -55,6 +55,7 @@ public class User extends BmobChatUser {
 	public void setBmobFiles(List<BmobFile> bmobFiles) {
 		this.bmobFiles = bmobFiles;
 	}
+	
 	public double getFund() {
 		return fund;
 	}
@@ -69,12 +70,12 @@ public class User extends BmobChatUser {
 	public void setBlog(Blog blog) {
 		this.blog = blog;
 	}
-	public Integer getHight() {
-		return hight;
-	}
-	public void setHight(Integer hight) {
-		this.hight = hight;
-	}
+//	public Integer getHight() {
+//		return hight;
+//	}
+//	public void setHight(Integer hight) {
+//		this.hight = hight;
+//	}
 	public BmobRelation getBlogs() {
 		return blogs;
 	}

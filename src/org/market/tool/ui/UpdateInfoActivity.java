@@ -75,7 +75,7 @@ public class UpdateInfoActivity extends ActivityBase {
 		switch (TYPE) {
 		case NICK:
 			u.setNick(msg);
-			u.setHight(110);
+//			u.setHight(110);
 			break;
 			
 		case MYSIGN:
@@ -99,7 +99,7 @@ public class UpdateInfoActivity extends ActivityBase {
 			@Override
 			public void onSuccess() {
 				final User c = userManager.getCurrentUser(User.class);
-				ShowToast("修改成功:"+c.getNick()+",height = "+c.getHight());
+//				ShowToast("修改成功:"+c.getNick()+",height = "+c.getHight());
 				finish();
 			}
 

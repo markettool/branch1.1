@@ -5,25 +5,19 @@ import java.util.List;
 import org.market.tool.R;
 import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.bean.TaskBean;
-import org.market.tool.bean.User;
 import org.market.tool.util.BitmapHelp;
-import org.market.tool.util.ProgressUtil;
 import org.market.tool.view.CircleImageView;
-import org.market.tool.view.DialogUtil;
 
 import android.content.Context;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.listener.UpdateListener;
 
 public class MyTaskAdapter extends MyBaseAdapter{
 	private List<TaskBean> beans;
-	private TaskBean selectedBean;
 	
 	public MyTaskAdapter(Context context, List<TaskBean> beans) {
 		super(context);
@@ -97,16 +91,6 @@ public class MyTaskAdapter extends MyBaseAdapter{
 //			Log.e("majie", e.getMessage());
 		}
 		
-//		switch (beans.get(position).getStatus()) {
-//		case TaskBean.STATUS_NOT_BEGIN:
-//			holder.btCloseTask.setVisibility(View.VISIBLE);
-//			break;
-//
-//		case TaskBean.STATUS_CLOSED:
-//			holder.btCloseTask.setVisibility(View.GONE);
-//			break;
-//		}
-		
 		if(beans.get(position).getOwnerName().equals(user.getUsername())){
 			holder.tvCategory.setText("我发起的");
 			holder.tvCategory.setTextColor(mContext.getResources().getColor(R.color.blue_press));
@@ -119,12 +103,6 @@ public class MyTaskAdapter extends MyBaseAdapter{
 		return convertView;
 	}
 	
-//	private void updateClosedStatus(TaskBean bean){
-//		updateTaskBean(bean);
-//		bean.setStatus(TaskBean.STATUS_CLOSED);
-//		notifyDataSetChanged();
-//	}
-	
 	class ViewHolder {
 		CircleImageView ivOwnerPic;
 		TextView tvOwnername;
@@ -135,61 +113,4 @@ public class MyTaskAdapter extends MyBaseAdapter{
 		TextView tvExecuters;
 	}
 	
-//	/**
-//	 * 更新对象
-//	 */
-//	private void updateTaskBean(TaskBean bean) {
-//		final TaskBean p2 = new TaskBean();
-//		p2.setStatus(TaskBean.STATUS_CLOSED);
-//		p2.update(mContext, bean.getObjectId(), new UpdateListener() {
-//
-//			@Override
-//			public void onSuccess() {
-////				Log.e("majie", "更新成功：" + p2.getUpdatedAt());
-//			}
-//
-//			@Override
-//			public void onFailure(int code, String msg) {
-////				Log.e("majie", "更新失败：" + msg);
-//			}
-//		});
-//
-//	}
-	
-//	@Override
-//	public void action(User user,String msg) {
-//		super.action(user,msg);
-//		User u=new User();
-//		u.setFund(user.getFund()+selectedBean.getFund());
-//		u.update(mContext, user.getObjectId(), new UpdateListener() {
-//			
-//			@Override
-//			public void onSuccess() {
-//				ProgressUtil.closeProgress();				
-//			}
-//			
-//			@Override
-//			public void onFailure(int arg0, String arg1) {
-//				ProgressUtil.closeProgress();
-//			}
-//		});
-//	}
-	
-//	private void giveBack(){
-//		User u=new User();
-//		u.setFund(user.getFund()+selectedBean.getFund());
-//		u.update(mContext, user.getObjectId(), new UpdateListener() {
-//			
-//			@Override
-//			public void onSuccess() {
-//				ProgressUtil.closeProgress();				
-//			}
-//			
-//			@Override
-//			public void onFailure(int arg0, String arg1) {
-//				ProgressUtil.closeProgress();
-//			}
-//		});
-//	}
-
 }

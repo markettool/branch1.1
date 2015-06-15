@@ -6,9 +6,11 @@ import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
 
 public class TaskBean extends BmobObject {
+	
 	public static final int STATUS_NOT_BEGIN=0;
 	public static final int STATUS_EXECUTE=1;
 	public static final int STATUS_CLOSED=2;
+	public static final int STATUS_COMPLETE=3;
 
 	private static final long serialVersionUID = 1L;
 	private BmobFile ownerPic;
@@ -20,8 +22,10 @@ public class TaskBean extends BmobObject {
 	private BmobFile taskPic;
 	private int status;
 	private String executor;
+	/**…Í«Î»À*/
 	private List<String> applicants;
 	private double fund;
+	
 	public BmobFile getOwnerPic() {
 		return ownerPic;
 	}
