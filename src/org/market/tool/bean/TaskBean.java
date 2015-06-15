@@ -8,9 +8,9 @@ import cn.bmob.v3.datatype.BmobFile;
 public class TaskBean extends BmobObject {
 	
 	public static final int STATUS_NOT_BEGIN=0;
-	public static final int STATUS_EXECUTE=1;
+	public static final int STATUS_EXECUTEING=1;
 	public static final int STATUS_CLOSED=2;
-	public static final int STATUS_COMPLETE=3;
+	public static final int STATUS_COMPLETED=3;
 
 	private static final long serialVersionUID = 1L;
 	private BmobFile ownerPic;
@@ -21,9 +21,10 @@ public class TaskBean extends BmobObject {
 	private int commentNum;
 	private BmobFile taskPic;
 	private int status;
-	private String executor;
-	/**…Í«Î»À*/
+	private List<String> executors;
 	private List<String> applicants;
+	private List<String> completers;
+	private List<String> verifyers;
 	private double fund;
 	
 	public BmobFile getOwnerPic() {
@@ -68,12 +69,6 @@ public class TaskBean extends BmobObject {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public String getExecutor() {
-		return executor;
-	}
-	public void setExecutor(String executor) {
-		this.executor = executor;
-	}
 	public List<String> getApplicants() {
 		return applicants;
 	}
@@ -91,6 +86,24 @@ public class TaskBean extends BmobObject {
 	}
 	public void setFund(double fund) {
 		this.fund = fund;
+	}
+	public List<String> getExecutors() {
+		return executors;
+	}
+	public void setExecutors(List<String> executors) {
+		this.executors = executors;
+	}
+	public List<String> getCompleters() {
+		return completers;
+	}
+	public void setCompleters(List<String> completers) {
+		this.completers = completers;
+	}
+	public List<String> getVerifyers() {
+		return verifyers;
+	}
+	public void setVerifyers(List<String> verifyers) {
+		this.verifyers = verifyers;
 	}
 
 }

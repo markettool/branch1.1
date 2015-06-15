@@ -70,27 +70,27 @@ public class AssignTaskActiviity extends ActivityBase {
 		
 		@Override
 		public void onClick(View arg0) {
-			if(bean.getExecutor()==null){
-				updateClosedStatus(bean);
-				return;
-			}
-			DialogUtil.show(AssignTaskActiviity.this, "任务执行者是否已经完成任务？", "如果已经执行完成，将把担保金额支付给对方；如果未执行完成，担保金额会退还给您？", "对方已经完成", "对方未完成", new OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					ProgressUtil.showProgress(AssignTaskActiviity.this, "");
-					updateClosedStatus(bean);
-					queryUserByName(bean.getExecutor(), null);
-				}
-			}, new OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					ProgressUtil.showProgress(AssignTaskActiviity.this, "");
-					updateClosedStatus(bean);
-					giveBack();
-				}
-			}, true);
+//			if(bean.getExecutor()==null){
+//				updateClosedStatus(bean);
+//				return;
+//			}
+//			DialogUtil.show(AssignTaskActiviity.this, "任务执行者是否已经完成任务？", "如果已经执行完成，将把担保金额支付给对方；如果未执行完成，担保金额会退还给您？", "对方已经完成", "对方未完成", new OnClickListener() {
+//				
+//				@Override
+//				public void onClick(View arg0) {
+//					ProgressUtil.showProgress(AssignTaskActiviity.this, "");
+//					updateClosedStatus(bean);
+//					queryUserByName(bean.getExecutor(), null);
+//				}
+//			}, new OnClickListener() {
+//				
+//				@Override
+//				public void onClick(View arg0) {
+//					ProgressUtil.showProgress(AssignTaskActiviity.this, "");
+//					updateClosedStatus(bean);
+//					giveBack();
+//				}
+//			}, true);
 		}
 	  });
 	}
@@ -115,18 +115,18 @@ public class AssignTaskActiviity extends ActivityBase {
 	
 	private void setExecutorText(){
 		
-		if(!TextUtils.isEmpty(bean.getExecutor())){
-			tvAll.setText("您已经派发任务于 "+bean.getExecutor());
-			if(adapter!=null){
-				adapter.notifyDataSetInvalidated();
-			}
-			return;
-		}
+//		if(!TextUtils.isEmpty(bean.getExecutor())){
+//			tvAll.setText("您已经派发任务于 "+bean.getExecutor());
+//			if(adapter!=null){
+//				adapter.notifyDataSetInvalidated();
+//			}
+//			return;
+//		}
 	}
 
 	public void update(String executor) {
 		ShowLog("update");
-		bean.setExecutor(executor);
+//		bean.setExecutor(executor);
 		setExecutorText();
 	}
 

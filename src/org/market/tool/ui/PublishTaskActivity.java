@@ -209,7 +209,7 @@ public class PublishTaskActivity extends BaseActivity {
 		new Thread(){
 			public void run() {
 				super.run();
-				Bitmap bitmap=BitmapUtil.getThumbilBitmap(path, 200);
+				Bitmap bitmap=BitmapUtil.getThumbilBitmap(path, 150);
 				String thubPath=dir+user.getUsername()+"_opera_tmp"+".png";
 				BitmapUtil.saveBitmapToSdcard(bitmap, thubPath);
 				Message message=new Message();
