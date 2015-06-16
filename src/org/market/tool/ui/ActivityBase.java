@@ -97,4 +97,16 @@ public class ActivityBase extends BaseActivity {
 		
 	}
 	
+	protected void initViews() {
+		
+	}
+	
+	protected void initData() {
+		
+	}
+	
+	protected void  setListeners() {
+		
+	}
+	
 }

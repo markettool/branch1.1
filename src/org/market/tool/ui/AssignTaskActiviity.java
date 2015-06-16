@@ -56,7 +56,7 @@ public class AssignTaskActiviity extends ActivityBase {
 		btCloseTask=(Button) findViewById(R.id.btn_close);
 	}
 	
-	private void setListeners(){
+	protected void setListeners(){
        xlv.setOnItemClickListener(new OnItemClickListener() {
 
 		@Override
@@ -95,7 +95,7 @@ public class AssignTaskActiviity extends ActivityBase {
 	  });
 	}
 	
-	private void initData(){
+	protected void initData(){
 		
 		bean=(TaskBean) getIntent().getSerializableExtra("bean");
 		if(bean==null){

@@ -8,6 +8,7 @@ import org.market.tool.adapter.MyTaskAdapter;
 import org.market.tool.bean.TaskBean;
 import org.market.tool.config.Config;
 import org.market.tool.ui.AssignTaskActiviity;
+import org.market.tool.ui.ExecuteActivity;
 import org.market.tool.ui.FragmentBase;
 import org.market.tool.view.xlist.XListView;
 import org.market.tool.view.xlist.XListView.IXListViewListener;
@@ -58,7 +59,6 @@ public class MyTaskFragment extends FragmentBase{
 			
 			@Override
 			public void onRefresh() {
-//				Log.e("majie", "refresh");
 				update();
 			}
 			
@@ -75,7 +75,13 @@ public class MyTaskFragment extends FragmentBase{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Intent intent=new Intent(getActivity(), AssignTaskActiviity.class);
+				TaskBean bean=taskBeans.get(arg2-1);
+				Intent intent=null;
+				if(bean.getOwnerName().equals(user.getUsername())){
+					 intent=new Intent(getActivity(), AssignTaskActiviity.class);
+				}else{
+					 intent=new Intent(getActivity(), ExecuteActivity.class);
+				}
 				intent.putExtra("bean", taskBeans.get(arg2-1));
 				getActivity().startActivity(intent);
 			}
