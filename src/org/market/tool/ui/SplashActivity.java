@@ -2,7 +2,7 @@ package org.market.tool.ui;
 
 import org.market.tool.CustomApplcation;
 import org.market.tool.R;
-import org.market.tool.config.Config;
+import org.market.tool.config.SystemConfig;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -43,8 +43,8 @@ public class SplashActivity extends BaseActivity {
 		BmobChat.DEBUG_MODE = true;
 		//BmobIM SDK初始化--只需要这一段代码即可完成初始化
 		//请到Bmob官网(http://www.bmob.cn/)申请ApplicationId,具体地址:http://docs.bmob.cn/android/faststart/index.html?menukey=fast_start&key=start_android
-		BmobChat.getInstance(this).init(Config.applicationId);
-		BmobPay.init(this,Config.applicationId);
+		BmobChat.getInstance(this).init(SystemConfig.applicationId);
+		BmobPay.init(this,SystemConfig.applicationId);
 		// 开启定位
 		initLocClient();
 		// 注册地图 SDK 广播监听者

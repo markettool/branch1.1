@@ -7,8 +7,6 @@
         android:id="@+id/common_actionbar"
         layout="@layout/include_action_bar" />
 
-    <TextView />
-
     <!--
     <org.market.tool.view.AlbumView
         android:layout_width="match_parent"
@@ -25,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/common_entry_item_bg"
+        android:layout_below="@+id/common_actionbar"
         android:ellipsize="end"
         android:maxLines="15"
         android:minHeight="100dp"

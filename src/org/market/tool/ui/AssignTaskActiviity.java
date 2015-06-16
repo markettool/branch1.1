@@ -1,37 +1,37 @@
 package org.market.tool.ui;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.adapter.AssignTaskAdapter;
-import org.market.tool.bean.TaskBean;
+import org.market.tool.bean.OriginTaskBean;
+import org.market.tool.bean.SubTaskBean;
 import org.market.tool.bean.User;
-import org.market.tool.config.Config;
+import org.market.tool.config.SystemConfig;
 import org.market.tool.util.ProgressUtil;
-import org.market.tool.view.DialogUtil;
 import org.market.tool.view.xlist.XListView;
-
-import cn.bmob.v3.listener.UpdateListener;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class AssignTaskActiviity extends ActivityBase {
 	
 	private TextView tvTask;
 	private TextView tvAll;
 	private XListView xlv;
-	private TaskBean bean;
+	private OriginTaskBean bean;
 	private AssignTaskAdapter adapter;
 	private Button btCloseTask;
 	
@@ -97,19 +97,19 @@ public class AssignTaskActiviity extends ActivityBase {
 	
 	protected void initData(){
 		
-		bean=(TaskBean) getIntent().getSerializableExtra("bean");
+		bean=(OriginTaskBean) getIntent().getSerializableExtra("bean");
 		if(bean==null){
 			finish();
 			return;
 		}
 		tvTask.setText(bean.getTaskContent());
 		initTopBarForLeft("派发任务");
-		setExecutorText();
+		queryApplicants();
 		
-		if(bean.getApplicants()!=null){
-			adapter=new AssignTaskAdapter(this, bean);
-			xlv.setAdapter(adapter);
-		}
+//		if(bean.getApplicants()!=null){
+//			adapter=new AssignTaskAdapter(this, bean);
+//			xlv.setAdapter(adapter);
+//		}
 		
 	}
 	
@@ -138,8 +138,8 @@ public class AssignTaskActiviity extends ActivityBase {
 	
 	private void registerMyReceiver(){
 		IntentFilter filter=new IntentFilter();
-		filter.addAction(Config.INTENT_ENROLL);
-		filter.addAction(Config.INTENT_ASSIGN_TASK_SUCCESS);
+		filter.addAction(SystemConfig.INTENT_ENROLL);
+		filter.addAction(SystemConfig.INTENT_ASSIGN_TASK_SUCCESS);
 		receiver=new MyBroadCastReceiver();
 		registerReceiver(receiver, filter);
 	}
@@ -155,31 +155,31 @@ public class AssignTaskActiviity extends ActivityBase {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			
-			if(intent.getAction().equals(Config.INTENT_ENROLL)){
-				if(bean.getApplicants()==null){
-					bean.setApplicants(new ArrayList<String>());
-				}
-				bean.getApplicants().add(intent.getStringExtra("application"));
-				adapter=new AssignTaskAdapter(AssignTaskActiviity.this, bean);
-				xlv.setAdapter(adapter);
-			}else{
-				update(intent.getStringExtra("executor"));
-			}
+//			if(intent.getAction().equals(Config.INTENT_ENROLL)){
+//				if(bean.getApplicants()==null){
+//					bean.setApplicants(new ArrayList<String>());
+//				}
+//				bean.getApplicants().add(intent.getStringExtra("application"));
+//				adapter=new AssignTaskAdapter(AssignTaskActiviity.this, bean);
+//				xlv.setAdapter(adapter);
+//			}else{
+//				update(intent.getStringExtra("executor"));
+//			}
 		}
 		
 	}
 	
-	private void updateClosedStatus(TaskBean bean){
-		updateTaskBean(bean);
-		bean.setStatus(TaskBean.STATUS_CLOSED);
-	}
+//	private void updateClosedStatus(OriginTaskBean bean){
+//		updateTaskBean(bean);
+//		bean.setStatus(OriginTaskBean.STATUS_CLOSED);
+//	}
 	
 	/**
 	 * 更新对象
 	 */
-	private void updateTaskBean(TaskBean bean) {
-		final TaskBean p2 = new TaskBean();
-		p2.setStatus(TaskBean.STATUS_CLOSED);
+	private void updateTaskBean(OriginTaskBean bean) {
+		final OriginTaskBean p2 = new OriginTaskBean();
+		p2.setStatus(OriginTaskBean.STATUS_CLOSED);
 		p2.update(AssignTaskActiviity.this, bean.getObjectId(), new UpdateListener() {
 
 			@Override
@@ -226,6 +226,31 @@ public class AssignTaskActiviity extends ActivityBase {
 				ProgressUtil.closeProgress();
 			}
 		});
+	}
+	
+	private void queryApplicants(){
+		ProgressUtil.showProgress(this, "");
+		BmobQuery<SubTaskBean> bmobQuery=new BmobQuery<SubTaskBean>();
+		bmobQuery.addWhereEqualTo("originTaskId", bean.getObjectId());
+		bmobQuery.findObjects(this, new FindListener<SubTaskBean>() {
+			
+			@Override
+			public void onSuccess(List<SubTaskBean> stbs) {
+				setLvData(stbs);
+				ProgressUtil.closeProgress();
+			}
+			
+			@Override
+			public void onError(int arg0, String arg1) {
+				ShowToast("net error");
+				ProgressUtil.closeProgress();
+			}
+		});
+	}
+	
+	private void setLvData(List<SubTaskBean> stbs){
+		adapter=new AssignTaskAdapter(this, stbs);
+		xlv.setAdapter(adapter);
 	}
 
 }

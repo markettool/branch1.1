@@ -45,16 +45,16 @@ public class User extends BmobChatUser {
 	private BmobGeoPoint location;//
 	
 //	private Integer hight;
-    private List<BmobFile> bmobFiles;
+//    private List<BmobFile> bmobFiles;
     
     private String phonenum;
 	
-	public List<BmobFile> getBmobFiles() {
-		return bmobFiles;
-	}
-	public void setBmobFiles(List<BmobFile> bmobFiles) {
-		this.bmobFiles = bmobFiles;
-	}
+//	public List<BmobFile> getBmobFiles() {
+//		return bmobFiles;
+//	}
+//	public void setBmobFiles(List<BmobFile> bmobFiles) {
+//		this.bmobFiles = bmobFiles;
+//	}
 	
 	public double getFund() {
 		return fund;

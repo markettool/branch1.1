@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.adapter.MyTaskAdapter;
-import org.market.tool.bean.TaskBean;
-import org.market.tool.config.Config;
+import org.market.tool.bean.OriginTaskBean;
+import org.market.tool.config.SystemConfig;
 import org.market.tool.ui.AssignTaskActiviity;
 import org.market.tool.ui.ExecuteActivity;
 import org.market.tool.ui.FragmentBase;
@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +34,7 @@ public class MyTaskFragment extends FragmentBase{
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
 	
-	private int focusSkip,nearSkip;
-	private List<TaskBean> taskBeans=new ArrayList<TaskBean>();
+	private List<OriginTaskBean> taskBeans=new ArrayList<OriginTaskBean>();
 	
 	private int oldSize=0;
 	
@@ -50,7 +48,7 @@ public class MyTaskFragment extends FragmentBase{
 		
 		setAdapter();
 		setListeners();
-		queryFocusTasks(FINISH_REFRESHING);
+		queryOriginTasks(FINISH_REFRESHING);
 		return view;
 	}
 	
@@ -64,8 +62,8 @@ public class MyTaskFragment extends FragmentBase{
 			
 			@Override
 			public void onLoadMore() {
-				focusSkip=taskBeans.size();
-				queryFocusTasks(FINISH_LOADING);
+				taskBeans.size();
+				queryOriginTasks(FINISH_LOADING);
 			}
 		});
 		
@@ -75,7 +73,7 @@ public class MyTaskFragment extends FragmentBase{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				TaskBean bean=taskBeans.get(arg2-1);
+				OriginTaskBean bean=taskBeans.get(arg2-1);
 				Intent intent=null;
 				if(bean.getOwnerName().equals(user.getUsername())){
 					 intent=new Intent(getActivity(), AssignTaskActiviity.class);
@@ -88,29 +86,29 @@ public class MyTaskFragment extends FragmentBase{
 		});
 	}
 	
-	private void queryFocusTasks(final int handle){
+	private void queryOriginTasks(final int handle){
 		synchronized (MyTaskFragment.this) {
-			BmobQuery<TaskBean> lauchQuery	 = new BmobQuery<TaskBean>();
+			BmobQuery<OriginTaskBean> lauchQuery	 = new BmobQuery<OriginTaskBean>();
 			lauchQuery.addWhereEqualTo("ownerName", user.getUsername());
-			BmobQuery<TaskBean> executeQuery=new BmobQuery<TaskBean>();
-			executeQuery.addWhereEqualTo("executor", user.getUsername());
-			List<BmobQuery<TaskBean>> queries=new ArrayList<BmobQuery<TaskBean>>();
-			queries.add(executeQuery);
+//			BmobQuery<OriginTaskBean> executeQuery=new BmobQuery<OriginTaskBean>();
+//			executeQuery.addWhereEqualTo("executor", user.getUsername());
+			List<BmobQuery<OriginTaskBean>> queries=new ArrayList<BmobQuery<OriginTaskBean>>();
+//			queries.add(executeQuery);
 			queries.add(lauchQuery);
 			
-			BmobQuery< TaskBean> query=new BmobQuery<TaskBean>();
-			query.addWhereNotEqualTo("status", TaskBean.STATUS_CLOSED);
+			BmobQuery< OriginTaskBean> query=new BmobQuery<OriginTaskBean>();
+			query.addWhereNotEqualTo("status", OriginTaskBean.STATUS_CLOSED);
 			query.or(queries);
 			
 //			lauchQuery.setLimit(10);
 //			lauchQuery.setSkip(focusSkip);
-			query.findObjects(getActivity(), new FindListener<TaskBean>() {
+			query.findObjects(getActivity(), new FindListener<OriginTaskBean>() {
 
 				@Override
-				public void onSuccess(List<TaskBean> object) {
+				public void onSuccess(List<OriginTaskBean> object) {
 //					Log.e("majie", "查询成功：共"+object.size()+"条数据。");
 					oldSize=taskBeans.size();
-					focusSkip+=object.size();
+					object.size();
 					taskBeans.addAll(object);
 					
 					synchronized (MyTaskFragment.this) {
@@ -135,7 +133,7 @@ public class MyTaskFragment extends FragmentBase{
 
 				@Override
 				public void onError(int code, String msg) {
-					Log.e("majie","查询失败："+msg);
+//					Log.e("majie","查询失败："+msg);
 					synchronized (MyTaskFragment.this) {
 						switch (handle) {
 						case FINISH_LOADING:
@@ -163,8 +161,7 @@ public class MyTaskFragment extends FragmentBase{
 	public void update() {
 //		ShowToast("execute");
 		taskBeans.clear();
-		focusSkip=0;
-		queryFocusTasks(FINISH_REFRESHING);
+		queryOriginTasks(FINISH_REFRESHING);
 	}
 	
 	@Override
@@ -181,9 +178,9 @@ public class MyTaskFragment extends FragmentBase{
 	
 	private void registerMyReceiver(){
 		IntentFilter filter=new IntentFilter();
-		filter.addAction(Config.INTENT_ENROLL);
-		filter.addAction(Config.INTENT_PUBLISH_TASK_SUCCESS);
-		filter.addAction(Config.INTENT_ASSIGN_TASK_SUCCESS);
+		filter.addAction(SystemConfig.INTENT_ENROLL);
+		filter.addAction(SystemConfig.INTENT_PUBLISH_TASK_SUCCESS);
+		filter.addAction(SystemConfig.INTENT_ASSIGN_TASK_SUCCESS);
 		receiver=new MyBroadCastReceiver();
 		getActivity().registerReceiver(receiver, filter);
 	}

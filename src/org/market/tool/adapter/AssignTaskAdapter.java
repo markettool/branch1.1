@@ -1,15 +1,14 @@
 package org.market.tool.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
 import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.adapter.base.ViewHolder;
 import org.market.tool.bean.Message;
-import org.market.tool.bean.TaskBean;
+import org.market.tool.bean.SubTaskBean;
 import org.market.tool.bean.User;
-import org.market.tool.config.Config;
+import org.market.tool.config.SystemConfig;
 import org.market.tool.util.MessageUtil;
 import org.market.tool.util.ProgressUtil;
 
@@ -25,21 +24,19 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class AssignTaskAdapter extends MyBaseAdapter{
 	
-	private TaskBean bean;
-	private List<String> applictions;
+	private List<SubTaskBean> subTaskBeans;
 	private String executor;
 	
-	public AssignTaskAdapter(Context context,TaskBean bean){
+	public AssignTaskAdapter(Context context, List<SubTaskBean> subTaskBeans){
 		super(context);
-		this.bean=bean;
-		this.applictions=bean.getApplicants();
+		this.subTaskBeans=subTaskBeans;
 		this.mInflater=LayoutInflater.from(context);
 		
 	}
 
 	@Override
 	public int getCount() {
-		return applictions.size();
+		return subTaskBeans.size();
 	}
 
 	@Override
@@ -57,19 +54,20 @@ public class AssignTaskAdapter extends MyBaseAdapter{
 		if(convertView==null){
 			convertView=mInflater.inflate(R.layout.assign_task_item, null);
 		}
+		
 		TextView tvApplication=ViewHolder.get(convertView, R.id.tv_application);
 		Button btAssign=ViewHolder.get(convertView, R.id.bt_assign);
 		final int position=arg0;
-		tvApplication.setText(applictions.get(arg0)+" 报名执行任务");
-		if(bean.getExecutors()!=null&&bean.getExecutors().contains(applictions.get(arg0))){
+		final SubTaskBean stb=subTaskBeans.get(position);
+		tvApplication.setText(stb.getUsername()+" 报名执行任务");
+		if(stb.getStatus()!=SubTaskBean.STATUS_ENROLL){
 			btAssign.setVisibility(View.GONE);
 		}
 		btAssign.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
-				executor=applictions.get(position);
-				updateExecutor(bean,applictions.get(position));
+				updateSubStatus(stb);
 			}
 		});
 		return convertView;
@@ -78,24 +76,21 @@ public class AssignTaskAdapter extends MyBaseAdapter{
 	/**
 	 * 更新对象
 	 */
-	private void updateExecutor(TaskBean bean,final String username) {
+	private void updateSubStatus(final SubTaskBean stb) {
 		ProgressUtil.showProgress(mContext, "");
-		final TaskBean p = new TaskBean();
-		if(p.getExecutors()==null){
-			p.setExecutors(new ArrayList<String>());
-		}
-		p.getExecutors().add(username);
-		p.update(mContext, bean.getObjectId(), new UpdateListener() {
+		final SubTaskBean p = new SubTaskBean();
+		p.setStatus(SubTaskBean.STATUS_PERMIT);
+		p.update(mContext, stb.getObjectId(), new UpdateListener() {
 
 			@Override
 			public void onSuccess() {
 				ShowLog("更新成功");
-				Intent intent=new Intent(Config.INTENT_ASSIGN_TASK_SUCCESS);
+				Intent intent=new Intent(SystemConfig.INTENT_ASSIGN_TASK_SUCCESS);
 				intent.putExtra("executor", executor);
 				mContext.sendBroadcast(intent);
 				
 				ProgressUtil.closeProgress();
-				queryUserByName(username, user.getUsername()+" 指定你执行任务");
+				queryUserByName(stb.getUsername(), user.getUsername()+" 指定你执行任务");
 			}
 
 			@Override

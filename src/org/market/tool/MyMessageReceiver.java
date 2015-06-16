@@ -6,7 +6,7 @@ import java.util.List;
 import org.json.JSONObject;
 import org.market.tool.bean.Alert;
 import org.market.tool.bean.Message;
-import org.market.tool.config.Config;
+import org.market.tool.config.SystemConfig;
 import org.market.tool.ui.AssignTaskActiviity;
 import org.market.tool.ui.MainActivity;
 import org.market.tool.ui.NewFriendActivity;
@@ -195,12 +195,12 @@ public class MyMessageReceiver extends BroadcastReceiver {
 			Message msg=MessageUtil.getMessageFromJson(str);
 			if(msg.getTag().equals(Message.ENROLL)){
 				showOtherNotify(context, msg.getUsernick(), currentUser.getObjectId(),  msg.getMsg(), AssignTaskActiviity.class);
-				Intent intent=new Intent(Config.INTENT_ENROLL);
+				Intent intent=new Intent(SystemConfig.INTENT_ENROLL);
 				intent.putExtra("application", msg.getUsername());
 				context.sendBroadcast(intent);
 			}else if(msg.getTag().equals(Message.ASSIGN)){
 				showOtherNotify(context, msg.getUsernick(), currentUser.getObjectId(),  msg.getMsg(), AssignTaskActiviity.class);
-				Intent intent=new Intent(Config.INTENT_ASSIGN_TASK_SUCCESS);
+				Intent intent=new Intent(SystemConfig.INTENT_ASSIGN_TASK_SUCCESS);
 				intent.putExtra("application", msg.getUsername());
 				context.sendBroadcast(intent);
 			}

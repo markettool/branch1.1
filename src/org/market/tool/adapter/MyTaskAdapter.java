@@ -5,7 +5,7 @@ import java.util.List;
 import org.market.tool.R;
 import org.market.tool.adapter.base.MyBaseAdapter;
 import org.market.tool.adapter.base.ViewHolder;
-import org.market.tool.bean.TaskBean;
+import org.market.tool.bean.OriginTaskBean;
 import org.market.tool.util.BitmapHelp;
 import org.market.tool.view.CircleImageView;
 
@@ -18,8 +18,8 @@ import android.widget.TextView;
 import cn.bmob.v3.datatype.BmobFile;
 
 public class MyTaskAdapter extends MyBaseAdapter{
-	private List<TaskBean> beans;
-	public MyTaskAdapter(Context context, List<TaskBean> beans) {
+	private List<OriginTaskBean> beans;
+	public MyTaskAdapter(Context context, List<OriginTaskBean> beans) {
 		super(context);
 		this.beans = beans;
 		
@@ -56,7 +56,7 @@ public class MyTaskAdapter extends MyBaseAdapter{
 			TextView tvCategory=ViewHolder.get(convertView,R.id.category);
 
 		final int position = arg0;
-		final TaskBean bean=beans.get(position);
+		final OriginTaskBean bean=beans.get(position);
 		try {
 			if (position < beans.size()) {
 				
@@ -76,9 +76,9 @@ public class MyTaskAdapter extends MyBaseAdapter{
 				}else{
 					ivTaskPic.setImageBitmap(null);
 				}
-				if(bean.getApplicants()!=null&&bean.getApplicants().size()!=0){
-					tvExecuters.setText(bean.getApplicants().get(0)+" 等"+bean.getApplicants().size()+"人 报名执行任务");
-				}
+//				if(bean.getApplicants()!=null&&bean.getApplicants().size()!=0){
+//					tvExecuters.setText(bean.getApplicants().get(0)+" 等"+bean.getApplicants().size()+"人 报名执行任务");
+//				}
 				
 			}
 		} catch (Exception e) {
@@ -97,15 +97,5 @@ public class MyTaskAdapter extends MyBaseAdapter{
 		
 		return convertView;
 	}
-	
-//	class ViewHolder {
-//		CircleImageView ivOwnerPic;
-//		TextView tvOwnername;
-//		TextView tvCategory;
-//		TextView tvTaskContent;
-//		ImageView ivTaskPic;
-//		Button btCloseTask;
-//		TextView tvExecuters;
-//	}
 	
 }

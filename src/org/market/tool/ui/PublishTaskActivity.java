@@ -4,8 +4,8 @@ import java.io.File;
 
 import org.market.tool.R;
 import org.market.tool.bean.MyBmobFile;
-import org.market.tool.bean.TaskBean;
-import org.market.tool.config.Config;
+import org.market.tool.bean.OriginTaskBean;
+import org.market.tool.config.SystemConfig;
 import org.market.tool.util.BitmapUtil;
 import org.market.tool.util.FileUtils;
 import org.market.tool.util.ProgressUtil;
@@ -37,7 +37,6 @@ public class PublishTaskActivity extends BaseActivity {
 	private String dir;
 	private MyBmobFile bmobFile;
 	private double fund;
-//	private static List<Observer> observers=new ArrayList<Observer>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +112,8 @@ public class PublishTaskActivity extends BaseActivity {
 	 * 插入对象
 	 */
 	private void publishTask(BmobFile file) {
-		final TaskBean p = new TaskBean();
-		if(user.getBmobFiles()!=null&&user.getBmobFiles().size()!=0){
-			p.setOwnerPic(user.getBmobFiles().get(0));
-		}
+		final OriginTaskBean p = new OriginTaskBean();
+//		p.setOwnerPic(user.get)
 		p.setFund(fund);
 		p.setOwnerName(user.getUsername());
 		p.setTaskContent(etTask.getText().toString());
@@ -128,7 +125,7 @@ public class PublishTaskActivity extends BaseActivity {
 			@Override
 			public void onSuccess() {
 				ShowToast("发表成功");
-				Intent intent=new Intent(Config.INTENT_PUBLISH_TASK_SUCCESS);
+				Intent intent=new Intent(SystemConfig.INTENT_PUBLISH_TASK_SUCCESS);
 				sendBroadcast(intent);
 				
 				finish();
@@ -229,20 +226,4 @@ public class PublishTaskActivity extends BaseActivity {
 			albumView.addData(bmobFile);
 		};
 	};
-
-//	public static void attach(Observer observer) {
-//		observers.add(observer);
-//	}
-//
-//	public static void remove(Observer observer) {
-//		observers.remove(observer);
-//	}
-//
-//	@Override
-//	public void notifyObservers() {
-//		for(Observer observer:observers){
-//			observer.update(null);
-//		}
-//	}
-
 }

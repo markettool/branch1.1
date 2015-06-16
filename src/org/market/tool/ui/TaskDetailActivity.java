@@ -6,7 +6,7 @@ import java.util.List;
 import org.market.tool.R;
 import org.market.tool.adapter.CommentAdapter;
 import org.market.tool.bean.CommentBean;
-import org.market.tool.bean.TaskBean;
+import org.market.tool.bean.OriginTaskBean;
 import org.market.tool.bean.User;
 import org.market.tool.util.ProgressUtil;
 import org.market.tool.view.EmoticonsEditText;
@@ -34,7 +34,7 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class TaskDetailActivity extends BaseActivity {
 	
-	private TaskBean taskBean;
+	private OriginTaskBean taskBean;
 	private XListView xlv;
 	private RelativeLayout mAdContainer;
 	private LinearLayout inputView;
@@ -179,7 +179,7 @@ public class TaskDetailActivity extends BaseActivity {
 
 	protected void initData() {
 
-		taskBean=(TaskBean) getIntent().getSerializableExtra("taskBean");
+		taskBean=(OriginTaskBean) getIntent().getSerializableExtra("bean");
 		String taskText=taskBean.getTaskContent();
 		tvTask.setText(taskText);
 		myuser=BmobUser.getCurrentUser(this, User.class);
@@ -194,8 +194,8 @@ public class TaskDetailActivity extends BaseActivity {
 	/**
 	 * 更新对象
 	 */
-	private void updateScan(TaskBean bean) {
-		final TaskBean p = new TaskBean();
+	private void updateScan(OriginTaskBean bean) {
+		final OriginTaskBean p = new OriginTaskBean();
 		p.setScanNum(bean.getScanNum()+1);
 		p.update(this, bean.getObjectId(), new UpdateListener() {
 
@@ -281,8 +281,8 @@ public class TaskDetailActivity extends BaseActivity {
 	/**
 	 * 更新对象
 	 */
-	private void updateComment(TaskBean bean) {
-		final TaskBean p2 = new TaskBean();
+	private void updateComment(OriginTaskBean bean) {
+		final OriginTaskBean p2 = new OriginTaskBean();
 		p2.setCommentNum(bean.getCommentNum()+1);
 		p2.update(this, bean.getObjectId(), new UpdateListener() {
 

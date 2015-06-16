@@ -1,7 +1,7 @@
 package org.market.tool.ui;
 
 import org.market.tool.R;
-import org.market.tool.bean.TaskBean;
+import org.market.tool.bean.OriginTaskBean;
 import org.market.tool.bean.User;
 import org.market.tool.util.ProgressUtil;
 
