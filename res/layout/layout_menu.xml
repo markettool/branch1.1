@@ -38,7 +38,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/tvToday"
+        android:id="@+id/tvAccount"
         android:layout_width="match_parent"
         android:layout_height="50.0dip"
         android:clickable="true"
@@ -64,7 +64,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="15.0dip"
         android:paddingRight="10.0dip"
-        android:text="分享即赚钱"
+        android:text="我发起的"
         android:textColor="@color/white"
         android:textSize="16.0sp" />
 

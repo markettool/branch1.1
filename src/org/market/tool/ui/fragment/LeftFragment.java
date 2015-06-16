@@ -4,6 +4,7 @@ import org.market.tool.R;
 import org.market.tool.bean.User;
 import org.market.tool.ui.AccountActivity;
 import org.market.tool.ui.LoginActivity;
+import org.market.tool.ui.MyLauncherTaskActivity;
 import org.market.tool.ui.NewMainActivity;
 
 import android.app.Activity;
@@ -54,7 +55,7 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	
 	
 	public void findViews(View view) {
-		todayView = view.findViewById(R.id.tvToday);
+		todayView = view.findViewById(R.id.tvAccount);
 		lastListView = view.findViewById(R.id.tvLastlist);
 		settingsView = view.findViewById(R.id.tvMySettings);
 		myData=(RelativeLayout) view.findViewById(R.id.my_data);
@@ -76,7 +77,12 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	
 	private void refresh(){
 		if(myUser!=null){
-			 username.setText(myUser.getUsername());
+			if(myUser.getNick()!=null){
+				username.setText(myUser.getNick());
+			}else{
+				username.setText("no nick");
+			}
+			 
 		}
 		else{
 			username.setText("未登录");
@@ -88,11 +94,11 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		Fragment newContent = null;
 		String title = null;
 		switch (v.getId()) {
-		case R.id.tvToday: // account
+		case R.id.tvAccount: // account
 			getActivity().startActivity(new Intent(getActivity(), AccountActivity.class));
 			break;
 		case R.id.tvLastlist:// share
-//			Toast.makeText(getActivity(), "此功能暂时不开放,敬请期待", Toast.LENGTH_SHORT).show();
+			getActivity().startActivity(new Intent(getActivity(), MyLauncherTaskActivity.class));
 			break;
 		case R.id.tvMySettings: // 设置
 //			getActivity().startActivity(new Intent(getActivity(), SettingActivity.class));

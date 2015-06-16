@@ -101,6 +101,7 @@
         
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.NewMainActivity" />
+        <activity android:name=".ui.MyLauncherTaskActivity" />
         
         <activity android:name=".ui.LocationActivity" />
         
