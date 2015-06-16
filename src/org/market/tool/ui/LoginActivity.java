@@ -137,7 +137,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 				//更新用户的地理位置以及好友的资料
 				updateUserInfos();
 				progress.dismiss();
-				Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+				Intent intent = new Intent(LoginActivity.this,NewMainActivity.class);
 				startActivity(intent);
 				finish();
 			}
