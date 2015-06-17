@@ -2,12 +2,14 @@ package org.market.tool.ui;
 
 import org.market.tool.R;
 import org.market.tool.bean.SubTaskBean;
+import org.market.tool.util.ProgressUtil;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class ExecuteActivity extends ActivityBase {
 	
@@ -52,7 +54,31 @@ public class ExecuteActivity extends ActivityBase {
 			
 			@Override
 			public void onClick(View arg0) {
-				
+				updateSubTaskBean();
+			}
+		});
+	}
+	
+	/****
+	 * close subtaskbean
+	 */
+	private void updateSubTaskBean() {
+		ProgressUtil.showProgress(this, "");
+		final SubTaskBean p = new SubTaskBean();
+		p.setStatus(SubTaskBean.STATUS_COMPLETE);
+		p.update(this, bean.getObjectId(), new UpdateListener() {
+
+			@Override
+			public void onSuccess() {
+				ProgressUtil.closeProgress();
+				ShowToast("close success");
+				finish();
+			}
+
+			@Override
+			public void onFailure(int code, String msg) {
+				ProgressUtil.closeProgress();
+				ShowToast("close failure");
 			}
 		});
 	}

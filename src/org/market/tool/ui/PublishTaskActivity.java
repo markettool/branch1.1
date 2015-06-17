@@ -185,7 +185,7 @@ public class PublishTaskActivity extends BaseActivity {
 
 			@Override
 			public void onSuccess() {
-				Log.e("majie", "success");
+//				Log.e("majie", "success");
 				publishTask(bmobFile);
 			}
 
@@ -195,7 +195,7 @@ public class PublishTaskActivity extends BaseActivity {
 
 			@Override
 			public void onFailure(int arg0, String arg1) {
-				Log.i("majie", "fail:" + arg0+",msg = "+arg1);
+//				Log.i("majie", "fail:" + arg0+",msg = "+arg1);
 			}
 
 		});

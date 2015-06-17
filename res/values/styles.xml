@@ -106,7 +106,7 @@
     </style>
 
     <style name="Smile.Button.theme" parent="Smile.TextView._White">
-        <item name="android:background">@drawable/btn_login_selector</item>
+        <item name="android:background">@drawable/button_blue</item>
     </style>
 
     <style name="Smile.Button.logout" parent="Smile.TextView._White">

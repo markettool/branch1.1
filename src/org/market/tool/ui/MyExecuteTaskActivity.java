@@ -17,7 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-public class MyExecuteTaskActivity extends BaseActivity {
+public class MyExecuteTaskActivity extends ActivityBase {
 	
     private XListView xlv;
 	
@@ -30,7 +30,7 @@ public class MyExecuteTaskActivity extends BaseActivity {
 	
 //	private int oldSize=0;
 	
-	private void setListeners(){
+	protected void setListeners(){
 		xlv.setXListViewListener(new IXListViewListener() {
 			
 			@Override

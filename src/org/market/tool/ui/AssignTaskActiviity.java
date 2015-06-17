@@ -178,9 +178,9 @@ public class AssignTaskActiviity extends ActivityBase {
 	 * 更新对象
 	 */
 	private void updateTaskBean(OriginTaskBean bean) {
-		final OriginTaskBean p2 = new OriginTaskBean();
-		p2.setStatus(OriginTaskBean.STATUS_CLOSED);
-		p2.update(AssignTaskActiviity.this, bean.getObjectId(), new UpdateListener() {
+		final OriginTaskBean p = new OriginTaskBean();
+		p.setStatus(OriginTaskBean.STATUS_CLOSED);
+		p.update(AssignTaskActiviity.this, bean.getObjectId(), new UpdateListener() {
 
 			@Override
 			public void onSuccess() {
