@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
-import org.market.tool.adapter.MyTaskAdapter;
+import org.market.tool.adapter.MyLauncherTaskAdapter;
 import org.market.tool.bean.OriginTaskBean;
-import org.market.tool.config.SystemConfig;
 import org.market.tool.view.xlist.XListView;
 import org.market.tool.view.xlist.XListView.IXListViewListener;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +21,7 @@ public class MyLauncherTaskActivity extends BaseActivity{
 	
 	private XListView xlv;
 	
-	private MyTaskAdapter adapter;
+	private MyLauncherTaskAdapter adapter;
 	
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
@@ -137,7 +134,7 @@ public class MyLauncherTaskActivity extends BaseActivity{
 	
 	
 	private void setAdapter(){
-		adapter=new MyTaskAdapter(this, taskBeans);
+		adapter=new MyLauncherTaskAdapter(this, taskBeans);
 		xlv.setAdapter(adapter);
 	}
 
@@ -158,37 +155,37 @@ public class MyLauncherTaskActivity extends BaseActivity{
 		setAdapter();
 		setListeners();
 		queryOriginTasks(FINISH_REFRESHING);
-		registerMyReceiver();
+//		registerMyReceiver();
 	}
 	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		unregisterMyReceiver();
-	}
+//	@Override
+//	public void onDestroy() {
+//		super.onDestroy();
+////		unregisterMyReceiver();
+//	}
 	
-	private void registerMyReceiver(){
-		IntentFilter filter=new IntentFilter();
-		filter.addAction(SystemConfig.INTENT_ENROLL);
-		filter.addAction(SystemConfig.INTENT_PUBLISH_TASK_SUCCESS);
-		filter.addAction(SystemConfig.INTENT_ASSIGN_TASK_SUCCESS);
-		receiver=new MyBroadCastReceiver();
-		registerReceiver(receiver, filter);
-	}
+//	private void registerMyReceiver(){
+//		IntentFilter filter=new IntentFilter();
+//		filter.addAction(SystemConfig.INTENT_ENROLL);
+//		filter.addAction(SystemConfig.INTENT_PUBLISH_TASK_SUCCESS);
+//		filter.addAction(SystemConfig.INTENT_ASSIGN_TASK_SUCCESS);
+////		receiver=new MyBroadCastReceiver();
+//		registerReceiver(receiver, filter);
+//	}
 	
-	private void unregisterMyReceiver(){
-		if(receiver!=null){
-			unregisterReceiver(receiver);
-		}
-	}
+//	private void unregisterMyReceiver(){
+//		if(receiver!=null){
+//			unregisterReceiver(receiver);
+//		}
+//	}
 	
-	class MyBroadCastReceiver extends BroadcastReceiver{
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			update();
-		}
-		
-	}
+//	class MyBroadCastReceiver extends BroadcastReceiver{
+//
+//		@Override
+//		public void onReceive(Context context, Intent intent) {
+//			update();
+//		}
+//		
+//	}
 	
 }

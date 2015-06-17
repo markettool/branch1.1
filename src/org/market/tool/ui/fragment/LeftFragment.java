@@ -4,6 +4,7 @@ import org.market.tool.R;
 import org.market.tool.bean.User;
 import org.market.tool.ui.AccountActivity;
 import org.market.tool.ui.LoginActivity;
+import org.market.tool.ui.MyExecuteTaskActivity;
 import org.market.tool.ui.MyLauncherTaskActivity;
 import org.market.tool.ui.NewMainActivity;
 
@@ -19,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
 /**
  * @date 2014/11/14
  * @author wuwenjie
@@ -27,7 +27,8 @@ import cn.bmob.v3.datatype.BmobFile;
  */
 public class LeftFragment extends Fragment implements OnClickListener{
 	private View todayView;
-	private View lastListView;
+	private View tvMyLauncher;
+	private View tvMyExecute;
 	private View settingsView;
 	private RelativeLayout myData;
 	private TextView username;
@@ -56,16 +57,18 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	
 	public void findViews(View view) {
 		todayView = view.findViewById(R.id.tvAccount);
-		lastListView = view.findViewById(R.id.tvLastlist);
+		tvMyLauncher = view.findViewById(R.id.tv_my_launcher);
+		tvMyExecute=view.findViewById(R.id.tv_my_execute);
 		settingsView = view.findViewById(R.id.tvMySettings);
 		myData=(RelativeLayout) view.findViewById(R.id.my_data);
 		username=(TextView) view.findViewById(R.id.user_name);
 		userimg=(ImageView) view.findViewById(R.id.avatar_pic);
 		userimg.setOnClickListener(this);
 		todayView.setOnClickListener(this);
-		lastListView.setOnClickListener(this);
+		tvMyLauncher.setOnClickListener(this);
 		settingsView.setOnClickListener(this);
 		myData.setOnClickListener(this);
+		tvMyExecute.setOnClickListener(this);
 	}
 	
 	@Override
@@ -97,11 +100,14 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		case R.id.tvAccount: // account
 			getActivity().startActivity(new Intent(getActivity(), AccountActivity.class));
 			break;
-		case R.id.tvLastlist:// share
+		case R.id.tv_my_launcher:// 
 			getActivity().startActivity(new Intent(getActivity(), MyLauncherTaskActivity.class));
 			break;
 		case R.id.tvMySettings: // …Ë÷√
 //			getActivity().startActivity(new Intent(getActivity(), SettingActivity.class));
+			break;
+		case R.id.tv_my_execute:
+			getActivity().startActivity(new Intent(getActivity(), MyExecuteTaskActivity.class));
 			break;
 		case R.id.my_data:
 			if(myUser==null){

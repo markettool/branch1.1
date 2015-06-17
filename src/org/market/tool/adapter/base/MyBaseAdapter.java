@@ -50,7 +50,6 @@ public abstract class MyBaseAdapter extends BaseAdapter {
 
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					if (mToast == null) {
 						mToast = Toast.makeText(mContext, text,
 								Toast.LENGTH_SHORT);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.market.tool.R;
-import org.market.tool.adapter.MyTaskAdapter;
+import org.market.tool.adapter.MyLauncherTaskAdapter;
 import org.market.tool.bean.OriginTaskBean;
 import org.market.tool.config.SystemConfig;
 import org.market.tool.ui.AssignTaskActiviity;
@@ -29,7 +29,7 @@ public class MyTaskFragment extends FragmentBase{
 	
 	private XListView xlv;
 	
-	private MyTaskAdapter adapter;
+	private MyLauncherTaskAdapter adapter;
 	
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
@@ -154,7 +154,7 @@ public class MyTaskFragment extends FragmentBase{
 	
 	
 	private void setAdapter(){
-		adapter=new MyTaskAdapter(getActivity(), taskBeans);
+		adapter=new MyLauncherTaskAdapter(getActivity(), taskBeans);
 		xlv.setAdapter(adapter);
 	}
 

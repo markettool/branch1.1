@@ -17,9 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import cn.bmob.v3.datatype.BmobFile;
 
-public class MyTaskAdapter extends MyBaseAdapter{
+public class MyLauncherTaskAdapter extends MyBaseAdapter{
 	private List<OriginTaskBean> beans;
-	public MyTaskAdapter(Context context, List<OriginTaskBean> beans) {
+	public MyLauncherTaskAdapter(Context context, List<OriginTaskBean> beans) {
 		super(context);
 		this.beans = beans;
 		

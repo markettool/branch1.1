@@ -56,7 +56,7 @@
         android:background="@drawable/biz_pc_account_line" />
 
     <TextView
-         android:id="@+id/tvLastlist"
+         android:id="@+id/tv_my_launcher"
         android:layout_width="match_parent"
         android:layout_height="50.0dip"
         android:clickable="true"
@@ -65,6 +65,24 @@
         android:paddingLeft="15.0dip"
         android:paddingRight="10.0dip"
         android:text="我发起的"
+        android:textColor="@color/white"
+        android:textSize="16.0sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2.0dip"
+        android:background="@drawable/biz_pc_account_line" />
+    
+    <TextView
+         android:id="@+id/tv_my_execute"
+        android:layout_width="match_parent"
+        android:layout_height="50.0dip"
+        android:clickable="true"
+        android:drawablePadding="1.0dip"
+        android:gravity="center_vertical"
+        android:paddingLeft="15.0dip"
+        android:paddingRight="10.0dip"
+        android:text="我执行的"
         android:textColor="@color/white"
         android:textSize="16.0sp" />
 

@@ -1,7 +1,7 @@
 package org.market.tool.ui;
 
 import org.market.tool.R;
-import org.market.tool.bean.OriginTaskBean;
+import org.market.tool.bean.SubTaskBean;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class ExecuteActivity extends ActivityBase {
 	
-	private OriginTaskBean bean;
+	private SubTaskBean bean;
 	private TextView tvContent;
 	
 	private Button btComplete;
@@ -39,9 +39,9 @@ public class ExecuteActivity extends ActivityBase {
 		
 		initTopBarForLeft("Ö´ÐÐÈÎÎñ");
 		
-		bean=(OriginTaskBean) getIntent().getSerializableExtra("bean");
+		bean=(SubTaskBean) getIntent().getSerializableExtra("bean");
 		if(bean!=null){
-			tvContent.setText(bean.getTaskContent());
+			tvContent.setText(bean.getOriginTaskContent());
 		}
 	}
 	
